@@ -17,7 +17,7 @@
  * Plugin URI:        https://tropicalseo.net/
  * Description:       This plugin displays your Google Search Console Analytics data inside your WordPress.
  * Version:           1.0.1
- * Author:            Sticchio
+ * Author:            Tropicalista
  * Author URI:		  https://tropicalseo.net
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
