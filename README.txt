@@ -1,5 +1,5 @@
 === Plugin Name ===
-Contributors: tropicalista
+Contributors: tropicalista, freemius
 Donate link: https://tropicalseo.net/
 Tags: search console, search console widget, search console metatag, webmaster tools widget, webmaster tools, webmaster tools metatag
 Requires at least: 3.0.1
