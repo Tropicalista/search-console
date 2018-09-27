@@ -1,7 +1,7 @@
 
 <legend class="screen-reader-text"><span><?php _e('Choose your preferred site', $this->plugin_name); ?></span></legend>
 <i class="hidden dashicons dashicons-update spin" id="showSpinner"></i>
-<select class="regular-text" id="<?php echo $this->plugin_name; ?>_general-site" name="<?php echo $this->plugin_name; ?>_general[site]">
+<select class="regular-text" id="<?php echo $this->plugin_name; ?>-general-site" name="<?php echo $this->plugin_name; ?>-general[site]">
 </select>
 
 <script>
@@ -29,12 +29,12 @@ var access_token = "<?php echo($token['access_token']) ?>";
                     .then(function(response) {
 
                         $.each(response.result.siteEntry, function (i, item) {
-                            $('#dashygsc_general-site').append($('<option>', { 
+                            $('#search-console-general-site').append($('<option>', { 
                                 value: item.siteUrl,
                                 text : item.siteUrl 
                             }));
                         });
-                        $('#dashygsc_general-site option[value="' + site + '"]').attr('selected', 'selected');
+                        $('#search-console-general-site option[value="' + site + '"]').attr('selected', 'selected');
 
                     })
                     .then(null, function(err) {
