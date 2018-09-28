@@ -8,8 +8,8 @@
 	<?php $active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'display_options'; ?>
 
 	<h2 class="nav-tab-wrapper">
-	    <a href="?page=<? echo $this->plugin_name; ?>-settings&tab=display_options" class="nav-tab <?php echo $active_tab == 'display_options' ? 'nav-tab-active' : ''; ?>"><?php _e('Settings', 'searchconsole'); ?></a>
-	    <a href="?page=<? echo $this->plugin_name; ?>-settings&tab=advanced" class="nav-tab <?php echo $active_tab == 'advanced' ? 'nav-tab-active' : ''; ?>"><?php _e('Advanced settings', 'searchconsole'); ?></a>
+	    <a href="?page=<?php echo $this->plugin_name; ?>-settings&tab=display_options" class="nav-tab <?php echo $active_tab == 'display_options' ? 'nav-tab-active' : ''; ?>"><?php _e('Settings', 'searchconsole'); ?></a>
+	    <a href="?page=<?php echo $this->plugin_name; ?>-settings&tab=advanced" class="nav-tab <?php echo $active_tab == 'advanced' ? 'nav-tab-active' : ''; ?>"><?php _e('Advanced settings', 'searchconsole'); ?></a>
 	</h2>
      
     <form method="post" action="options.php">

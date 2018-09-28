@@ -11,18 +11,17 @@
  * @package    DashyLite 
  * @subpackage DashyLite/admin/partials
  */
-
 //Grab all options
 $options = $this->getOptionsAndRefreshToken();
-
 // Cleanup
 $site = $options['site'];
 
-if(empty($options['site'])){
-  echo('<h1>Go to settings to choose your site from Search Console</h1>');
-  echo('<a href="' . admin_url( 'admin.php?page=' . $this->plugin_name ) . '-settings">' . __('Settings', 'searchconsole') . '</a>');
-  wp_die();
+if ( empty($options['site']) ) {
+    echo  '<h1>Go to settings to choose your site from Search Console</h1>' ;
+    echo  '<a href="' . admin_url( 'admin.php?page=' . $this->plugin_name ) . '-settings">' . __( 'Settings', 'searchconsole' ) . '</a>' ;
+    wp_die();
 }
+
 ?>
 
 <style>
@@ -31,11 +30,7 @@ if(empty($options['site'])){
 }
 </style>
 
-<!-- This file should primarily consist of HTML with a little bit of PHP. -->
-<div id="app" v-cloak></div>
-
-<?php
-if ( sc_fs()->is_plan( 'free', true ) ) {
+<?php 
 ?>
 <div id="search-console-widget">
   <div><i class="hidden dashicons dashicons-update spin" id="showSpinner"></i></div>
@@ -49,8 +44,7 @@ if ( sc_fs()->is_plan( 'free', true ) ) {
 
 </div>
 
-<?php
-}
+<?php 
 ?>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -61,19 +55,19 @@ if ( sc_fs()->is_plan( 'free', true ) ) {
 <script>
 
 // global variables
-var access_token = "<?php echo($options['token']['access_token']) ?>";
-var site = "<?php echo($options['site']) ?>";
+var access_token = "<?php 
+echo  $options['token']['access_token'] ;
+?>";
+var site = "<?php 
+echo  $options['site'] ;
+?>";
 
 </script>
 
 <?php 
 
 if ( sc_fs()->is_not_paying() ) {
-    echo '<section><h1>' . esc_html__('Awesome Premium Features', 'searchconsole') . '</h1>';
-    echo '<a href="' . sc_fs()->get_upgrade_url() . '">' .
-        esc_html__('Upgrade Now!', 'searchconsole') .
-        '</a>';
-    echo '</section>';
+    echo  '<section><h1>' . esc_html__( 'Awesome Premium Features', 'searchconsole' ) . '</h1>' ;
+    echo  '<a href="' . sc_fs()->get_upgrade_url() . '">' . esc_html__( 'Upgrade Now!', 'searchconsole' ) . '</a>' ;
+    echo  '</section>' ;
 }
-
-?>
