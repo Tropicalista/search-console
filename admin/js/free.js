@@ -14,7 +14,7 @@ var chartOptions = {
   focusTarget: 'category',
   chartArea: {
     // leave room for y-axis labels
-    width: '94%'
+    width: '100%'
   },
   hAxis: {
     showTextEvery: 4

@@ -47,10 +47,10 @@ if(empty($options['site'])){
 var access_token = "<?php echo($options['token']['access_token']) ?>";
 var site = "<?php echo($site) ?>";
 var data,chart;
-var period = $('select[id=searchconsole-sel-period]').val();
+var period = jQuery('select[id=searchconsole-sel-period]').val();
 
-$('select[id=searchconsole-sel-period]').change(function(){
-  period= $(this).val();
+jQuery('select[id=searchconsole-sel-period]').change(function(){
+  period= jQuery(this).val();
   getReport();
 });
 
