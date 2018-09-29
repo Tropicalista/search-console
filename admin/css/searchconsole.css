@@ -1,3 +1,7 @@
+body {
+  background-color: #f1f1f1;
+}
+
 .ui.action.input:not([class*="left action"])>.button:not(:first-child), .ui.action.input:not([class*="left action"])>.buttons:not(:first-child)>.button, .ui.action.input:not([class*="left action"])>.dropdown:not(:first-child) {
     height: auto;
 }
@@ -30,8 +34,4 @@
    100% {
       transform: rotate( 360deg );
    }
-}
-
-.searchconsole-app {
-  margin-right: 20px;
 }

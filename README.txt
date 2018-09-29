@@ -1,10 +1,10 @@
 === Plugin Name ===
 Contributors: tropicalista, freemius
 Donate link: https://tropicalseo.net/
-Tags: search console, search console widget, search console metatag, webmaster tools widget, webmaster tools, webmaster tools metatag
+Tags: search console, google search console, search console widget, search console metatag, webmaster tools widget, webmaster tools, webmaster tools metatag
 Requires at least: 3.0.1
 Tested up to: 4.9.8
-Stable tag: 1.0.7
+Stable tag: 1.0.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,6 +13,14 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 This plugin helps you to add Google Search Console metatag and display your Search Console analytics data in the WordPress dashboard. You can see Clicks, Posistions, CTR and Impressions.
 
+A nice full-width dashboard is provided out of the box. 
+
+== Features == 
+
+ - Wordpress widget chart (position|clicks|impressions|CTR)
+ - Filter date (14|30|60 days)
+ - Beautiful full width chart on admin page (position|clicks|impressions|CTR)
+ - Table with top 10 keywords (position|clicks|impressions|CTR)
 
 == Screenshots ==
 

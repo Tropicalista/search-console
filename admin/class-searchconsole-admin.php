@@ -107,7 +107,7 @@ class SearchConsole_Admin
         );
         wp_enqueue_style(
             $this->plugin_name . '-custom',
-            plugin_dir_url( __FILE__ ) . 'css/searchconsole.css',
+            plugin_dir_url( __FILE__ ) . 'css/free.css',
             array(),
             $this->version,
             'all'

@@ -32,15 +32,32 @@ if ( empty($options['site']) ) {
 
 <?php 
 ?>
-<div id="search-console-widget">
-  <div><i class="hidden dashicons dashicons-update spin" id="showSpinner"></i></div>
-  <select id="searchconsole-sel-period">
-    <option value="14" selected="selected">Last 14 days</option>
-    <option value="30">Last 30 days</option>
-    <option value="60">Last 60 days</option>
-  </select>
 
-  <div id="searchconsole-app" class="searchconsole-app"></div>
+<div id="searchconsole-app">
+
+  <div class="searchconsole" class="container">
+    <div id="chart"></div>
+  </div>
+  
+  <div class="container">
+    <div><i class="hidden dashicons dashicons-update spin" id="showSpinner"></i></div>
+    <b>Change period:</b> 
+    <select id="searchconsole-sel-period">
+      <option value="14" selected="selected">Last 14 days</option>
+      <option value="30">Last 30 days</option>
+      <option value="60">Last 60 days</option>
+    </select>
+    <span class="cta">
+    <b>Do you want more data? 
+    <?php 
+echo  '<a href="' . sc_fs()->get_upgrade_url() . '">' . esc_html__( 'Upgrade Now!', 'searchconsole' ) . '</a>' ;
+?></b>
+    </span>
+  </div>
+
+  <div class="container">
+    <div id="top10"></div>    
+  </div>
 
 </div>
 
@@ -50,7 +67,6 @@ if ( empty($options['site']) ) {
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
 <script src="https://apis.google.com/js/api.js"></script>
-
 
 <script>
 
@@ -63,11 +79,3 @@ echo  $options['site'] ;
 ?>";
 
 </script>
-
-<?php 
-
-if ( sc_fs()->is_not_paying() ) {
-    echo  '<section><h1>' . esc_html__( 'Awesome Premium Features', 'searchconsole' ) . '</h1>' ;
-    echo  '<a href="' . sc_fs()->get_upgrade_url() . '">' . esc_html__( 'Upgrade Now!', 'searchconsole' ) . '</a>' ;
-    echo  '</section>' ;
-}

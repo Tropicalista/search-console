@@ -1,4 +1,4 @@
-var data,chart;
+var dataChart,chart,table,dataTable;
 var period = jQuery('select[id=searchconsole-sel-period]').val();
 
 jQuery('select[id=searchconsole-sel-period]').change(function(){
@@ -6,7 +6,7 @@ jQuery('select[id=searchconsole-sel-period]').change(function(){
   getReport();
 });
 
-google.charts.load('current', {'packages':['corechart']});
+google.charts.load('current', {'packages':['corechart','table']});
 
 var chartOptions = {
   width: '100%',
@@ -34,9 +34,9 @@ var chartOptions = {
   }
 }
 
-function formatData(rows) {
+function formatData(rows, isTable) {
     var data = new google.visualization.DataTable();
-    data.addColumn('date', 'Keys');
+    isTable ? data.addColumn('string', 'Keyword') : data.addColumn('date', 'Keys');
     data.addColumn('number', 'Clicks');
     data.addColumn('number', 'Impressions');
     data.addColumn('number', 'CTR');
@@ -44,7 +44,7 @@ function formatData(rows) {
 
     _.forEach(rows, function(row){
       data.addRow([
-        new Date(row.keys[0]),
+        isTable ? row.keys[0] : new Date(row.keys[0]),
         row.clicks,
         row.impressions,
         (row.ctr * 100),
@@ -76,7 +76,7 @@ function selectHandler(){
       chartOptions.series[i].areaOpacity = 0.0;            
   }
 
-  chart.draw(data, chartOptions);
+  chart.draw(dataChart, chartOptions);
 
 }
 
@@ -92,10 +92,33 @@ function getReport(){
           })
           .then((response) => {
             //var options = chartOptions
-            data = formatData(response.result.rows)
-            chart = new google.visualization.LineChart(document.getElementById('searchconsole-app'));
-            chart.draw(data, chartOptions);
+            dataChart = formatData(response.result.rows)
+            chart = new google.visualization.LineChart(document.getElementById('chart'));
+            chart.draw(dataChart, chartOptions);
             google.visualization.events.addListener(chart, 'select', selectHandler);
+            getTop10();
+
+          })
+          .then(null, function(err) {
+              console.log(err);
+          });      
+}
+
+function getTop10(){
+  gapi.client.webmasters.searchanalytics.query(
+          {
+              'siteUrl': site,
+              'rowLimit': 10,
+              'searchType': 'web',
+              'startDate': moment().subtract(period, 'days').format('YYYY-MM-DD'),
+              'endDate': moment().format('YYYY-MM-DD'),
+              'dimensions': ['query']
+          })
+          .then((response) => {
+            var options = chartOptions
+            dataTable = formatData(response.result.rows, true)
+            table = new google.visualization.Table(document.getElementById('top10'));
+            table.draw(dataTable, chartOptions);
 
 
           })
