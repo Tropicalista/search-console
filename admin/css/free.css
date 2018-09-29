@@ -1,0 +1,32 @@
+#searchconsole-app{
+  margin-right: 20px;
+}
+
+.container {
+  padding: 20px;	
+  background-color: #fff;
+  margin-top: 10px;
+}
+
+.searchconsole {
+  padding: 20px;
+  background-color: #fff;
+}
+
+.cta {
+  float: right;
+}
+
+.dashicons.spin {
+   animation: dashicons-spin 1s infinite;
+   animation-timing-function: linear;
+}
+
+@keyframes dashicons-spin {
+   0% {
+      transform: rotate( 0deg );
+   }
+   100% {
+      transform: rotate( 360deg );
+   }
+}
