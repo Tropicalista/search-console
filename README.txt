@@ -15,6 +15,8 @@ This plugin helps you to add Google Search Console metatag and display your Sear
 
 A nice full-width dashboard is provided out of the box. 
 
+[Demo](https://demo.tropicalseo.net/wp-admin)
+
 == Features == 
 
  - Wordpress widget chart (position|clicks|impressions|CTR)
