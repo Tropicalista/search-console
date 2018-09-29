@@ -67,6 +67,7 @@ echo  '<a href="' . sc_fs()->get_upgrade_url() . '">' . esc_html__( 'Upgrade Now
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
 <script src="https://apis.google.com/js/api.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.core.min.js"></script>
 
 <script>
 

@@ -40,6 +40,7 @@ if(!empty($token) && !empty($site)){
             id="<?php echo $this->plugin_name; ?>-advanced-meta" 
             name="<?php echo $this->plugin_name; ?>-advanced[meta]" 
             value="<?php echo esc_html( wp_unslash( $options['meta'] ) ); ?>"/>
+        <i class="hidden dashicons dashicons-update spin" id="showSpinner"></i>
         <br>
         <span class="description"><?php _e('Insert your meta tag verification code.', 'searchconsole') ?></span>
     </td>
@@ -120,6 +121,8 @@ var access_token = "<?php echo($token['access_token']) ?>";
 
             function makeApiCall() {
 
+                $('#showSpinner').toggleClass('hidden');
+
               gapi.client.load('siteVerification', 'v1').then(function(r){
 
                 gapi.auth.setToken({access_token:access_token})
@@ -130,8 +133,9 @@ var access_token = "<?php echo($token['access_token']) ?>";
                     "type": "SITE"
                   }
                 }).then(function(r){
-                  var data = htmlEncode(r.result.token);
-                  $('#search-console-advanced-meta').val(r.result.token);
+                    var data = htmlEncode(r.result.token);
+                    $('#search-console-advanced-meta').val(r.result.token);
+                    $('#showSpinner').toggleClass('hidden');
                 })
 
               })

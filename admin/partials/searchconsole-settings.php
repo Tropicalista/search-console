@@ -15,6 +15,7 @@ $authUrl = $provider->getAuthorizationUrl([
 
 ?>
 <script src="https://apis.google.com/js/api.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
 
 <?php 
     if(empty($token)){

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DashyLite\n"
 "Report-Msgid-Bugs-To: http://tropicalseo.net\n"
-"POT-Creation-Date: 2018-09-03 13:47+0200\n"
-"PO-Revision-Date: 2018-09-03 13:47+0200\n"
+"POT-Creation-Date: 2018-09-29 08:52+0200\n"
+"PO-Revision-Date: 2018-09-29 08:55+0200\n"
 "Last-Translator: \n"
 "Language-Team: Tropicalista <contact@tropicalseo.net>\n"
 "Language: it_IT\n"
@@ -18,54 +18,60 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: admin/class-dashygsc-admin.php:179
-#: admin/partials/dashygsc-admin-display.php:11
-#: admin/partials/dashygsc-display.php:39
-#: build/admin/class-dashygsc-admin.php:179
-#: build/admin/partials/dashygsc-display.php:39
+#: admin/class-searchconsole-admin.php:221
+#: admin/partials/searchconsole-admin-display.php:11
+#: admin/partials/searchconsole-display.php:23
+#: admin/partials/searchconsole-widget.php:23
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: admin/class-dashygsc-admin.php:216
+#: admin/class-searchconsole-admin.php:261
 msgid "Choose a site"
 msgstr "Scegli il sito"
 
-#: admin/partials/dashygsc-admin-display.php:12
+#: admin/partials/searchconsole-admin-display.php:12
 msgid "Advanced settings"
 msgstr "Impostazioni avanzate"
 
-#: admin/partials/dashygsc-advanced.php:35
+#: admin/partials/searchconsole-advanced.php:25
 msgid "Get site verification"
 msgstr "Ottieni il tuo codice di verifica"
 
-#: admin/partials/dashygsc-advanced.php:37
-#: admin/partials/dashygsc-advanced.php:54
-msgid "Insert your meta tag verification code."
+#: admin/partials/searchconsole-advanced.php:27
+msgid "Get your meta tag verification code."
 msgstr "Inserisci il tuo codice di verifica."
 
-#: admin/partials/dashygsc-advanced.php:45
+#: admin/partials/searchconsole-advanced.php:35
 msgid "Add meta tag"
 msgstr "Aggiungi il meta tag"
 
-#: admin/partials/dashygsc-advanced.php:59
+#: admin/partials/searchconsole-advanced.php:45
+msgid "Insert your meta tag verification code."
+msgstr "Inserisci il tuo codice di verifica."
+
+#: admin/partials/searchconsole-advanced.php:50
 msgid "Custom credentials?"
 msgstr "Credenziali personalizzate?"
 
-#: admin/partials/dashygsc-advanced.php:67
+#: admin/partials/searchconsole-advanced.php:58
 msgid "If you want use your custom app, fill the form."
 msgstr "Se vuoi usare un'app personalizzata, compila il form sottostante."
 
-#: admin/partials/dashygsc-advanced.php:80
+#: admin/partials/searchconsole-advanced.php:71
 msgid "Add your client ID."
 msgstr "Aggiungi il client ID."
 
-#: admin/partials/dashygsc-advanced.php:93
+#: admin/partials/searchconsole-advanced.php:84
 msgid "Add your client secret."
 msgstr "Aggiungi il client secret."
 
-#: admin/partials/dashygsc-advanced.php:106
+#: admin/partials/searchconsole-advanced.php:97
 msgid "Add your redirect url."
 msgstr "Aggiungi il tuo url di reindirizzamento."
+
+#: admin/partials/searchconsole-display.php:60
+msgid "Upgrade Now!"
+msgstr "Effettua l'upgrade!"
 
 #: admin/partials/settings/authorization.php:1
 msgid ""
@@ -88,6 +94,21 @@ msgstr ""
 "nel campo."
 
 #: admin/partials/settings/sitechoose.php:2
-#: build/admin/partials/settings/sitechoose.php:2
 msgid "Choose your preferred site"
 msgstr "Scegli il sito"
+
+#: searchconsole.php:146
+#, php-format
+msgid "Hey %1$s"
+msgstr "Hey %1$s"
+
+#: searchconsole.php:147
+#, php-format
+msgid ""
+"Please help us improve %2$s! If you opt-in, some data about your usage of "
+"%2$s will be sent to %5$s. If you skip this, that's okay! %2$s will still "
+"work just fine."
+msgstr ""
+"Per favore aiutaci a migliorare %2$s! Se dai il consenso, alcuni dati sul "
+"tuo utilizzo di %2$s saranno inviati a %5$s. Se preferisci saltare questo "
+"passaggio non c'è nessun problema! %2$s funzionerà correttamente."

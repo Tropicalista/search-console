@@ -28,12 +28,15 @@ var access_token = "<?php echo($token['access_token']) ?>";
                 gapi.client.webmasters.sites.list()
                     .then(function(response) {
 
+                        response.result.siteEntry.sort(function(o1, o2) { return o1.siteUrl > o2.siteUrl ? 1 : o1.siteUrl < o2.siteUrl ? -1 : 0; });
+
                         $.each(response.result.siteEntry, function (i, item) {
                             $('#search-console-general-site').append($('<option>', { 
                                 value: item.siteUrl,
                                 text : item.siteUrl 
                             }));
                         });
+
                         $('#search-console-general-site option[value="' + site + '"]').attr('selected', 'selected');
 
                     })
