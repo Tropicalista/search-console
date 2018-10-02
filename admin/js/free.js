@@ -1,10 +1,5 @@
 var dataChart,chart,table,dataTable;
-var period = jQuery('select[id=searchconsole-sel-period]').val();
 
-jQuery('select[id=searchconsole-sel-period]').change(function(){
-  period= jQuery(this).val();
-  getReport();
-});
 
 google.charts.load('current', {'packages':['corechart','table']});
 
@@ -17,6 +12,8 @@ var chartOptions = {
     width: '100%'
   },
   hAxis: {
+    showTextEvery: 2,
+    format: 'MMM dd'
   },
   vAxes: {
       0: {direction: -1, maxValue:1, textPosition: 'none'},
@@ -41,9 +38,13 @@ function formatData(rows, isTable) {
     data.addColumn('number', 'CTR');
     data.addColumn('number', 'Position');
 
+    if(!isTable){
+      chartOptions.hAxis.format === 'MMM dd'
+    }
+
     _.forEach(rows, function(row){
       data.addRow([
-        isTable ? row.keys[0] : new Date(row.keys[0]),
+        isTable ? row.keys[0] : moment(row.keys[0]).toDate(),
         row.clicks,
         row.impressions,
         (row.ctr * 100),

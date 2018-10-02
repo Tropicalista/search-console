@@ -48,6 +48,12 @@ var data,chart;
 
 var period = jQuery('select[id=searchconsole-sel-period]').val();
 
+jQuery('select[id=searchconsole-sel-period]').change(function(){
+  period= jQuery(this).val();
+  changePeriod()
+  getReport();
+});
+
 var chartQuery = {
               'siteUrl': site,
               'rowLimit': null,
@@ -56,6 +62,10 @@ var chartQuery = {
               'endDate': moment().format('YYYY-MM-DD'),
               'dimensions': ['date']
           }
+
+function changePeriod(){
+  chartQuery.startDate = moment().subtract(period, 'days').format('YYYY-MM-DD');
+}
 
 ;(function( $ ) {
     'use strict';

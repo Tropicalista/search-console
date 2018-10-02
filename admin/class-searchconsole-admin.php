@@ -121,14 +121,14 @@ class SearchConsole_Admin
          * class.
          */
         wp_enqueue_style(
-            $this->plugin_name . '-custom',
+            $this->plugin_name . '-app',
             plugin_dir_url( __FILE__ ) . 'css/searchconsole.css',
             array(),
             $this->version,
             'all'
         );
         wp_enqueue_style(
-            $this->plugin_name . '-custom',
+            $this->plugin_name . '-free',
             plugin_dir_url( __FILE__ ) . 'css/free.css',
             array(),
             $this->version,

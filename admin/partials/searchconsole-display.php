@@ -88,6 +88,12 @@ if ( !sc_fs()->can_use_premium_code() ) {
 
 var period = jQuery('select[id=searchconsole-sel-period]').val();
 
+jQuery('select[id=searchconsole-sel-period]').change(function(){
+  period= jQuery(this).val();
+  changePeriod()
+  getReport();
+});
+
 var chartQuery = {
               'siteUrl': site,
               'rowLimit': null,
@@ -105,6 +111,11 @@ var chartTable = {
               'endDate': moment().format('YYYY-MM-DD'),
               'dimensions': ['query']
           }
+
+function changePeriod(){
+  chartQuery.startDate = moment().subtract(period, 'days').format('YYYY-MM-DD');
+  chartTable.startDate = moment().subtract(period, 'days').format('YYYY-MM-DD');
+}
 
 ;(function( $ ) {
     'use strict';
