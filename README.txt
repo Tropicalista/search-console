@@ -1,8 +1,9 @@
-=== Plugin Name ===
+=== Search Console ===
 Contributors: tropicalista, freemius
 Donate link: https://tropicalseo.net/
 Tags: search console, google search console, search console widget, search console metatag, webmaster tools widget, webmaster tools, webmaster tools metatag
 Requires at least: 3.0.1
+Requires PHP: 5.2.4
 Tested up to: 4.9.8
 Stable tag: 1.1.0
 License: GPLv2 or later
@@ -11,18 +12,22 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
 
-This plugin helps you to add Google Search Console metatag and display your Search Console analytics data in the WordPress dashboard. You can see Clicks, Posistions, CTR and Impressions.
+**[Google Search Console for WordPress](https://tropicalseo.net)**
+
+This plugin adds the verification code of **Google Search Console**, former **Google Webmaster Tools**, to your site and display your Search Console analytics data in the WordPress dashboard. You can see **Clicks**, **Posistions**, **CTR** and **Impressions**.
 
 A nice full-width dashboard is provided out of the box. 
 
-[Demo](https://demo.tropicalseo.net/wp-admin)
-
 == Features == 
 
- - Wordpress widget chart (position|clicks|impressions|CTR)
+ - Easily insert **Google Search Console metatag** to verify site ownership
+ - Wordpress widget chart (**position|clicks|impressions|CTR**)
  - Filter date (14|30|60 days)
- - Beautiful full width chart on admin page (position|clicks|impressions|CTR)
- - Table with top 10 keywords (position|clicks|impressions|CTR)
+ - Beautiful full width chart on admin page (**position|clicks|impressions|CTR**)
+ - Table with top 10 keywords (**position|clicks|impressions|CTR**)
+ - Add metabox on pages/posts to show performance
+
+Check the **[demo](https://demo.tropicalseo.net/wp-admin)**
 
 == Screenshots ==
 
@@ -36,3 +41,17 @@ A nice full-width dashboard is provided out of the box.
 Download from WordPress repository and give authorization with Google.
 
 
+== Changelog ==
+
+= 1.1.1 =
+
+* Added metabox on posts and pages
+* Added data on posts and pages table
+
+= 1.1.0 =
+
+* Added widget
+* Small fixes
+
+= 1.0.0 =
+* Initial release

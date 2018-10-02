@@ -11,17 +11,18 @@
  * @package    DashyLite 
  * @subpackage DashyLite/admin/partials
  */
+
 //Grab all options
 $options = $this->getOptionsAndRefreshToken();
+
 // Cleanup
 $site = $options['site'];
 
-if ( empty($options['site']) ) {
-    echo  '<h1>Go to settings to choose your site from Search Console</h1>' ;
-    echo  '<a href="' . admin_url( 'admin.php?page=' . $this->plugin_name ) . '-settings">' . __( 'Settings', 'searchconsole' ) . '</a>' ;
-    wp_die();
+if(empty($options['site'])){
+  echo('<h1>Go to settings to choose your site from Search Console</h1>');
+  echo('<a href="' . admin_url( 'admin.php?page=' . $this->plugin_name ) . '-settings">' . __('Settings', 'searchconsole') . '</a>');
+  wp_die();
 }
-
 ?>
 
 <style>
@@ -30,13 +31,19 @@ if ( empty($options['site']) ) {
 }
 </style>
 
-<?php 
+<?php
+if ( sc_fs()->is__premium_only() ) {
 ?>
+
+<!-- This file should primarily consist of HTML with a little bit of PHP. -->
+<div id="app" v-cloak></div>
+
+<?php }else{ ?>
 
 <div id="searchconsole-app">
 
   <div class="searchconsole" class="container">
-    <div id="chart"></div>
+    <div id="gsc-chart"></div>
   </div>
   
   <div class="container">
@@ -49,19 +56,20 @@ if ( empty($options['site']) ) {
     </select>
     <span class="cta">
     <b>Do you want more data? 
-    <?php 
-echo  '<a href="' . sc_fs()->get_upgrade_url() . '">' . esc_html__( 'Upgrade Now!', 'searchconsole' ) . '</a>' ;
-?></b>
+    <?php echo '<a href="' . sc_fs()->get_upgrade_url() . '">' .
+        esc_html__('Upgrade Now!', 'searchconsole') .
+        '</a>'; ?></b>
     </span>
   </div>
 
   <div class="container">
-    <div id="top10"></div>    
+    <div id="gsc-top10"></div>    
   </div>
 
 </div>
 
-<?php 
+<?php
+}
 ?>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -69,14 +77,68 @@ echo  '<a href="' . sc_fs()->get_upgrade_url() . '">' . esc_html__( 'Upgrade Now
 <script src="https://apis.google.com/js/api.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.core.min.js"></script>
 
-<script>
+<script type="text/javascript">
 
 // global variables
-var access_token = "<?php 
-echo  $options['token']['access_token'] ;
-?>";
-var site = "<?php 
-echo  $options['site'] ;
-?>";
+var access_token = "<?php echo($options['token']['access_token']) ?>";
+var site = "<?php echo($options['site']) ?>";
 
 </script>
+
+<?php 
+        if ( !sc_fs()->is__premium_only() ) {
+            if ( !sc_fs()->can_use_premium_code() ) {
+
+?>
+<script type="text/javascript">
+
+var period = jQuery('select[id=searchconsole-sel-period]').val();
+
+var chartQuery = {
+              'siteUrl': site,
+              'rowLimit': null,
+              'searchType': 'web',
+              'startDate': moment().subtract(period, 'days').format('YYYY-MM-DD'),
+              'endDate': moment().format('YYYY-MM-DD'),
+              'dimensions': ['date']
+          }
+
+var chartTable = {
+              'siteUrl': site,
+              'rowLimit': 10,
+              'searchType': 'web',
+              'startDate': moment().subtract(period, 'days').format('YYYY-MM-DD'),
+              'endDate': moment().format('YYYY-MM-DD'),
+              'dimensions': ['query']
+          }
+
+;(function( $ ) {
+    'use strict';
+
+    if(access_token){
+        gapi.load('client', start);
+    }
+
+    function start(){
+
+        $('#showSpinner').toggleClass('hidden');
+
+        gapi.client.load('webmasters', 'v3')
+            .then(function(){
+
+                gapi.auth.setToken({access_token:access_token})
+
+                getReport();
+                $('#showSpinner').toggleClass('hidden');
+            
+        })  
+
+    }
+
+})( jQuery );
+</script>
+
+<?php 
+    }
+  }
+?>

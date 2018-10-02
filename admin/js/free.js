@@ -17,7 +17,6 @@ var chartOptions = {
     width: '100%'
   },
   hAxis: {
-    showTextEvery: 4
   },
   vAxes: {
       0: {direction: -1, maxValue:1, textPosition: 'none'},
@@ -81,22 +80,16 @@ function selectHandler(){
 }
 
 function getReport(){
-  gapi.client.webmasters.searchanalytics.query(
-          {
-              'siteUrl': site,
-              'rowLimit': null,
-              'searchType': 'web',
-              'startDate': moment().subtract(period, 'days').format('YYYY-MM-DD'),
-              'endDate': moment().format('YYYY-MM-DD'),
-              'dimensions': ['date']
-          })
+  gapi.client.webmasters.searchanalytics.query(chartQuery)
           .then((response) => {
             //var options = chartOptions
             dataChart = formatData(response.result.rows)
-            chart = new google.visualization.LineChart(document.getElementById('chart'));
+            chart = new google.visualization.LineChart(document.getElementById('gsc-chart'));
             chart.draw(dataChart, chartOptions);
             google.visualization.events.addListener(chart, 'select', selectHandler);
-            getTop10();
+            if(chartTable !== "undefined"){
+              getTop10();
+            }
 
           })
           .then(null, function(err) {
@@ -105,19 +98,11 @@ function getReport(){
 }
 
 function getTop10(){
-  gapi.client.webmasters.searchanalytics.query(
-          {
-              'siteUrl': site,
-              'rowLimit': 10,
-              'searchType': 'web',
-              'startDate': moment().subtract(period, 'days').format('YYYY-MM-DD'),
-              'endDate': moment().format('YYYY-MM-DD'),
-              'dimensions': ['query']
-          })
+  gapi.client.webmasters.searchanalytics.query(chartTable)
           .then((response) => {
             var options = chartOptions
             dataTable = formatData(response.result.rows, true)
-            table = new google.visualization.Table(document.getElementById('top10'));
+            table = new google.visualization.Table(document.getElementById('gsc-top10'));
             table.draw(dataTable, chartOptions);
 
 
@@ -127,27 +112,3 @@ function getTop10(){
           });      
 }
 
-(function( $ ) {
-    'use strict';
-
-    if(access_token){
-        gapi.load('client', start);
-    }
-
-    function start(){
-
-        $('#showSpinner').toggleClass('hidden');
-
-        gapi.client.load('webmasters', 'v3')
-            .then(function(){
-
-                gapi.auth.setToken({access_token:access_token})
-
-                getReport();
-                $('#showSpinner').toggleClass('hidden');
-            
-        })  
-
-    }
-
-})( jQuery );
