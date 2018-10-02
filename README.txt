@@ -12,7 +12,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
 
-This plugin adds the verification code of **[Google Search Console for WordPress](https://tropicalseo.net)**, former **Google Webmaster Tools**, to your site and display your Search Console analytics data in the WordPress dashboard. You can see **Clicks**, **Posistions**, **CTR** and **Impressions**.
+This plugin adds the verification code of **[Google Search Console](https://tropicalseo.net)**, former **Google Webmaster Tools**, to your site and display your Search Console analytics data in the WordPress dashboard. You can see **Clicks**, **Posistions**, **CTR** and **Impressions**.
 
 A nice full-width dashboard is provided out of the box. 
 
@@ -25,7 +25,7 @@ A nice full-width dashboard is provided out of the box.
  - Table with top 10 keywords (**position|clicks|impressions|CTR**)
  - Add metabox on pages/posts to show performance
 
-Check the **[demo](https://demo.tropicalseo.net/wp-admin)**
+Check the demo **[Google Search Console](https://demo.tropicalseo.net/wp-admin)**
 
 == Screenshots ==
 
