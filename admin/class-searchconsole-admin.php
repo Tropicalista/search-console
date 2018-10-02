@@ -160,7 +160,7 @@ class SearchConsole_Admin
             array( $this, 'display_plugin_setup_page' )
         );
         add_action( 'load-' . $my_page, array( $this, 'enqueue_scripts' ) );
-        add_action( 'load-' . $settings_page, array( $this, 'enqueue_styles' ) );
+        add_action( 'load-' . $my_page, array( $this, 'enqueue_styles' ) );
     }
     
     /**
