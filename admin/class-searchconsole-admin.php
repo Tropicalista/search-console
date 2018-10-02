@@ -85,13 +85,8 @@ class SearchConsole_Admin
         ];
     }
     
-    /**
-     * Register the stylesheets for the admin area.
-     *
-     * @since    1.0.0
-     */
-    public function enqueue_styles__premium_only() {
-
+    public function enqueue_scripts()
+    {
         /**
          * This function is provided for demonstration purposes only.
          *
@@ -103,41 +98,17 @@ class SearchConsole_Admin
          * between the defined hooks and the functions defined in this
          * class.
          */
-
-        wp_enqueue_style( $this->plugin_name . '-sema', 'https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css', array(), $this->version, 'all' );
-        wp_enqueue_style( $this->plugin_name . '-date', '//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css', array(), $this->version, 'all' );
-        wp_enqueue_style( $this->plugin_name . '-vendors', plugin_dir_url( __FILE__ ) . 'css/chunk-vendors.css', array(), $this->version, 'all' );
-        wp_enqueue_style( $this->plugin_name . '-app', plugin_dir_url( __FILE__ ) . 'css/app.css', array(), $this->version, 'all' );
-        wp_enqueue_style( $this->plugin_name . '-custom', plugin_dir_url( __FILE__ ) . 'css/searchconsole.css', array(), $this->version, 'all' );
-
-    }
-
-    /**
-     * Register the JavaScript for the admin area.
-     *
-     * @since    1.0.0
-     */
-    public function enqueue_scripts__premium_only() {
-
-        /**
-         * This function is provided for demonstration purposes only.
-         *
-         * An instance of this class should be passed to the run() function
-         * defined in DashyLite_Loader as all of the hooks are defined
-         * in that particular class.
-         *
-         * The DashyLite_Loader will then create the relationship
-         * between the defined hooks and the functions defined in this
-         * class.
-         */
-
-        wp_enqueue_script( $this->plugin_name . '-vendors', plugin_dir_url( __FILE__ ) . 'js/chunk-vendors.js', array('jquery'), $this->version, true );
-        wp_enqueue_script( $this->plugin_name . '-app', plugin_dir_url( __FILE__ ) . 'js/app.js', array(), $this->version, true );
-
+        wp_enqueue_script(
+            $this->plugin_name . '-app',
+            plugin_dir_url( __FILE__ ) . 'js/free.js',
+            array(),
+            $this->version,
+            true
+        );
     }
     
-    public function enqueue_scripts() {
-
+    public function enqueue_styles()
+    {
         /**
          * This function is provided for demonstration purposes only.
          *
@@ -149,28 +120,20 @@ class SearchConsole_Admin
          * between the defined hooks and the functions defined in this
          * class.
          */
-
-        wp_enqueue_script( $this->plugin_name . '-app', plugin_dir_url( __FILE__ ) . 'js/free.js', array(), $this->version, true );
-
-    }
-    
-    public function enqueue_styles() {
-
-        /**
-         * This function is provided for demonstration purposes only.
-         *
-         * An instance of this class should be passed to the run() function
-         * defined in DashyLite_Loader as all of the hooks are defined
-         * in that particular class.
-         *
-         * The DashyLite_Loader will then create the relationship
-         * between the defined hooks and the functions defined in this
-         * class.
-         */
-
-        wp_enqueue_style( $this->plugin_name . '-custom', plugin_dir_url( __FILE__ ) . 'css/searchconsole.css', array(), $this->version, 'all' );
-        wp_enqueue_style( $this->plugin_name . '-custom', plugin_dir_url( __FILE__ ) . 'css/free.css', array(), $this->version, 'all' );
-
+        wp_enqueue_style(
+            $this->plugin_name . '-custom',
+            plugin_dir_url( __FILE__ ) . 'css/searchconsole.css',
+            array(),
+            $this->version,
+            'all'
+        );
+        wp_enqueue_style(
+            $this->plugin_name . '-custom',
+            plugin_dir_url( __FILE__ ) . 'css/free.css',
+            array(),
+            $this->version,
+            'all'
+        );
     }
     
     /**
@@ -196,16 +159,8 @@ class SearchConsole_Admin
             $this->plugin_name . '-settings',
             array( $this, 'display_plugin_setup_page' )
         );
-        if ( sc_fs()->is__premium_only() ) {
-            if ( sc_fs()->can_use_premium_code() ) {
-                add_action( 'load-' . $my_page, array( $this, 'enqueue_scripts__premium_only' ) );
-                add_action( 'load-' . $my_page, array( $this, 'enqueue_styles__premium_only' ) );
-                add_action( 'load-' . $settings_page, array( $this, 'enqueue_styles__premium_only' ) );
-            };
-        }else{
-            add_action( 'load-' . $my_page, array( $this, 'enqueue_scripts' ) );
-            add_action( 'load-' . $settings_page, array( $this, 'enqueue_styles' ) );
-        }
+        add_action( 'load-' . $my_page, array( $this, 'enqueue_scripts' ) );
+        add_action( 'load-' . $settings_page, array( $this, 'enqueue_styles' ) );
     }
     
     /**
@@ -334,7 +289,7 @@ class SearchConsole_Admin
     {
         include_once 'partials/searchconsole-widget.php';
     }
-
+    
     function gsc_metabox()
     {
         include_once 'partials/searchconsole-metabox.php';
@@ -439,98 +394,109 @@ class SearchConsole_Admin
         update_option( $this->plugin_name . '-general', $options );
         return $options;
     }
-
+    
     /**
      * Register meta box(es).
      */
-    function gsc_register_meta_boxes() {
-        add_meta_box( 'meta-box-id', __( 'Search Console', 'searchconsole' ), array($this, 'gsc_metabox'), array('post','page') );
+    function gsc_register_meta_boxes()
+    {
+        add_meta_box(
+            'meta-box-id',
+            __( 'Search Console', 'searchconsole' ),
+            array( $this, 'gsc_metabox' ),
+            array( 'post', 'page' )
+        );
     }
-
-    function gsc_widget_js( $hook ) {
+    
+    function gsc_widget_js( $hook )
+    {
         $screen = get_current_screen();
-        $checkVars = array('post', 'dashboard', 'page');
-
-        if ( in_array($screen->id, $checkVars) ) {
+        $checkVars = array( 'post', 'dashboard', 'page' );
+        
+        if ( in_array( $screen->id, $checkVars ) ) {
             wp_enqueue_script( 'gsc_script-loader', 'https://www.gstatic.com/charts/loader.js' );
             wp_enqueue_script( 'gsc_script-moment', 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js' );
             wp_enqueue_script( 'gsc_script-gapi', 'https://apis.google.com/js/api.js' );
-            wp_enqueue_script( 'gsc_script-app', plugin_dir_url(__FILE__) . 'js/free.js' );
+            wp_enqueue_script( 'gsc_script-app', plugin_dir_url( __FILE__ ) . 'js/free.js' );
         }
+    
     }
-
-    function gsc_adminbar_menu( $hook ) {
-        
+    
+    function gsc_adminbar_menu( $hook )
+    {
         // Don't display notification in admin bar if it's disabled or the current user isn't an administrator
-        if( !is_super_admin() || !is_admin_bar_showing() || is_admin() )
-        {
+        if ( !is_super_admin() || !is_admin_bar_showing() || is_admin() ) {
             return;
         }
-        global $wp_admin_bar;
-
+        global  $wp_admin_bar ;
         $menu_id = 'gsc';
-        $menu = '<span>'.__('Clicks').'</span>: <span id="gsc-clicks"></span> | ';
-        $menu .= '<span>'.__('Impressons').'</span>: <span id="gsc-impressions"></span> | ';
-        $menu .= '<span>'.__('Position').'</span>: <span id="gsc-position"></span> | ';
-        $menu .= '<span>'.__('CTR').'</span>: <span id="gsc-ctr"></span> | ';
-        $wp_admin_bar->add_menu(
-            array(
-                'id' => $menu_id, 
-                'title' => $menu
-            )
+        $menu = '<span>' . __( 'Clicks' ) . '</span>: <span id="gsc-clicks"></span> | ';
+        $menu .= '<span>' . __( 'Impressons' ) . '</span>: <span id="gsc-impressions"></span> | ';
+        $menu .= '<span>' . __( 'Position' ) . '</span>: <span id="gsc-position"></span> | ';
+        $menu .= '<span>' . __( 'CTR' ) . '</span>: <span id="gsc-ctr"></span> | ';
+        $wp_admin_bar->add_menu( array(
+            'id'    => $menu_id,
+            'title' => $menu,
+        ) );
+    }
+    
+    function gsc_adminbar_js( $hook )
+    {
+        // Don't display notification in admin bar if it's disabled or the current user isn't an administrator
+        if ( !is_super_admin() || !is_admin_bar_showing() || is_admin() ) {
+            return;
+        }
+        wp_enqueue_script(
+            'gsc_script-gapi',
+            'https://apis.google.com/js/api.js',
+            array(),
+            null,
+            true
         );
-
+        wp_enqueue_script(
+            'gsc_script-app',
+            plugin_dir_url( __FILE__ ) . 'js/gsc-table.js',
+            array(),
+            null,
+            true
+        );
     }
-
-    function gsc_adminbar_js( $hook ) {
-        
+    
+    function gsc_adminbar_token( $hook )
+    {
         // Don't display notification in admin bar if it's disabled or the current user isn't an administrator
-        if( !is_super_admin() || !is_admin_bar_showing() || is_admin() )
-        {
+        if ( !is_super_admin() || !is_admin_bar_showing() || is_admin() || $screen != 'edit-post' || $screen != 'edit-page' ) {
             return;
         }
-        wp_enqueue_script( 'gsc_script-gapi', 'https://apis.google.com/js/api.js', array(), null, true );
-        wp_enqueue_script( 'gsc_script-app', plugin_dir_url(__FILE__) . 'js/gsc-table.js', array(), null, true );
-
-
+        $this->showToken();
     }
-
-    function gsc_adminbar_token( $hook ) {
-      
-        // Don't display notification in admin bar if it's disabled or the current user isn't an administrator
-        if( !is_super_admin() || !is_admin_bar_showing() || is_admin() || $screen != 'edit-post' || $screen != 'edit-page' )
-        {
-            return;
-        }
-
-        $this->showToken(); 
-
-    }
-
-    function gsc_table_token( $hook ) {
-      
+    
+    function gsc_table_token( $hook )
+    {
         $screen = get_current_screen()->id;
         // Don't display notification in admin bar if it's disabled or the current user isn't an administrator
-        if( $screen == 'edit-post' || $screen == 'edit-page' )
-        {
-            $this->showToken(); 
+        if ( $screen == 'edit-post' || $screen == 'edit-page' ) {
+            $this->showToken();
         }
-
     }
-
-    function showToken(){
+    
+    function showToken()
+    {
         $options = $this->getOptionsAndRefreshToken();
         $site = $options['site'];
-
         ?>
         <script type="text/javascript">
 
-            var access_token = "<?php echo($options['token']['access_token']) ?>";
-            var site = "<?php echo($site) ?>";
+            var access_token = "<?php 
+        echo  $options['token']['access_token'] ;
+        ?>";
+            var site = "<?php 
+        echo  $site ;
+        ?>";
 
         </script>
         
         <?php 
-
     }
+
 }
