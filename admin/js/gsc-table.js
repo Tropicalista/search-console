@@ -5,9 +5,8 @@ var startDate = dayjs().startOf('month').add(-60, 'day').format('YYYY-MM-DD')
 var allUrls = [];
 
 jQuery('.gsc-url').each(function( index ) {
-  allUrls.push({'dimension':'page','operator':'equals','expression':jQuery( this ).data('url')})
+  allUrls.push(jQuery( this ).data('url'))
 });
-
 
 var chartQuery = {
               'siteUrl': site,
@@ -15,17 +14,26 @@ var chartQuery = {
               'searchType': 'web',
               'startDate': startDate,
               'endDate': endDate,
-              'dimensions': ['page'],
-              'dimensionFilterGroups': [
-                  {'filters': allUrls }
-                ]
+              'dimensions': ['page']
           }
 
 function getReport(){
   gapi.client.webmasters.searchanalytics.query(chartQuery)
-          .then((response) => {
-            //var options = chartOptions
-            console.log(response.result.rows)
+          .then(function(response) {
+
+            response.result.rows.forEach(function (x) {
+
+                if( allUrls.indexOf(x.keys[0]) > -1){
+                  jQuery('span[data-url="' + x.keys[0] + '"]').html(
+                    '<b>Clicks:</b> '+ x.clicks +
+                    ' | <b>Impressions:</b> '+ x.impressions +
+                    ' | <b>CTR:</b> '+ (Math.round(x.ctr * 10000) / 100) + '%' +
+                    ' | <b>Position:</b> '+ Math.round(x.position * 100) / 100 
+                  )
+                }
+              
+            });
+
           })
           .then(null, function(err) {
               console.log(err);
@@ -48,8 +56,9 @@ function getReport(){
             .then(function(){
 
                 gapi.auth.setToken({access_token:access_token})
-
-                getReport();
+                if( !jQuery('.column-asc_gsc').hasClass('hidden') ){
+                  getReport();
+                }
                 $('#showSpinner').toggleClass('hidden');
             
         })  
