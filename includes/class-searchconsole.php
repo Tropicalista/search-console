@@ -182,6 +182,7 @@ class SearchConsole {
 		// Add Settings link to the plugin
 		$plugin_basename = plugin_basename( plugin_dir_path( __DIR__ ) . 'searchconsole.php' );
 		$this->loader->add_filter( 'plugin_action_links_' . $plugin_basename, $plugin_admin, 'add_action_links' );
+		$this->loader->add_filter( 'plugin_row_meta', $plugin_admin, 'plugin_links', 10, 2 );
 
 		// Add metatag to frontend
 		$this->loader->add_action('wp_head', $plugin_admin, 'frontendHeader');
