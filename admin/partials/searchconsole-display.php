@@ -56,9 +56,12 @@ if ( sc_fs()->can_use_premium_code() ) {
     </select>
     <span class="cta">
     <b>Do you want more data? 
-    <?php echo '<a href="' . sc_fs()->get_upgrade_url() . '">' .
+    <?php echo '<a href="' . sc_fs()->get_upgrade_url() . '&trial=true">' .
         esc_html__('Upgrade Now!', 'searchconsole') .
-        '</a>'; ?></b>
+        '</a>'; ?>
+    </b>
+    <br>
+    <b>Free trial, no credit card required!!!</b>
     </span>
   </div>
 
@@ -82,6 +85,8 @@ if ( sc_fs()->can_use_premium_code() ) {
 // global variables
 var access_token = "<?php echo($options['token']['access_token']) ?>";
 var site = "<?php echo($options['site']) ?>";
+      
+google.charts.load('current', {'packages':['corechart']});
 
 </script>
 
