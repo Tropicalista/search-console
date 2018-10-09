@@ -2,6 +2,7 @@
 <legend class="screen-reader-text"><span><?php _e('Choose your preferred site', $this->plugin_name); ?></span></legend>
 <i class="hidden dashicons dashicons-update spin" id="showSpinner"></i>
 <select class="regular-text" id="<?php echo $this->plugin_name; ?>-general-site" name="<?php echo $this->plugin_name; ?>-general[site]">
+    <option value="">Select a site</option>
 </select>
 
 <script>
@@ -38,6 +39,12 @@ var access_token = "<?php echo($token['access_token']) ?>";
                         });
 
                         $('#search-console-general-site option[value="' + site + '"]').attr('selected', 'selected');
+
+                        $("#search-console-general-site").selectize({
+                            placeholder: "Select a site",
+                            create: true
+                        });
+
 
                     })
                     .then(null, function(err) {

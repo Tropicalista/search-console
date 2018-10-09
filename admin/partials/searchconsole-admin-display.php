@@ -12,10 +12,21 @@
 
 			<?php $active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'display_options'; ?>
 
-			<h1 class="nav-tab-wrapper">
-			    <a href="?page=<?php echo $this->plugin_name; ?>-settings&tab=display_options" class="nav-tab <?php echo $active_tab == 'display_options' ? 'nav-tab-active' : ''; ?>"><?php _e('Settings', 'searchconsole'); ?></a>
-			    <a href="?page=<?php echo $this->plugin_name; ?>-settings&tab=advanced" class="nav-tab <?php echo $active_tab == 'advanced' ? 'nav-tab-active' : ''; ?>"><?php _e('Advanced settings', 'searchconsole'); ?></a>
-			</h1>
+<?php
+$settings = 'admin.php?page=' . $this->plugin_name . '-settings&tab=display_options';
+$advanced = 'admin.php?page=' . $this->plugin_name . '-settings&tab=advanced';
+
+$settigs_tab = $active_tab == 'display_options' ? 'nav-tab-active' : '';
+$advanced_tab = $active_tab == 'advanced' ? 'nav-tab-active' : '';
+
+$link_settings = '<a href=' . admin_url($settings) . ' class="nav-tab ' . $settigs_tab . '">' . __( 'Settings', 'searchconsole' ) . '</a>';
+$link_advanced = '<a href=' . admin_url($advanced) . ' class="nav-tab ' . $advanced_tab . '">' . __( 'Advanced settings', 'searchconsole' ) . '</a>';
+?>
+
+            <h1 class="nav-tab-wrapper">
+                <?php echo $link_settings; ?>
+                <?php echo $link_advanced; ?>
+            </h1>
 		     
 		    <form method="post" action="options.php">
 

@@ -136,6 +136,13 @@ class SearchConsole_Admin
         );
     }
     
+    function common_styles()
+    {
+        wp_enqueue_script( $this->plugin_name . '-app', 'https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js' );
+        wp_register_style( 'select2', 'https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.min.css' );
+        wp_enqueue_style( 'select2' );
+    }
+    
     /**
      * Register the administration menu for this plugin into the WordPress Dashboard menu.
      *
@@ -159,8 +166,19 @@ class SearchConsole_Admin
             $this->plugin_name . '-settings',
             array( $this, 'display_plugin_setup_page' )
         );
-        add_action( 'load-' . $my_page, array( $this, 'enqueue_scripts' ) );
-        add_action( 'load-' . $my_page, array( $this, 'enqueue_styles' ) );
+        
+        if ( sc_fs()->can_use_premium_code() ) {
+            add_action( 'load-' . $my_page, array( $this, 'enqueue_scripts__premium_only' ) );
+            add_action( 'load-' . $my_page, array( $this, 'enqueue_styles__premium_only' ) );
+            add_action( 'load-' . $settings_page, array( $this, 'enqueue_styles__premium_only' ) );
+            add_action( 'load-' . $settings_page, array( $this, 'common_styles' ) );
+        } else {
+            add_action( 'load-' . $my_page, array( $this, 'enqueue_scripts' ) );
+            add_action( 'load-' . $my_page, array( $this, 'enqueue_styles' ) );
+            add_action( 'load-' . $settings_page, array( $this, 'common_styles' ) );
+        }
+        
+        add_action( 'admin_head', array( $this, 'add_meta_tag_in_head' ) );
     }
     
     /**
@@ -257,21 +275,6 @@ class SearchConsole_Admin
     function custom_token()
     {
         include_once 'partials/searchconsole-advanced.php';
-    }
-    
-    /**
-     *
-     * Store the settings
-     *
-     **/
-    public function frontendHeader()
-    {
-        
-        if ( is_front_page() ) {
-            $options = get_option( $this->plugin_name . '-advanced' );
-            echo  $options['meta'] ;
-        }
-    
     }
     
     /**
@@ -465,7 +468,7 @@ class SearchConsole_Admin
     function gsc_adminbar_token( $hook )
     {
         // Don't display notification in admin bar if it's disabled or the current user isn't an administrator
-        if ( !is_super_admin() || !is_admin_bar_showing() || is_admin() || $screen != 'edit-post' || $screen != 'edit-page' ) {
+        if ( !is_super_admin() || !is_admin_bar_showing() || is_admin() ) {
             return;
         }
         $this->showToken();
@@ -498,18 +501,23 @@ class SearchConsole_Admin
         
         <?php 
     }
-
-    function plugin_links($links, $file) {
+    
+    function plugin_links( $links, $file )
+    {
         
         if ( strpos( $file, 'searchconsole.php' ) !== false ) {
-            $rate_href  = 'https://wordpress.org/support/plugin/edd-download-images-slider/reviews/?rate=5#new-post';
-            $rate_title = esc_attr__('Click here to rate and review this plugin on WordPress.org', 'edd-dis');
-            $rate_text  = esc_html__('Rate this plugin', 'edd-dis') .'&nbsp;&raquo;';
-            
-            $links[]    = '<a target="_blank" rel="noopener noreferrer" href="'. $rate_href .'" title="'. $rate_title .'">'. $rate_text .'</a>';
+            $rate_href = 'https://wordpress.org/support/plugin/edd-download-images-slider/reviews/?rate=5#new-post';
+            $rate_title = esc_attr__( 'Click here to rate and review this plugin on WordPress.org', 'edd-dis' );
+            $rate_text = esc_html__( 'Rate this plugin', 'edd-dis' ) . '&nbsp;&raquo;';
+            $links[] = '<a target="_blank" rel="noopener noreferrer" href="' . $rate_href . '" title="' . $rate_title . '">' . $rate_text . '</a>';
         }
-        return $links;
         
+        return $links;
+    }
+    
+    public function add_meta_tag_in_head()
+    {
+        echo  '<meta name="search-console-baseurl" content="' . get_rest_url() . $this->plugin_name . '">' ;
     }
 
 }

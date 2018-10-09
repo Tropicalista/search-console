@@ -11,17 +11,18 @@
  * @package    DashyLite 
  * @subpackage DashyLite/admin/partials
  */
+
 //Grab all options
 $options = $this->getOptionsAndRefreshToken();
+
 // Cleanup
 $site = $options['site'];
 
-if ( empty($options['site']) ) {
-    echo  '<h1>Go to settings to choose your site from Search Console</h1>' ;
-    echo  '<a href="' . admin_url( 'admin.php?page=' . $this->plugin_name ) . '-settings">' . __( 'Settings', 'searchconsole' ) . '</a>' ;
-    wp_die();
+if(empty($options['site'])){
+  echo('<h1>Go to settings to choose your site from Search Console</h1>');
+  echo('<a href="' . admin_url( 'admin.php?page=' . $this->plugin_name ) . '-settings">' . __('Settings', 'searchconsole') . '</a>');
+  wp_die();
 }
-
 ?>
 
 <style>
@@ -30,8 +31,14 @@ if ( empty($options['site']) ) {
 }
 </style>
 
-<?php 
+<?php
+if ( sc_fs()->can_use_premium_code() ) {
 ?>
+
+<!-- This file should primarily consist of HTML with a little bit of PHP. -->
+<div id="app" v-cloak></div>
+
+<?php }else{ ?>
 
 <div id="searchconsole-app">
 
@@ -49,9 +56,9 @@ if ( empty($options['site']) ) {
     </select>
     <span class="cta">
     <b>Do you want more data? 
-    <?php 
-echo  '<a href="' . sc_fs()->get_upgrade_url() . '">' . esc_html__( 'Upgrade Now!', 'searchconsole' ) . '</a>' ;
-?></b>
+    <?php echo '<a href="' . sc_fs()->get_upgrade_url() . '">' .
+        esc_html__('Upgrade Now!', 'searchconsole') .
+        '</a>'; ?></b>
     </span>
   </div>
 
@@ -61,7 +68,8 @@ echo  '<a href="' . sc_fs()->get_upgrade_url() . '">' . esc_html__( 'Upgrade Now
 
 </div>
 
-<?php 
+<?php
+}
 ?>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -72,18 +80,15 @@ echo  '<a href="' . sc_fs()->get_upgrade_url() . '">' . esc_html__( 'Upgrade Now
 <script type="text/javascript">
 
 // global variables
-var access_token = "<?php 
-echo  $options['token']['access_token'] ;
-?>";
-var site = "<?php 
-echo  $options['site'] ;
-?>";
+var access_token = "<?php echo($options['token']['access_token']) ?>";
+var site = "<?php echo($options['site']) ?>";
 
 </script>
 
 <?php 
-if ( !sc_fs()->can_use_premium_code() ) {
-    ?>
+            if ( !sc_fs()->can_use_premium_code() ) {
+
+?>
 <script type="text/javascript">
 
 var period = jQuery('select[id=searchconsole-sel-period]').val();
@@ -144,4 +149,5 @@ function changePeriod(){
 </script>
 
 <?php 
-}
+    }
+?>

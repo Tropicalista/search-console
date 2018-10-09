@@ -79,6 +79,7 @@ class SearchConsole {
 		$this->load_dependencies();
 		$this->set_locale();
 		$this->set_table();
+		$this->set_routes();
 		$this->define_admin_hooks();
 	}
 
@@ -116,7 +117,9 @@ class SearchConsole {
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-searchconsole-admin.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-searchconsole-public.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-searchconsole-table.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-searchconsole-rest.php';
 
 		/**
 		 * The class responsible for loading Google SDK.
@@ -148,10 +151,13 @@ class SearchConsole {
 
 		$plugin_table = new SearchConsole_Table();
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_table, 'add_table_scripts', 10, 1 );
-		//$this->loader->add_action( 'manage_posts_custom_column', $plugin_table, 'gsc_posts_data', 10, 1 );
-		//$this->loader->add_action( 'manage_pages_custom_column', $plugin_table, 'gsc_posts_data', 10, 1 );
-		//$this->loader->add_filter( 'manage_posts_columns', $plugin_table, 'gsc_posts' );
-		//$this->loader->add_filter( 'manage_pages_columns', $plugin_table, 'gsc_posts' );
+
+	}
+
+	private function set_routes() {
+
+		$plugin_rest = new SearchConsole_Rest( $this->get_plugin_name(), $this->get_version() );
+		$this->loader->add_action( 'rest_api_init', $plugin_rest, 'register_routes' );
 
 	}
 
@@ -174,24 +180,41 @@ class SearchConsole {
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'add_advanced_settings' );
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'reset_settings' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'gsc_widget_js' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_admin, 'gsc_adminbar_js' );
-		$this->loader->add_action( 'admin_bar_menu', $plugin_admin, 'gsc_adminbar_menu', 2000 );
+
 		$this->loader->add_action( 'wp_head', $plugin_admin, 'gsc_adminbar_token' );
 		$this->loader->add_action( 'current_screen', $plugin_admin, 'gsc_table_token' );
+
+		// Add frontend admin bar
+		//$this->loader->add_action( 'wp_enqueue_scripts', $plugin_admin, 'gsc_adminbar_js' );
+		//$this->loader->add_action( 'admin_bar_menu', $plugin_admin, 'gsc_adminbar_menu', 2000 );
 
 		// Add Settings link to the plugin
 		$plugin_basename = plugin_basename( plugin_dir_path( __DIR__ ) . 'searchconsole.php' );
 		$this->loader->add_filter( 'plugin_action_links_' . $plugin_basename, $plugin_admin, 'add_action_links' );
 		$this->loader->add_filter( 'plugin_row_meta', $plugin_admin, 'plugin_links', 10, 2 );
 
-		// Add metatag to frontend
-		$this->loader->add_action('wp_head', $plugin_admin, 'frontendHeader');
-
 		// add widget to dashboard
 		$this->loader->add_action('wp_dashboard_setup', $plugin_admin, 'my_custom_dashboard_widgets');
 
 		// Add meta box
 		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'gsc_register_meta_boxes');
+
+	}
+
+	/**
+	 * Register all of the hooks related to the public-facing functionality
+	 * of the plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 */
+	private function define_public_hooks() {
+
+		$plugin_public = new SearchConsole_Public( $this->get_plugin_name(), $this->get_version() );
+		// Add metatag to frontend
+		$this->loader->add_action('wp_head', $plugin_public, 'frontendHeader');
+
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
 	}
 

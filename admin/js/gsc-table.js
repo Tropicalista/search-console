@@ -26,9 +26,10 @@ function getReport(){
                 if( allUrls.indexOf(x.keys[0]) > -1){
                   jQuery('span[data-url="' + x.keys[0] + '"]').html(
                     '<b>Clicks:</b> '+ x.clicks +
-                    ' | <b>Impressions:</b> '+ x.impressions +
-                    ' | <b>CTR:</b> '+ (Math.round(x.ctr * 10000) / 100) + '%' +
-                    ' | <b>Position:</b> '+ Math.round(x.position * 100) / 100 
+                    ' | <b>Position:</b> '+ Math.round(x.position * 100) / 100 +
+                    '<br>' +
+                    '<b>CTR:</b> '+ (Math.round(x.ctr * 10000) / 100) + '%' +
+                    ' | <b>Impressions:</b> '+ x.impressions
                   )
                 }
               

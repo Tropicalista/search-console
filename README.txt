@@ -5,14 +5,16 @@ Tags: search console, google search console, search console widget, search conso
 Requires at least: 3.0.1
 Requires PHP: 5.2.4
 Tested up to: 4.9.8
-Stable tag: 1.1.5
+Stable tag: 1.1.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 
 == Description ==
 
-This plugin adds the verification code of **[Google Search Console](https://tropicalseo.net)**, former **Google Webmaster Tools**, to your site and display your Search Console analytics data in the WordPress dashboard. You can see **Clicks**, **Posistions**, **CTR** and **Impressions**.
+**[Google Search Console for WordPress](https://tropicalseo.net)**
+
+This plugin adds the verification code of **Google Search Console**, former **Google Webmaster Tools**, to your site and display your Search Console analytics data in the WordPress dashboard. You can see **Clicks**, **Posistions**, **CTR** and **Impressions**.
 
 A nice full-width dashboard is provided out of the box. 
 
@@ -24,8 +26,16 @@ A nice full-width dashboard is provided out of the box.
  - Beautiful full width chart on admin page (**position|clicks|impressions|CTR**)
  - Table with top 10 keywords (**position|clicks|impressions|CTR**)
  - Add metabox on pages/posts to show performance
+ - Full report with all data (pro)
+ - Filer by page (pro)
+ - Filter by query (pro)
+ - Filter by country (pro)
+ - Filter by device (pro)
+ - Full report with all sitemap (pro)
+ - Full report with all site errors (pro)
+ - Superfast
 
-Check the demo **[Google Search Console](https://demo.tropicalseo.net/wp-admin)**
+Check the **[demo](https://demo.tropicalseo.net/wp-admin)**
 
 == Screenshots ==
 
