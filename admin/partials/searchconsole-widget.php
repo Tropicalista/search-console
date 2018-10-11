@@ -21,7 +21,6 @@ $site = $options['site'];
 if(empty($options['site'])){
   echo('<h1>Go to settings to choose your site from Search Console</h1>');
   echo('<a href="' . admin_url( 'admin.php?page=' . $this->plugin_name ) . '-settings">' . __('Settings', $this->plugin_name) . '</a>');
-  die;
 }
 ?>
 
@@ -39,6 +38,11 @@ if(empty($options['site'])){
   </div>
 
 </div>
+
+<?php
+if(!empty($options['site'])){
+?>
+
 <script type="text/javascript">
 
 // global variables
@@ -107,3 +111,7 @@ function changePeriod(){
    }
 }   
 </style>
+
+<?php
+}
+?>
