@@ -100,7 +100,7 @@ function getReport(){
 
 function getTop10(){
   gapi.client.webmasters.searchanalytics.query(chartTable)
-          .then((response) => {
+          .then(function (response) {
             var options = chartOptions
             dataTable = formatData(response.result.rows, true)
             table = new google.visualization.Table(document.getElementById('gsc-top10'));
