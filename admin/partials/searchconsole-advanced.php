@@ -22,9 +22,9 @@ if(!empty($token) && !empty($site)){
         <label for="my-text-field">Meta tag</label>
     </th>
     <td>
-        <a href="#" class="button button-primary" id="requestVerificationCode"><?php _e('Get site verification', 'searchconsole') ?></a>
+        <a href="#" class="button button-primary" id="requestVerificationCode"><?php _e('Get site verification', 'search-console') ?></a>
         <br>
-        <span class="description"><?php _e('Get your meta tag verification code.', 'searchconsole') ?></span>
+        <span class="description"><?php _e('Get your meta tag verification code.', 'search-console') ?></span>
     </td>
 </tr>
 <?php
@@ -32,7 +32,7 @@ if(!empty($token) && !empty($site)){
 ?>
 <tr>
     <th scope="row">
-        <label for="my-text-field"><?php _e('Add meta tag', 'searchconsole') ?></label>
+        <label for="my-text-field"><?php _e('Add meta tag', 'search-console') ?></label>
     </th>
     <td>
         <input type="text" class="regular-text" 
@@ -42,12 +42,12 @@ if(!empty($token) && !empty($site)){
             value="<?php echo esc_html( wp_unslash( $options['meta'] ) ); ?>"/>
         <i class="hidden dashicons dashicons-update spin" id="showSpinner"></i>
         <br>
-        <span class="description"><?php _e('Insert your meta tag verification code.', 'searchconsole') ?></span>
+        <span class="description"><?php _e('Insert your meta tag verification code.', 'search-console') ?></span>
     </td>
 </tr>
 <tr>
     <th scope="row">
-        <label for="my-text-field"><?php _e('Custom credentials?', 'searchconsole') ?></label>
+        <label for="my-text-field"><?php _e('Custom credentials?', 'search-console') ?></label>
     </th>
     <td>
         <input type="checkbox" class="regular-text" 
@@ -55,7 +55,7 @@ if(!empty($token) && !empty($site)){
             name="<?php echo $this->plugin_name; ?>-advanced[custom_oauth]" 
             <?php echo ($options['custom_oauth']==1 ? 'checked' : '');?> />
         <br>
-        <span class="description"><?php _e('If you want use your custom app, fill the form.', 'searchconsole') ?></span>
+        <span class="description"><?php _e('If you want use your custom app, fill the form.', 'search-console') ?></span>
     </td>
 </tr>
 <tr class="custom <?php echo ($options['custom_oauth']==1 ? '' : 'hidden');?>">
@@ -68,7 +68,7 @@ if(!empty($token) && !empty($site)){
             name="<?php echo $this->plugin_name; ?>-advanced[oauth][clientId]" 
             value="<?php echo ($clientId);?>"/>
         <br>
-        <span class="description"><?php _e( 'Add your client ID.', 'searchconsole' ); ?></span>
+        <span class="description"><?php _e( 'Add your client ID.', 'search-console' ); ?></span>
     </td>
 </tr>
 <tr class="custom <?php echo ($options['custom_oauth']==1 ? '' : 'hidden');?>">
@@ -81,7 +81,7 @@ if(!empty($token) && !empty($site)){
             name="<?php echo $this->plugin_name; ?>-advanced[oauth][clientSecret]" 
             value="<?php echo ($clientSecret);?>"/>
         <br>
-        <span class="description"><?php _e( 'Add your client secret.', 'searchconsole' ); ?></span>
+        <span class="description"><?php _e( 'Add your client secret.', 'search-console' ); ?></span>
     </td>
 </tr>
 <tr class="custom <?php echo ($options['custom_oauth']==1 ? '' : 'hidden');?>">
@@ -94,7 +94,7 @@ if(!empty($token) && !empty($site)){
             name="<?php echo $this->plugin_name; ?>-advanced[oauth][redirectUri]" 
             value="<?php echo ($redirectUri);?>"/>
         <br>
-        <span class="description"><?php _e( 'Add your redirect url.', 'searchconsole' ); ?></span>
+        <span class="description"><?php _e( 'Add your redirect url.', 'search-console' ); ?></span>
     </td>
 </tr>
 <script src="https://apis.google.com/js/api.js"></script>

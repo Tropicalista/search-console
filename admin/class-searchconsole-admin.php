@@ -225,7 +225,7 @@ class SearchConsole_Admin
         /*
          *  Documentation : https://codex.wordpress.org/Plugin_API/Filter_Reference/plugin_action_links_(plugin_file_name)
          */
-        $settings_link = array( '<a href="' . admin_url( 'admin.php?page=' . $this->plugin_name ) . '-settings">' . __( 'Settings', 'searchconsole' ) . '</a>' );
+        $settings_link = array( '<a href="' . admin_url( 'admin.php?page=' . $this->plugin_name ) . '-settings">' . __( 'Settings', 'search-console' ) . '</a>' );
         return array_merge( $settings_link, $links );
     }
     
@@ -265,7 +265,7 @@ class SearchConsole_Admin
         add_settings_field(
             'show_settings',
             // ID used to identify the field throughout the theme
-            esc_html__( 'Choose a site', 'searchconsole' ),
+            esc_html__( 'Choose a site', 'search-console' ),
             // The label to the left of the option interface element
             array( $this, 'show_settings' ),
             // The name of the function responsible for rendering the option interface
@@ -436,7 +436,7 @@ class SearchConsole_Admin
      * Register meta box(es).
      */
     function gsc_register_meta_boxes() {
-        add_meta_box( 'meta-box-id', __( 'Search Console', 'searchconsole' ), array($this, 'gsc_metabox'), array('post','page') );
+        add_meta_box( 'meta-box-id', __( 'Search Console', 'search-console' ), array($this, 'gsc_metabox'), array('post','page') );
     }
 
     function gsc_widget_js( $hook ) {

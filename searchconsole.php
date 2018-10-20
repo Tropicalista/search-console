@@ -16,14 +16,13 @@
  * Plugin Name:       Search Console
  * Plugin URI:        https://tropicalseo.net/
  * Description:       This plugin displays your Google Search Console Analytics data inside your WordPress.
- * Version:           1.2.3
+ * Version:           1.2.4
  * Author:            Tropicalista
  * Author URI:		  https://tropicalseo.net/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       searchconsole
+ * Text Domain:       search-console
  * Domain Path:       /languages
- * @fs_premium_only /admin/js/app.js, /admin/js/chunk-vendors.js
  */
 
 // If this file is called directly, abort.
@@ -37,7 +36,7 @@ if ( !defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'SearchConsole_VERSION', '1.2.3' );
+define( 'SearchConsole_VERSION', '1.2.4' );
 
 function sc_fs_uninstall_cleanup()
 {

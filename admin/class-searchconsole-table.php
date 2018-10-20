@@ -40,7 +40,7 @@ Class SearchConsole_Table {
 	 * @param array $defaults An array of column names.
 	 */
 	public function gsc_posts( $defaults ) {
-		$defaults['asc_gsc'] = __( 'Search Console', 'searchconsole' );
+		$defaults['asc_gsc'] = __( 'Search Console', 'search-console' );
 		return $defaults;
 	}
 

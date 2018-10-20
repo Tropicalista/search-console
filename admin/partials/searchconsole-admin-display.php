@@ -19,8 +19,8 @@ $advanced = 'admin.php?page=' . $this->plugin_name . '-settings&tab=advanced';
 $settigs_tab = $active_tab == 'display_options' ? 'nav-tab-active' : '';
 $advanced_tab = $active_tab == 'advanced' ? 'nav-tab-active' : '';
 
-$link_settings = '<a href=' . admin_url($settings) . ' class="nav-tab ' . $settigs_tab . '">' . __( 'Settings', 'searchconsole' ) . '</a>';
-$link_advanced = '<a href=' . admin_url($advanced) . ' class="nav-tab ' . $advanced_tab . '">' . __( 'Advanced settings', 'searchconsole' ) . '</a>';
+$link_settings = '<a href=' . admin_url($settings) . ' class="nav-tab ' . $settigs_tab . '">' . __( 'Settings', 'search-console' ) . '</a>';
+$link_advanced = '<a href=' . admin_url($advanced) . ' class="nav-tab ' . $advanced_tab . '">' . __( 'Advanced settings', 'search-console' ) . '</a>';
 ?>
 
             <h1 class="nav-tab-wrapper">

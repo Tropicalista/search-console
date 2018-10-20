@@ -1,12 +1,12 @@
     <div class="postbox-container">
-        <h1><?php _e( 'Like our plugin?', 'searchconsole' ); ?></h1>
-        <p><?php _e( '<a href="https://tropicalseo.net">Here</a> you can find something interesting.', 'searchconsole' ); ?></p>
+        <h1><?php _e( 'Like our plugin?', 'search-console' ); ?></h1>
+        <p><?php _e( '<a href="https://tropicalseo.net">Here</a> you can find something interesting.', 'search-console' ); ?></p>
         <div class="video-container">
 
         <iframe src="https://www.youtube.com/embed/1SSifJnxvXo" frameborder="0" allowfullscreen></iframe>
 
         </div>
-        <h2><?php _e( 'Dashy - Google Analytics dashboard', 'searchconsole' ); ?></h2>
+        <h2><?php _e( 'Dashy - Google Analytics dashboard', 'search-console' ); ?></h2>
         <ul>
             <li>Automatic Google Analytics code integration</li>
             <li>Track pagescroll</li>
