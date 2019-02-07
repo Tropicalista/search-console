@@ -529,7 +529,7 @@ class SearchConsole_Admin
     function plugin_links($links, $file) {
         
         if ( strpos( $file, 'searchconsole.php' ) !== false ) {
-            $rate_href  = 'https://wordpress.org/support/plugin/edd-download-images-slider/reviews/?rate=5#new-post';
+            $rate_href  = 'https://wordpress.org/support/plugin/search-console/reviews/?rate=5#new-post';
             $rate_title = esc_attr__('Click here to rate and review this plugin on WordPress.org', 'search-console');
             $rate_text  = esc_html__('Rate this plugin', 'search-console') .'&nbsp;&raquo;';
             

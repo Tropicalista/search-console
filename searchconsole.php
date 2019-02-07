@@ -8,17 +8,17 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              https://tropicalseo.net
+ * @link              https://www.francescopepe.com
  * @since             1.0.0
  * @package           SearchConsole
  *
  * @wordpress-plugin
  * Plugin Name:       Search Console
- * Plugin URI:        https://tropicalseo.net/
+ * Plugin URI:        https://www.francescopepe.com/
  * Description:       This plugin displays your Google Search Console Analytics data inside your WordPress.
- * Version:           1.2.8
+ * Version:           1.2.9
  * Author:            Tropicalista
- * Author URI:		  https://tropicalseo.net/
+ * Author URI:		  https://www.francescopepe.com/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       search-console
@@ -36,7 +36,7 @@ if ( !defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'SearchConsole_VERSION', '1.2.8' );
+define( 'SearchConsole_VERSION', '1.2.9' );
 
 function sc_fs_uninstall_cleanup()
 {
