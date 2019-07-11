@@ -3,7 +3,7 @@
 /**
  * The admin-specific functionality of the plugin.
  *
- * @link       https://tropicalseo.net
+ * @link       https://www.francescopepe.com
  * @since      1.0.0
  *
  * @package    SearchConsole

@@ -12,6 +12,11 @@ var chartOptions = {
     width: '100%'
   },
   hAxis: {
+    gridlines: {
+      count: 0,
+      minSpacing: 150
+    },
+    minorGridlines: { count: 0 },
     showTextEvery: 2,
     format: 'MMM dd'
   },
