@@ -19,7 +19,8 @@ A nice full-width dashboard is provided out of the box.
 
 **[Google Search Console for WordPress](https://tropicalseo.net)**
 
-** Note on upgrading to version 2.0.0: ** you can have an error when upgrading to version 2.0.0. Go to plugin page and disable the old version. Then remove it. New version use a better and faster code. 
+** Note on upgrading to version 2.0.0: ** 
+you can have an error when upgrading to version 2.0.0. Go to plugin page and disable the old version. Then remove it. New version use a better and faster code. 
 
 == Features == 
 
