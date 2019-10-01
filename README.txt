@@ -54,6 +54,12 @@ Download from WordPress repository and give authorization with Google.
 
 == Changelog ==
 
+= 2.0.0 =
+
+* Better mobile support
+* Better integration of auth flow
+* More lightweight, more speed
+
 = 1.1.1 =
 
 * Added metabox on posts and pages
