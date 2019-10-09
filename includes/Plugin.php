@@ -13,7 +13,7 @@ final class Plugin {
      *
      * @var string
      */
-    public $version = '2.0.0';
+    public $version = '2.0.1';
 
     /**
      * Holds various class instances
@@ -117,8 +117,6 @@ final class Plugin {
             update_option( 'searchconsole_api_key', NULL );
             update_option( 'searchconsole_credentials', NULL );
             update_option( 'searchconsole_settings', NULL );
-            update_option( 'searchconsole_widgets', NULL );
-            update_option( 'searchconsole_custom_widgets', NULL );  
 
         }
 
