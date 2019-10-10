@@ -17,7 +17,7 @@ This plugin adds the verification code of **Google Search Console**, former **Go
 
 A nice full-width dashboard is provided out of the box. 
 
-**[Google Search Console for WordPress](https://tropicalseo.net)**
+**[Google Search Console for WordPress](https://www.tropicalseo.it/?utm_source=search-console-plugin&utm_medium=readme&utm_campaign=promo)**
 
 == Features == 
 
@@ -36,7 +36,7 @@ A nice full-width dashboard is provided out of the box.
  - Full report with all site errors
  - Superfast
 
-Check the **[demo](https://demo.tropicalseo.net/wp-admin)**
+Check the **[demo](https://www.tropicalseo.it/?utm_source=search-console-plugin&utm_medium=readme&utm_campaign=promo)**
 
 [youtube https://www.youtube.com/watch?v=r-BxQ_82sdM&t=]
 
