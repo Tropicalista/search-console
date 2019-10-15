@@ -35,6 +35,13 @@ class Config {
             "site" => $this->get_site($config),
             "token" => $this->oauth->get_token(),
         );
+        if( defined( 'GOOGLESITEKIT_PLUGIN_BASENAME' ) ) {
+            // Google SiteKit is active
+            //require_once GOOGLESITEKIT_PLUGIN_DIR_PATH . 'vendor/autoload.php';
+            $config['sitekit'] = true;
+            //return new \Google\Site_kit\Plugin( GOOGLESITEKIT_PLUGIN_MAIN_FILE );
+
+        }
         return $config;
     }
 
