@@ -13,7 +13,7 @@ final class Plugin {
      *
      * @var string
      */
-    public $version = '2.0.3';
+    public $version = '2.0.4';
 
     /**
      * Holds various class instances
