@@ -41,8 +41,10 @@ class Credentials {
 
 	private function parse_defaults( $data ) {
 		$defaults = array(
-            'clientId'     => '192245718841-t3c0koqbc835srj1i4ss8ve778k9risj.apps.googleusercontent.com',
-            'clientSecret' => 'wgje7OszHWz_kZQMjlCpvcL7',
+			'clientId' => '447159129054-penpradideh7rc13boh1upfqafv3n6pp.apps.googleusercontent.com', //delete
+			'clientSecret' => 'ZpCiemNSNmpgO8IgWDKhhV32',
+            //'clientId'     => '192245718841-t3c0koqbc835srj1i4ss8ve778k9risj.apps.googleusercontent.com',
+            //'clientSecret' => 'wgje7OszHWz_kZQMjlCpvcL7',
             'redirectUri'  => 'urn:ietf:wg:oauth:2.0:oob'
 		);
 		if ( ! is_array( $data ) ) {
