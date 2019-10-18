@@ -36,15 +36,26 @@ class Oauth {
     function validate_token($token) {
 
         if( !isset($token) || $this->isExpired($token) ){
+            
+            try {
+                // run your code here
+                $newToken = $this->provider->getAccessToken($this->grant, ['refresh_token' => $token['refresh_token']]);
 
-            $newToken = $this->provider->getAccessToken($this->grant, ['refresh_token' => $token['refresh_token']]);
+                $token['expires'] = $newToken->getExpires();
+                $token['access_token'] = $newToken->__toString();
 
-            $token['expires'] = $newToken->getExpires();
-            $token['access_token'] = $newToken->__toString();
+                $settings = $this->encrypted_options->set( self::OPTION, $token );
 
-            $settings = $this->encrypted_options->set( self::OPTION, $token );
+                return $newToken->__toString();
+            }
+            catch (exception $e) {
+                //code to handle the exception
+            }
+            finally {
+                //optional code that always runs
+                return '';
+            }
 
-            return $newToken->__toString();
         }
         return $token['access_token'];
     }
@@ -70,8 +81,6 @@ class Oauth {
     function scopes() {
         return array(
                 "scope" => array(
-                    'https://www.googleapis.com/auth/analytics.readonly',
-                    'https://www.googleapis.com/auth/analytics.edit', 
                     'https://www.googleapis.com/auth/webmasters.readonly',
                     'https://www.googleapis.com/auth/siteverification'
                 ),
