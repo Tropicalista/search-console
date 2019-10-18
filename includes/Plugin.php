@@ -13,7 +13,7 @@ final class Plugin {
      *
      * @var string
      */
-    public $version = '2.0.5';
+    public $version = SEARCHCONSOLE_VERSION;
 
     /**
      * Holds various class instances
@@ -86,7 +86,6 @@ final class Plugin {
      * @return void
      */
     public function define_constants() {
-        define( 'SEARCHCONSOLE_VERSION', $this->version );
         define( 'SEARCHCONSOLE_INCLUDES', SEARCHCONSOLE_PATH . '/includes' );
         define( 'SEARCHCONSOLE_URL', plugins_url( '', SEARCHCONSOLE_FILE ) );
         define( 'SEARCHCONSOLE_ASSETS', SEARCHCONSOLE_URL . '/assets' );
@@ -98,7 +97,7 @@ final class Plugin {
      * @return void
      */
     public function init_plugin() {
-        $this->includes();
+        $this->load_dependencies();
         $this->init_hooks();
     }
 
@@ -141,32 +140,6 @@ final class Plugin {
         delete_option( 'searchconsole_widgets' );
         delete_option( 'searchconsole_custom_widgets' );
          
-    }
-
-    /**
-     * Include the required files
-     *
-     * @return void
-     */
-    public function includes() {
-
-        $this->load_dependencies();
-
-        if ( $this->is_request( 'admin' ) ) {
-            //require_once SEARCHCONSOLE_INCLUDES . '/class-admin.php';
-        }
-
-        if ( $this->is_request( 'frontend' ) ) {
-            //require_once SEARCHCONSOLE_INCLUDES . '/class-frontend.php';
-        }
-
-        if ( $this->is_request( 'ajax' ) ) {
-            // require_once SEARCHCONSOLE_INCLUDES . '/class-ajax.php';
-        }
-
-        if ( $this->is_request( 'rest' ) ) {
-            //require_once SEARCHCONSOLE_INCLUDES . '/class-rest-api.php';
-        }
     }
 
     /**
