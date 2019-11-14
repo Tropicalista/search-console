@@ -3,9 +3,9 @@ Contributors: tropicalista, freemius
 Donate link: https://www.francescopepe.com/
 Tags: search console, google search console, search console widget, search console metatag, webmaster tools widget, webmaster tools, webmaster tools metatag
 Requires at least: 3.0.1
-Requires PHP: 5.2.4
-Tested up to: 5.2.2
-Stable tag: 2.0.6
+Requires PHP: 5.4.0
+Tested up to: 5.3.0
+Stable tag: 2.0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,10 +53,6 @@ Download from WordPress repository and give authorization with Google.
 
 
 == Changelog ==
-
-= 2.0.6 =
-
-MInor fix
 
 = 2.0.0 =
 

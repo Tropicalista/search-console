@@ -34,11 +34,11 @@ class Admin {
         $capability = 'manage_options';
         $slug       = 'search-console';
 
-        $hook = add_menu_page( __( 'Search Console', 'searchconsole' ), __( 'Search Console', 'searchconsole' ), $capability, $slug, [ $this, 'plugin_page' ], 'dashicons-chart-bar' );
+        $hook = add_menu_page( __( 'Search Console', 'search-console' ), __( 'Search Console', 'search-console' ), $capability, $slug, [ $this, 'plugin_page' ], 'dashicons-chart-bar' );
 
-        $submenu[ $slug ][] = array( __( 'Search Console', 'searchconsole' ), $capability, 'admin.php?page=' . $slug . '#/' );
+        $submenu[ $slug ][] = array( __( 'Search Console', 'search-console' ), $capability, 'admin.php?page=' . $slug . '#/' );
         if ( current_user_can( $capability ) ) {
-            $submenu[ $slug ][] = array( __( 'Settings', 'searchconsole' ), $capability, 'admin.php?page=' . $slug . '#/settings' );
+            $submenu[ $slug ][] = array( __( 'Settings', 'search-console' ), $capability, 'admin.php?page=' . $slug . '#/settings' );
         }
 
         add_action( 'load-' . $hook, [ $this, 'init_hooks'] );
@@ -64,7 +64,9 @@ class Admin {
 
         global $wp_scripts;
         foreach( $wp_scripts->queue as $handle ) {
+          if($handle != 'common'){
             wp_dequeue_script($handle);
+          }
         }
         
         wp_enqueue_style( 'searchconsole-admin' );
@@ -78,6 +80,9 @@ class Admin {
     ?>
       <script type="text/javascript">
               var _nonce = "<?php echo wp_create_nonce( 'wp_rest' ); ?>";
+              window.searchconsole = {
+                homeUrl: '<?php echo get_home_url(); ?>'
+              }
       </script>
     <?php
         if ( $screen == 'edit-post' || $screen == 'edit-page' ) {

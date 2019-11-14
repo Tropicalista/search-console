@@ -50,10 +50,10 @@ class Oauth {
             }
             catch (exception $e) {
                 //code to handle the exception
+                return '';
             }
             finally {
                 //optional code that always runs
-                return '';
             }
 
         }

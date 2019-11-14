@@ -199,7 +199,7 @@ final class Plugin {
      * @uses load_plugin_textdomain()
      */
     public function localization_setup() {
-        load_plugin_textdomain( 'searchconsole', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+        load_plugin_textdomain( 'search-console', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
     }
 
     private function load_dependencies() {
