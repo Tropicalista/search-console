@@ -1,0 +1,252 @@
+@import 'purecss/purecss.css';
+@import 'purecss/purecss-responsive.css';
+
+@import 'analytics/dashboard.css';
+@import 'analytics/panel.css';
+@import 'analytics/widgets.css';
+@import 'analytics/google-charts.css';
+
+@import 'search-console/search-console.css';
+
+@import 'settings/style.css';
+@import 'settings/input.css';
+
+.dashy-wrapper {
+  margin-left: -20px;
+}
+
+.welcome {
+  background-color: #fff;
+  padding: 40px;
+  font-size: 16px;
+}
+
+.welcome-box {
+  padding: 20px;
+  border: 1px solid #ddd;
+  margin: 20px;
+}
+
+.pure-g > div {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.l-box {
+    padding-bottom: 1em;
+}
+
+.row {
+  border-bottom: 1px solid #eee;
+  margin-bottom: 20px;
+}
+
+.select-site {
+  width: 25%;
+  & .vs__dropdown-toggle {
+  background-color: white;
+  }
+  & input {
+    border: none;
+    box-shadow: none;
+  }
+}
+
+.form-div {
+  padding-top: 20px;
+}
+
+a {
+  cursor: pointer;  
+}
+
+a.tabs {
+  display: table-cell;
+  vertical-align: bottom;
+  padding: 14px;
+  text-decoration: none;
+  border-bottom: 1px solid white;
+  &.active {
+    border-bottom: 1px solid black;
+  }
+  &:hover {
+    background-color: #eee;
+  }
+}
+
+.filter-button {
+  margin-right: 5px;
+}
+
+.button-xsmall {
+    font-size: 70%;
+}
+
+.button-small {
+    font-size: 85%;
+}
+
+.button-large {
+    font-size: 110%;
+}
+
+.button-xlarge {
+    font-size: 125%;
+}
+
+.button-success,
+.button-error,
+.button-warning,
+.button-secondary {
+    color: white;
+    border-radius: 0;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.button-success {
+    background: rgb(28, 184, 65); /* this is a green */
+}
+
+.button-error {
+    background: rgb(202, 60, 60); /* this is a maroon */
+}
+
+.button-warning {
+    background: rgb(223, 117, 20); /* this is an orange */
+}
+
+.button-secondary {
+    background: rgb(66, 184, 221); /* this is a light blue */
+}
+
+.input-group {
+  display: table;
+  border-collapse: collapse;
+  width:100%;
+}
+.input-group > div{
+  display: table-cell;
+  border: 1px solid #ddd;
+  vertical-align: middle;  /* needed for Safari */
+}
+.input-group-icon {
+  background:#0078e7;
+  color: #fff;
+  padding: 0 12px;
+  cursor: pointer;
+}
+.input-group-area{
+  width:100%;
+}
+.input-group input[type=text], .input-group select {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  border: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+  z-index: 1;
+}
+
+.dropdown.active .dropdown-content {
+  display: block;
+}
+
+.dropdown.active .item {
+  padding: 6px;
+}
+
+.table-container {
+    background-color: #fff;
+    padding: 20px;
+    overflow-x: auto;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+tr {
+  cursor: pointer;  
+  border-bottom: 1px solid #ddd;
+    font-size: 1rem;
+}
+tr:hover{background-color:#f5f5f5}
+
+.pagination {
+    display: inline-block;
+    padding: 0;
+    margin: 10px;
+}
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border-left: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;    
+}
+
+.pagination a:first-child {
+}
+
+.pagination a:last-child {
+    border-right: 1px solid #ddd;
+}
+
+.pagination a.active {
+    background-color: #0078e7;
+    color: white;
+    border: 1px solid #0078e7;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
+
+.pull-right {
+    float: right;
+}
+.pull-left {
+    float: left;
+}
+.paging select {
+    margin-top: 11px;
+    height: 34px;
+    border-radius: 0px;
+}
+
+.v-select, .v-select * {
+  cursor: pointer;
+}
+
+.star {
+  color: #f2b01e;
+}
+
+.promo {
+  padding: 10px;
+}
+
+.vue-notification-group {
+  top: 40px;
+}

@@ -1,0 +1,48 @@
+.pure-form input[type=text], .pure-form select, pure-form-stacked input[type=text] {
+  -webkit-box-shadow: none; 
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.pure-form .inputaddon {
+  display: flex;
+}
+
+.pure-form .inputaddon-field {
+  flex: 1;
+}
+.pure-form .inputaddon-field:not(:first-child) {
+  border-left: 0;
+}
+.pure-form .inputaddon-field:not(:last-child) {
+  border-right: 0;
+}
+
+.pure-form .inputaddon-item {
+  background-color: #0078e7;
+  color: #fff;
+  font: inherit;
+  font-weight: normal;
+}
+
+.pure-form .inputaddon-field,
+.pure-form .inputaddon-item {
+  border: 1px solid rgba(147, 128, 108, 0.25);
+  padding: 0.5em 0.75em;
+}
+.pure-form .inputaddon-field:first-child,
+.pure-form .inputaddon-item:first-child {
+  border-radius: 2px 0 0 2px;
+}
+.pure-form .inputaddon-field:last-child,
+.pure-form .inputaddon-item:last-child {
+  border-radius: 0 2px 2px 0;
+}
+
+.pure-form .inputaddon-item button {
+  border-radius: 0 2px 2px 0;
+}
+
+.v-select, .v-select * {
+  cursor: pointer;
+}

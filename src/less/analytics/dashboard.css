@@ -1,0 +1,296 @@
+.dashy-dashboard {
+  all: initial;
+  font-size: 16px;
+}
+
+.home-dashboard {
+  padding: 0 10px 0 10px;
+}
+
+.red {
+  color: red;
+}
+.green {
+  color: green;
+}
+
+.dashicons.spin {
+   animation: spin 1s infinite;
+   animation-timing-function: linear;
+}
+
+/*
+   Animation example, for spinners
+*/
+.animate-spin {
+  -moz-animation: spin 2s infinite linear;
+  -o-animation: spin 2s infinite linear;
+  -webkit-animation: spin 2s infinite linear;
+  animation: spin 2s infinite linear;
+  display: inline-block;
+}
+@-moz-keyframes spin {
+  0% {
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  100% {
+    -moz-transform: rotate(359deg);
+    -o-transform: rotate(359deg);
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+@-webkit-keyframes spin {
+  0% {
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  100% {
+    -moz-transform: rotate(359deg);
+    -o-transform: rotate(359deg);
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+@-o-keyframes spin {
+  0% {
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  100% {
+    -moz-transform: rotate(359deg);
+    -o-transform: rotate(359deg);
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+@-ms-keyframes spin {
+  0% {
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  100% {
+    -moz-transform: rotate(359deg);
+    -o-transform: rotate(359deg);
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+@keyframes spin {
+  0% {
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  100% {
+    -moz-transform: rotate(359deg);
+    -o-transform: rotate(359deg);
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+
+
+.gradient {
+  background-image: none !important;
+}
+
+.box {
+  box-sizing: border-box;
+  border-right: 1px solid #eee;
+  cursor: pointer;
+  padding: 5px;
+  width: 50%;
+  float: left;
+  border-bottom: 1px solid #eee;
+}
+
+@media screen and (min-width: 48em) {
+  .box {
+    width: 25%;
+  }
+}
+
+.no-border {
+    border-right: none;
+}
+.compare {
+  float: right;
+  color: #a7d0f5;
+}
+small {
+  font-size: 1em;
+}
+.box h2 {
+  margin-top: 0px;
+  margin-bottom: 1em;
+  font-size: 1em;
+}
+.box h3 {
+  font-size: 1em;
+}
+
+/* WIDGET BOX */
+
+.widget-box {
+	background-color: #fff;
+	border: 1px solid #ccc;
+	height: 100%;
+}
+
+.widget-header {
+	padding: 5px;
+	border-bottom: 1px solid #ccc;
+  cursor: move;
+}
+
+.widget-content {
+}
+
+.widget-chart {
+	padding-left: 5px;
+	padding-right: 5px;
+	cursor: pointer;
+}
+
+.widget-home {
+  padding: 5px;
+}
+
+.vue-grid-item.vue-grid-placeholder {
+	background-color: #ccc !important;
+}
+
+.tools {
+	float: right;
+	cursor: pointer;
+}
+
+.menu {
+  background-color: #fff;
+  min-height: 40px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+
+/* WIDGETS CARDS */
+
+.flex-container {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  border: 1px solid silver;
+  -ms-box-orient: horizontal;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: flex;
+}
+
+.wrap    { 
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+}  
+
+.ribbon {
+  position: absolute;
+  right: -5px; top: -5px;
+  z-index: 100;
+  overflow: hidden;
+  width: 75px; height: 75px;
+  text-align: right;
+}
+
+.ribbon span {
+  font-size: 10px;
+  font-weight: bold;
+  color: #FFF;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 20px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  width: 100px;
+  display: block;
+  background: #79A70A;
+  background: linear-gradient(#9BC90D 0%, #79A70A 100%);
+  box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+  position: absolute;
+  top: 19px; right: -21px;
+}
+.ribbon span::before {
+  content: "";
+  position: absolute; left: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid #79A70A;
+  border-right: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #79A70A;
+}
+.ribbon span::after {
+  content: "";
+  position: absolute; right: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid transparent;
+  border-right: 3px solid #79A70A;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #79A70A;
+}
+
+.flip-card {
+  background-color: transparent;
+  width: 150px;
+  height: 150px;
+  margin: 10px;
+  perspective: 1000px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+.flip-card-front {
+  background-color: #2980b9;
+  color: #fff;
+}
+
+.flip-card-back {
+  background-color: #fff;
+  color: black;
+  transform: rotateY(180deg);
+}

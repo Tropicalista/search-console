@@ -1,0 +1,22 @@
+.google-visualization-table-page-number.current {
+  background-color: #4c9ce4 !important;
+  color: white;
+}
+.google-visualization-table-div-page {
+  background-color: white !important;
+  padding: 4px !important;
+}
+.google-visualization-table-page-number {
+  font-size: 10px !important;
+}
+.google-visualization-table-page-number, charts-inline-block charts-custom-button {
+  background-color: white !important;
+  border: 1px solid #ccc !important;
+  padding: 5px 10px !important;
+}
+.charts-custom-button {
+  display: none !important;
+}
+.goog-inline-block {
+  display: none !important;
+}

@@ -1,0 +1,37 @@
+/* SLIDING PANEL */
+
+.dashboard-panel {
+}
+
+.panel-container {
+	padding: 20px;
+	margin-top: 32px;
+}
+
+.panel-container h1 {
+	margin-top: 5px;
+}
+
+.panel-toolbar {
+	height: 30px;
+	font-size: x-large;
+}
+
+.panel-toolbar i {
+	cursor: pointer;
+}
+
+.panel-content ul {
+	border: 1px solid #ddd;
+	list-style: none;
+	padding: 0;
+}
+
+.panel-content li {
+	border-bottom: 1px solid #ddd;
+	padding: 10px;
+}
+
+.panel-content li:last-child {
+	border-bottom: none;
+}
