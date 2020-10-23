@@ -69,7 +69,10 @@
 
 <script>
 export default {
+<<<<<<< HEAD
 
+=======
+>>>>>>> development
     name: 'Advanced',
     data () {
         return {
@@ -100,7 +103,10 @@ export default {
 				this.getSites()
 				//this.$store.dispatch('initialize')
 			})
+<<<<<<< HEAD
 
+=======
+>>>>>>> development
 		},
 		setSelected (site) {
 			console.log(event.target.value)
@@ -112,15 +118,22 @@ export default {
 			}
 		},
 		getVerification () {
+<<<<<<< HEAD
 
 			if(this.webmasters.siteVerification && this.webmasters.site.length){
 
+=======
+			if(this.webmasters.siteVerification && this.webmasters.site.length){
+>>>>>>> development
 				this.showSpinner = true
 				let mm = this
 				gapi.client.load('siteVerification', 'v1').then(function(r){
                         
                 gapi.auth.setToken({access_token:mm.token})
+<<<<<<< HEAD
 
+=======
+>>>>>>> development
                 //gapi.auth.setToken({access_token:this.$store.getters.config.token})
                 gapi.client.siteVerification.webResource.getToken({
 					"verificationMethod": "META",
@@ -132,9 +145,13 @@ export default {
                     mm.webmasters.meta = r.result.token;
 					mm.showSpinner = false
                 })
+<<<<<<< HEAD
 
               })
 
+=======
+              })
+>>>>>>> development
 			}
 		},
 		revoke () {

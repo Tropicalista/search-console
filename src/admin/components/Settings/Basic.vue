@@ -53,7 +53,10 @@
 
 <script>
 export default {
+<<<<<<< HEAD
 
+=======
+>>>>>>> development
     name: 'Basic',
     data () {
         return {
@@ -97,7 +100,10 @@ export default {
 				// handle success
 				this.$store.commit('setToken', response.data.access_token)
 			})
+<<<<<<< HEAD
 
+=======
+>>>>>>> development
 	    },
 		setSelected (site) {
 			console.log(event.target.value)
@@ -131,7 +137,10 @@ export default {
 				// reset code just in case
 				this.code = ''
 			})
+<<<<<<< HEAD
 
+=======
+>>>>>>> development
 	    }
     }
 };
