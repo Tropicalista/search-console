@@ -34,11 +34,11 @@ class Admin {
         $capability = 'manage_options';
         $slug       = 'search-console';
 
-        $hook = add_menu_page( __( 'Search Console', 'search-console' ), __( 'Search Console', 'search-console' ), $capability, $slug, [ $this, 'plugin_page' ], 'dashicons-chart-bar' );
+        $hook = add_menu_page( __( 'Search Console', 'searchconsole' ), __( 'Search Console', 'searchconsole' ), $capability, $slug, [ $this, 'plugin_page' ], 'dashicons-chart-bar' );
 
-        $submenu[ $slug ][] = array( __( 'Search Console', 'search-console' ), $capability, 'admin.php?page=' . $slug . '#/' );
+        $submenu[ $slug ][] = array( __( 'Search Console', 'searchconsole' ), $capability, 'admin.php?page=' . $slug . '#/' );
         if ( current_user_can( $capability ) ) {
-            $submenu[ $slug ][] = array( __( 'Settings', 'search-console' ), $capability, 'admin.php?page=' . $slug . '#/settings' );
+            $submenu[ $slug ][] = array( __( 'Settings', 'searchconsole' ), $capability, 'admin.php?page=' . $slug . '#/settings' );
         }
 
         add_action( 'load-' . $hook, [ $this, 'init_hooks'] );
@@ -60,36 +60,21 @@ class Admin {
      *
      * @return void
      */
-    public function enqueue_scripts() {
-
-        global $wp_scripts;
-        foreach( $wp_scripts->queue as $handle ) {
-          if($handle != 'common'){
-            wp_dequeue_script($handle);
-          }
-        }
-        
+    public function enqueue_scripts() {        
         wp_enqueue_style( 'searchconsole-admin' );
         wp_enqueue_style( 'searchconsole-style' );
-        wp_enqueue_style( 'searchconsole-admin-font' );
-        wp_enqueue_script( 'searchconsole-admin' );
-    }
 
-    function add_table_scripts( $hook ) {
-        $screen = get_current_screen()->id;
-    ?>
-      <script type="text/javascript">
-              var _nonce = "<?php echo wp_create_nonce( 'wp_rest' ); ?>";
-              window.searchconsole = {
-                homeUrl: '<?php echo get_home_url(); ?>'
-              }
-      </script>
-    <?php
-        if ( $screen == 'edit-post' || $screen == 'edit-page' ) {
-            wp_enqueue_script( 'gsc_script-gapi', 'https://apis.google.com/js/api.js' );
-            wp_enqueue_script(  'dayjs', 'https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.7.5/dayjs.min.js', array(), null, true );
-            wp_enqueue_script(  'table-js', SEARCHCONSOLE_ASSETS . '/js/gsc_table.js', array(), null, true );
+        if( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ){
+          wp_enqueue_script( 'searchconsole-runtime' );
         }
+
+        wp_enqueue_style( 'searchconsole-admin-font' );
+
+        wp_enqueue_script( 'searchconsole-gapi', 'https://apis.google.com/js/api.js' );
+        wp_enqueue_script( 'searchconsole-gchart', 'https://www.gstatic.com/charts/loader.js' );
+
+        wp_enqueue_script( 'searchconsole-admin' );
+        wp_localize_script('searchconsole-admin', 'sc_baseurl', array( 'siteurl' => get_option('siteurl') ));
     }
 
     /**
@@ -98,13 +83,21 @@ class Admin {
      * @return void
      */
     public function plugin_page() {
-
-    ?>
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-        <script src="https://apis.google.com/js/api.js"></script>
-
-    <?php
         echo '<div class="dashy-wrapper"><div id="vue-admin-app"></div></div>';
+    }
+
+    function add_table_scripts( $hook ) {
+        $screen = get_current_screen()->id;
+    ?>
+      <script type="text/javascript">
+              var _nonce = "<?php echo wp_create_nonce( 'wp_rest' ); ?>";
+      </script>
+    <?php
+        if ( $screen == 'edit-post' || $screen == 'edit-page' ) {
+            wp_enqueue_script( 'searchconsole-gapi', 'https://apis.google.com/js/api.js' );
+            wp_enqueue_script(  'dayjs', 'https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.7.5/dayjs.min.js', array(), null, true );
+            wp_enqueue_script(  'table-js', SEARCHCONSOLE_ASSETS . '/js/gsc_table.js', array(), null, true );
+        }
     }
 
     /**
@@ -130,7 +123,7 @@ class Admin {
         wp_add_dashboard_widget( 'custom_dashboard_gsc', 'Search Console', array( $this, 'custom_dashboard_gsc' ) );
 
         wp_enqueue_script( 'google-charts', 'https://www.gstatic.com/charts/loader.js' );
-        wp_enqueue_script( 'gsc_script-gapi', 'https://apis.google.com/js/api.js' );
+        wp_enqueue_script( 'searchconsole-gapi', 'https://apis.google.com/js/api.js' );
         wp_enqueue_script(  'dayjs', 'https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.7.5/dayjs.min.js', array(), null, true );
         wp_enqueue_script(  'search-console-widget', SEARCHCONSOLE_ASSETS . '/js/gsc_widget.js', array(), null, true );
     }

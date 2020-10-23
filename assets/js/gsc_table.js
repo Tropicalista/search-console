@@ -1,1 +1,87 @@
-var endDate=dayjs().format("YYYY-MM-DD"),startDate=dayjs().startOf("month").add(-60,"day").format("YYYY-MM-DD"),allUrls=[];function getReport(e){gapi.client.webmasters.searchanalytics.query(e).then(function(e){e.result.rows.forEach(function(e){-1<allUrls.indexOf(e.keys[0])&&jQuery('span[data-url="'+e.keys[0]+'"]').html("<b>Clicks:</b> "+e.clicks+" | <b>Position:</b> "+Math.round(100*e.position)/100+"<br><b>CTR:</b> "+Math.round(1e4*e.ctr)/100+"% | <b>Impressions:</b> "+e.impressions)})}).then(null,function(e){console.log(e)})}jQuery(".gsc-url").each(function(e){allUrls.push(jQuery(this).data("url"))}),function(n){"use strict";gapi.load("client",function(){n.ajax({method:"GET",url:"/wp-json/searchconsole/api/config",beforeSend:function(e){e.setRequestHeader("X-WP-Nonce",_nonce)},success:function(e){var s,t;t={siteUrl:(s=e).site,rowLimit:null,searchType:"web",startDate:startDate,endDate:endDate,dimensions:["page"]},n("#showSpinner").toggleClass("hidden"),gapi.client.load("webmasters","v3").then(function(){gapi.auth.setToken({access_token:s.token}),jQuery(".column-asc_gsc").hasClass("hidden")||getReport(t),n("#showSpinner").toggleClass("hidden")})},fail:function(e){console.log(e.data.message)}})})}(jQuery);
+//Get today's date from the computer
+var endDate = dayjs().format('YYYY-MM-DD');
+var startDate = dayjs().startOf('month').add(-60, 'day').format('YYYY-MM-DD')
+
+var allUrls = [];
+
+jQuery('.gsc-url').each(function( index ) {
+  allUrls.push(jQuery( this ).data('url'))
+});
+
+function getReport(chartQuery){
+  gapi.client.webmasters.searchanalytics.query(chartQuery)
+          .then(function(response) {
+
+            response.result.rows.forEach(function (x) {
+
+                if( allUrls.indexOf(x.keys[0]) > -1){
+                  jQuery('span[data-url="' + x.keys[0] + '"]').html(
+                    '<b>Clicks:</b> '+ x.clicks +
+                    ' | <b>Position:</b> '+ Math.round(x.position * 100) / 100 +
+                    '<br>' +
+                    '<b>CTR:</b> '+ (Math.round(x.ctr * 10000) / 100) + '%' +
+                    ' | <b>Impressions:</b> '+ x.impressions
+                  )
+                }
+              
+            });
+
+          })
+          .then(null, function(err) {
+              console.log(err);
+          });      
+}
+
+
+;(function( $ ) {
+    'use strict';
+
+    gapi.load('client', start);
+
+    function start(){
+
+      // Fire the AJAX request!
+      $.ajax({
+          method: 'GET',
+          url: '/wp-json/searchconsole/api/config',
+          beforeSend: function ( xhr ) {
+              xhr.setRequestHeader( 'X-WP-Nonce', _nonce );
+          },
+          success : function( response ) {
+            initialize(response)
+          },
+          fail : function( response ) {
+            console.log(response.data.message);
+          }
+      });    
+      
+    }
+
+
+    function initialize(config){
+
+        var chartQuery = {
+                      'siteUrl': config.site,
+                      'rowLimit': null,
+                      'searchType': 'web',
+                      'startDate': startDate,
+                      'endDate': endDate,
+                      'dimensions': ['page']
+                  }
+
+        $('#showSpinner').toggleClass('hidden');
+
+        gapi.client.load('webmasters', 'v3')
+            .then(function(){
+
+                gapi.auth.setToken({access_token:config.token})
+                if( !jQuery('.column-asc_gsc').hasClass('hidden') ){
+                  getReport(chartQuery);
+                }
+                $('#showSpinner').toggleClass('hidden');
+            
+        })  
+
+    }
+
+})( jQuery );

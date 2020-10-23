@@ -66,17 +66,23 @@ class Assets {
      * @return array
      */
     public function get_scripts() {
+        $prefix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.min' : '';
 
         $scripts = [
+            'searchconsole-runtime' => [
+                'src'       => SEARCHCONSOLE_ASSETS . '/js/runtime.js',
+                'version'   => filemtime( SEARCHCONSOLE_PATH . '/assets/js/runtime.js' ),
+                'in_footer' => true
+            ],
             'searchconsole-vendor' => [
-                'src'       => SEARCHCONSOLE_ASSETS . '/js/chunk-vendors.js',
-                'version'   => filemtime( SEARCHCONSOLE_PATH . '/assets/js/chunk-vendors.js' ),
+                'src'       => SEARCHCONSOLE_ASSETS . '/js/vendors.js',
+                'version'   => filemtime( SEARCHCONSOLE_PATH . '/assets/js/vendors.js' ),
                 'in_footer' => true
             ],
             'searchconsole-admin' => [
-                'src'       => SEARCHCONSOLE_ASSETS . '/js/app.js',
+                'src'       => SEARCHCONSOLE_ASSETS . '/js/admin.js',
                 'deps'      => [ 'jquery', 'searchconsole-vendor' ],
-                'version'   => filemtime( SEARCHCONSOLE_PATH . '/assets/js/app.js' ),
+                'version'   => filemtime( SEARCHCONSOLE_PATH . '/assets/js/admin.js' ),
                 'in_footer' => true
             ],
             'searchconsole-widget' => [
