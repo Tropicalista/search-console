@@ -62,7 +62,8 @@ class Admin {
      */
     public function enqueue_scripts() {        
         wp_enqueue_style( 'searchconsole-admin' );
-        wp_enqueue_style( 'searchconsole-style' );
+        //wp_enqueue_style( 'searchconsole-admin' );
+        //wp_enqueue_style( 'searchconsole-style' );
 
         if( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ){
           wp_enqueue_script( 'searchconsole-runtime' );

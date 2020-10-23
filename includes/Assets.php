@@ -104,10 +104,13 @@ class Assets {
     public function get_styles() {
 
         $styles = [
+            'searchconsole-admin' => [
+                'src' =>  SEARCHCONSOLE_ASSETS . '/css/admin.css'
+            ],
             'searchconsole-style' => [
                 'src' =>  SEARCHCONSOLE_ASSETS . '/css/app.css'
             ],
-            'searchconsole-admin' => [
+            'searchconsole-vendors' => [
                 'src' =>  SEARCHCONSOLE_ASSETS . '/css/chunk-vendors.css'
             ],
             'searchconsole-admin-font' => [

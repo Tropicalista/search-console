@@ -53,6 +53,10 @@ class Rest_Token extends Base_Rest {
 
 		$req = $request->get_param('code');
 
+		if( empty( $req ) ){
+			return null;
+		}
+
 		$provider = new \League\OAuth2\Client\Provider\Google($this->credentials->get());
 
 		$token = $provider->getAccessToken('authorization_code', [

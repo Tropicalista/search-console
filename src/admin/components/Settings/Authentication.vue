@@ -1,78 +1,76 @@
 <template>
 	<div>
-		<div class="pure-g form-div" v-if="!token">
-		    <div class="pure-u-1-1 l-box">
+		    <div class="row">
+			    <div class="description">
+					<b>Authorize</b>
+			    </div>
+			    <div class="fields">
+					<button class="button button-primary" @click="authenticate()">Get Google Authorization Code</button>
+			    </div>
 			</div>
-		    <div class="pure-u-1-5 l-box">
-				<b>Request access token</b>
-		    </div>
-		    <div class="pure-u-4-5 l-box">
-				<button class="pure-button pure-button-primary" @click="authenticate()">Get Google Authorization Code</button>
+
+		    <div class="row">
+			    <div class="description">
+					<b>Request access token</b>
+			    </div>
+			    <div class="fields">
+					<input class="regular-text" v-model="code" type="text">
+					<button class="button button-primary" :disabled="!code" @click.prevent="getToken">Authenticate</button>
+					<br>
+					<span class="descriptionss">Paste here the response code and then click Authenticate button to receive your token.</span>
+			    </div>
 		    </div>
 
-		    <div class="pure-u-1-5 l-box">
-		    </div>
-		    <div class="pure-u-4-5 l-box">
-		        <div class="pure-form">
-					<div class="inputaddon pure-u-1-4">
-						<input class="inputaddon-field pure-input-1-4" v-model="code" type="text">
-						<button class="inputaddon-item pure-button pure-button-primary" @click.prevent="getToken">Authenticate</button>
-					</div>
-				</div>
-				<p class="description">Paste here the response code and then click Authenticate button to receive your token.</p>
-		    </div>
 
-	    </div>
-
-		<div class="pure-g form-div" v-if="token">
-		    <div class="pure-u-1-5 l-box">
+		<div class="row" v-if="token">
+		    <div class="description">
 				<b>Revoke token</b>
 		    </div>
-		    <div class="pure-u-4-5 l-box">
+		    <div class="fields">
 					<button class="pure-button button-secondary" @click="revoke()">Revoke access</button>
 		    </div>
 
-		    <div class="pure-u-1-5 l-box">
+		    <div class="description">
 				<b>Search Console site</b>
 		    </div>
-		    <div class="pure-u-4-5 l-box">
+		    <div class="fields">
 				<span v-if="showWebmasters">{{config.site}}</span>
 				<span v-if="!showWebmasters">Please go to Search Console settings to set up your site</span>
 		    </div>
 
 	    </div>
 
-		<div class="pure-g form-div">
+		<div class="row">
 
-		    <div class="pure-u-1-5 l-box">
+		    <div class="description">
 				<b>Custom credentials</b>
 		    </div>
-		    <div class="pure-u-4-5 l-box">
+		    <div class="fields">
 				<input type="checkbox" v-model="settings.custom_credentials" @change="validate()">
-				<input type="checkbox" v-model="settings.reset_token" hidden>
+				<input type="checkbox" v-model="settings.reset_token" class="hidden">
 		    </div>
 
 			<div v-if="show">
-			    <div class="pure-u-1-5 l-box">
+			    <div class="description">
 					<b>Client ID</b>
 			    </div>
-			    <div class="pure-u-4-5 l-box pure-form">
+			    <div class="fields pure-form">
 					<input type="text" class="pure-input-1-4" v-model="settings.credentials.clientId">
 					<span>Please go to Analytics settings to set up your view</span>
 			    </div>
 
-			    <div class="pure-u-1-5 l-box">
+			    <div class="description">
 					<b>Client secret</b>
 			    </div>
-			    <div class="pure-u-4-5 l-box pure-form">
+			    <div class="fields pure-form">
 					<input type="text" class="pure-input-1-4" v-model="settings.credentials.clientSecret">
 					<span>Please go to Search Console settings to set up your site</span>
 			    </div>
 
-			    <div class="pure-u-1-5 l-box">
+			    <div class="description">
 					<b>Redirect url</b>
 			    </div>
-			    <div class="pure-u-4-5 l-box pure-form">
+			    <div class="fields pure-form">
 					<input type="text" class="pure-input-1-4" v-model="settings.credentials.redirectUri">
 					<span>Please go to Search Console settings to set up your site</span>
 			    </div>
@@ -135,7 +133,7 @@ export default {
 	    		){
 	    		this.showAnalytics = true
 	    	}
-	    	if(this.settings.webmasters.site.length){
+	    	if(this.settings.webmasters.site){
 	    		this.showWebmasters = true
 	    	}
 	    },
