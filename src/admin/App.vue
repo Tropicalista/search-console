@@ -1,7 +1,7 @@
 <template>
     <div class="dashy-dashboard">
-		<notifications group="errors" />
-		<notifications group="settings" />
+		<notifications group="errors" position="center" />
+		<notifications group="settings" position="center" />
         <router-view />
     </div>
 </template>
@@ -53,6 +53,9 @@ a {
 	background-color: #008CBA;
 }
 
+.star {
+	color: orange;
+}
 .red {
 	color: red;
 }

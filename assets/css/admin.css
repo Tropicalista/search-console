@@ -30,6 +30,9 @@ a {
 .btn-default {
 	background-color: #008CBA;
 }
+.star {
+	color: orange;
+}
 .red {
 	color: red;
 }
