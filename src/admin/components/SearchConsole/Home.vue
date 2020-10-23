@@ -1,31 +1,17 @@
 <template>
     <div class="pure-g">
-		<div class="pure-u-1">
+		<div>
 			<Chart ref="chart" :dates="dates" :filters="filters" />
 		</div>
 
-		<div class="pure-u-1-1 promo">
-			<b>Search Console</b> is now fully integrated in <b>Dashy - Advanced Google Analytics dashboard</b>. 
-			<a class="pure-button button-success" href="https://www.tropicalseo.it/?utm_source=search-console-plugin&utm_medium=banner&utm_campaign=promo">Try now! <i class="dashicons dashicons-external"></i></a>	
-		</div>
-
-		<div class="pure-u-1 pure-u-md-4-5 row l-box">
+		<div class="filter-bar">
 			<custom-filters :searchType="searchType" :dates="dates" :filters="filters" />
-		</div>
-		<div class="pure-u-1 pure-u-md-1-5 row">
 			<date-range :presets="ranges" />
 		</div>
 
-		<div class="pure-u-1 pure-u-md-4-5 row">
-			<filter-tabs :dimension="dimension" />
-		</div>
-		<div class="pure-u-1 pure-u-md-1-5 row">
-			<search-bar />
-		</div>
+		<filter-tabs :dimension="dimension" />
 
-		<div class="pure-u-1-1">
-			<Table :dimension="dimension" :filters="filters" :searchFor="searchFor" :searchType="searchType" :dates="dates" ref="table" />
-		</div>
+		<Table :dimension="dimension" :filters="filters" :searchFor="searchFor" :searchType="searchType" :dates="dates" ref="table" />
 
     </div>
 </template>

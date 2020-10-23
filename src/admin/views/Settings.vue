@@ -91,9 +91,11 @@ export default {
 .description {
 	width: 210px;
 	float: left;
+	padding: 20px 10px 20px 0;
 }
 .fields {
 	display: inline-block;
+	padding: 20px 10px 20px 0;
 }
 .hidden {
 	display: none !important;

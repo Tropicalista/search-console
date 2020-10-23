@@ -1,20 +1,27 @@
 <template>
   <form class="pure-form pure-form-stacked">
     <fieldset>
-        <label for="web">
-        <input type="radio" value="web" v-model="search">
-          Web
-        </label>
 
-        <label for="image">
-        <input type="radio" value="image" v-model="search">
-          Image
-        </label>
+        <div class="row">
+          <label for="web">
+          <input type="radio" value="web" v-model="search">
+            Web
+          </label>          
+        </div>
 
-        <label for="video">
-        <input type="radio" value="video" v-model="search">
-          Video
-        </label>
+        <div class="row">
+          <label for="image">
+          <input type="radio" value="image" v-model="search">
+            Image
+          </label>          
+        </div>
+        
+        <div class="row">
+          <label for="video">
+          <input type="radio" value="video" v-model="search">
+            Video
+          </label>          
+        </div>
 
     </fieldset>
 

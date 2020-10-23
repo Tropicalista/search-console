@@ -1,20 +1,24 @@
 <template>
-  <div class="">
+  <ul class="custom-filters">
 
-    <a class="pure-button pure-button-primary filter-button" @click="showModalForm('searchTypeModal')">Search type:{{searchType}}<i class="search icon"></i></a>
+    <li>
+      <a class="filter-button" @click="showModalForm('searchTypeModal')">Search type:{{searchType}}<i class="search icon"></i></a>
+    </li>
 
-    <a class="pure-button pure-button-primary filter-button" v-for="filter in filters">
+    <li><a class="filter-button" v-for="filter in filters">
       <span @click="showModalForm(filter, true)">{{filter.dimension}}:{{filter.expression}}</span><i class="icon-cancel" @click="resetFilter(filter)"></i>
     </a>
-
-    <div class="dropdown" :class="{ active: isActive }">
+    </li>
+    
+    <li class="dropdown" :class="{ active: isActive }">
         <a class="pure-button pure-button-primary" @click="openDropDown" v-on-clickaway="away">New <i class="icon-plus"></i></a>
-        <div class="dropdown-content">
-            <div class="item" v-for="option in options" @click="showModalForm(option.value)">
+        <ul class="dropdown-content">
+            <li class="item" v-for="option in options" @click="showModalForm(option.value)">
                 <a>{{option.text}}</a>
-            </div>
-        </div>
+            </li>
+        </ul>
     </div>
+    </li>
 
     <transition name="modal">
     <mymodal v-if="showModal" @close="showModal = false" @clickAwayModal="showModal = false">
@@ -29,17 +33,17 @@
         </template>
 
         <template slot="footer">
-          <div class="pure-button button-error modal-default-button filter-button" @click="showModal = false">
+          <a class="btn btn-danger" @click="showModal = false">
             Cancel
-          </div>
-          <div class="pure-button pure-button-primary modal-default-button" @click="sendValue()">
+          </a>
+          <a class="btn btn-primary" @click="sendValue()">
             Ok
-          </div>
+          </a>
         </template>
     </mymodal>
     </transition>
 
-  </div>
+  </ul>
 </template>
 
 <script>
@@ -94,7 +98,9 @@ export default {
         //this.searchType = this.$refs.myform.search
         this.$events.fire('change-searchType', this.$refs.myform.search)
       }else{
-        this.$events.fire('add-filter', this.$refs.myform.filter)
+        if(this.$refs.myform.filter.expression){
+          this.$events.fire('add-filter', this.$refs.myform.filter)
+        }
       }
       this.showModal = false
     },
@@ -122,3 +128,43 @@ export default {
   }
 }
 </script>
+<style>
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+  z-index: 1;
+}
+
+.dropdown.active .dropdown-content {
+  display: block;
+}
+
+.dropdown.active .item a {
+  display: block;
+  margin-bottom: 0;
+}
+
+.dropdown.active .item a:hover {
+  background-color: #ddd;
+}
+
+.filter-button {
+  background-color: #1e90ff;
+  color: #fff;
+  margin-right: 10px;
+}
+
+.filter-button:hover {
+  color: #fff;
+}
+
+</style>

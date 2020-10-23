@@ -62,6 +62,7 @@ class Admin {
      */
     public function enqueue_scripts() {        
         wp_enqueue_style( 'searchconsole-admin' );
+        wp_enqueue_style( 'https://unpkg.com/vue-select@latest/dist/vue-select.css' );
         //wp_enqueue_style( 'searchconsole-admin' );
         //wp_enqueue_style( 'searchconsole-style' );
 

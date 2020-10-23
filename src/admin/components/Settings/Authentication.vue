@@ -1,6 +1,6 @@
 <template>
 	<div>
-		    <div class="row">
+		    <div class="row" v-if="!token">
 			    <div class="description">
 					<b>Authorize</b>
 			    </div>
@@ -9,7 +9,7 @@
 			    </div>
 			</div>
 
-		    <div class="row">
+		    <div class="row" v-if="!token">
 			    <div class="description">
 					<b>Request access token</b>
 			    </div>
@@ -22,61 +22,32 @@
 		    </div>
 
 
-		<div class="row" v-if="token">
-		    <div class="description">
-				<b>Revoke token</b>
-		    </div>
-		    <div class="fields">
-					<button class="pure-button button-secondary" @click="revoke()">Revoke access</button>
-		    </div>
-
-		    <div class="description">
-				<b>Search Console site</b>
-		    </div>
-		    <div class="fields">
-				<span v-if="showWebmasters">{{config.site}}</span>
-				<span v-if="!showWebmasters">Please go to Search Console settings to set up your site</span>
-		    </div>
-
-	    </div>
-
-		<div class="row">
-
-		    <div class="description">
-				<b>Custom credentials</b>
-		    </div>
-		    <div class="fields">
-				<input type="checkbox" v-model="settings.custom_credentials" @change="validate()">
-				<input type="checkbox" v-model="settings.reset_token" class="hidden">
-		    </div>
-
-			<div v-if="show">
+		<div v-if="token">
+			<div class="row">
 			    <div class="description">
-					<b>Client ID</b>
+					<b>Revoke token</b>
 			    </div>
-			    <div class="fields pure-form">
-					<input type="text" class="pure-input-1-4" v-model="settings.credentials.clientId">
-					<span>Please go to Analytics settings to set up your view</span>
+			    <div class="fields">
+						<button class="pure-button button-secondary" @click="revoke()">Revoke access</button>
 			    </div>
-
-			    <div class="description">
-					<b>Client secret</b>
-			    </div>
-			    <div class="fields pure-form">
-					<input type="text" class="pure-input-1-4" v-model="settings.credentials.clientSecret">
-					<span>Please go to Search Console settings to set up your site</span>
-			    </div>
-
-			    <div class="description">
-					<b>Redirect url</b>
-			    </div>
-			    <div class="fields pure-form">
-					<input type="text" class="pure-input-1-4" v-model="settings.credentials.redirectUri">
-					<span>Please go to Search Console settings to set up your site</span>
-			    </div>
+			</div>
+			<div class="row">
+				<div class="description">
+					<b>Choose site</b>
+				</div>
+				<div class="fields">
+					<div class="select-site">
+						<select label="siteUrl" v-model="webmasters.site" @change="setSelected">
+						    <option>Select here</option>
+						    <option v-for="site in sites">{{ site }}</option>
+						</select>
+					</div>
+					<span v-if="showWebmasters">{{config.site}}</span>
+				</div>
 			</div>
 
 	    </div>
+
     </div>
 </template>
 
@@ -86,16 +57,22 @@ export default {
     name: 'Authentication',
     data () {
         return {
+			selected: '',
+			sites: [],
 			code: '',
-			show: this.$store.getters.settings.custom_credentials,
             config: this.$store.getters.config,
             settings: this.$store.getters.settings,
-            showAnalytics: false,
+            webmasters: this.$store.getters.webmasters,
             showWebmasters: false
         }
     },
     mounted () {
-    	this.showDetails()
+        gapi.client.load('webmasters', 'v3')
+            .then(() => {
+                gapi.auth.setToken({access_token:this.token})
+                	if(this.token)
+                		this.getSites()
+            })
     },
 	computed: {
 	  token () {
@@ -103,10 +80,6 @@ export default {
 	  }
 	},
     methods: {
-    	validate () {
-    		this.show = ! this.show
-    		this.settings.reset_token = ! this.settings.reset_token
-    	},
     	authenticate () {
     		if(this.settings.custom_credentials){
 				//window.open(this.settings.credentials.redirectUri, '', 'width=400,height=600'); something mess the code
@@ -126,17 +99,30 @@ export default {
 			})
 
 	    },
-	    showDetails () {
-	    	if(this.settings.analytics.account.length && 
-	    		this.settings.analytics.webprop.length &&
-	    		this.settings.analytics.profile.length
-	    		){
-	    		this.showAnalytics = true
-	    	}
-	    	if(this.settings.webmasters.site){
-	    		this.showWebmasters = true
-	    	}
-	    },
+		setSelected (site) {
+			console.log(event.target.value)
+			if(event.target.value){
+				this.$store.commit('setSite', event.target.value)
+				this.getVerification()		
+			}else{
+				this.site = ''
+			}
+		},
+    	getSites() {
+    		let mv = this
+    		if(this.token){
+				gapi.auth.setToken({access_token:this.token})
+		        gapi.client.webmasters.sites.list()
+		            .then((s) => {
+						_.forEach(s.result.siteEntry, function(site){
+							mv.sites.push(site.siteUrl)
+						})
+		                if(!mv.site){
+		                	mv.site = s.result.siteEntry[0]
+		                }
+					})
+		    }
+    	},
 	    revoke () {
 	    	this.axios
 	        .delete('/token')

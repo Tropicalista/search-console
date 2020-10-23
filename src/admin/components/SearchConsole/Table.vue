@@ -201,3 +201,71 @@ export default {
     }
 }
 </script>
+<style>
+.table-container {
+    background-color: #fff;
+    padding: 20px;
+    overflow-x: auto;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+tr {
+  cursor: pointer;  
+  border-bottom: 1px solid #ddd;
+    font-size: 1rem;
+}
+tr:hover{background-color:#f5f5f5}
+
+.pagination {
+    display: inline-block;
+    padding: 0;
+    margin: 10px;
+}
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border-left: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;    
+}
+
+.pagination a:first-child {
+}
+
+.pagination a:last-child {
+    border-right: 1px solid #ddd;
+}
+
+.pagination a.active {
+    background-color: #0078e7;
+    color: white;
+    border: 1px solid #0078e7;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
+
+.pull-right {
+    float: right;
+}
+.pull-left {
+    float: left;
+}
+.paging select {
+    margin-top: 11px;
+    height: 34px;
+    border-radius: 0px;
+    border-color: #ddd;
+}
+
+</style>
