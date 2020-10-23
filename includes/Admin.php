@@ -63,10 +63,7 @@ class Admin {
     public function enqueue_scripts() {        
         wp_enqueue_style( 'searchconsole-admin' );
 
-        if( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ){
-          wp_enqueue_script( 'searchconsole-runtime' );
-        }
-
+        wp_enqueue_script( 'searchconsole-runtime' );
         wp_enqueue_style( 'searchconsole-admin-font' );
 
         wp_enqueue_script( 'searchconsole-gapi', 'https://apis.google.com/js/api.js' );
