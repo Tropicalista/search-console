@@ -84,12 +84,6 @@ class Assets {
                 'deps'      => [ 'jquery', 'searchconsole-vendor' ],
                 'version'   => filemtime( SEARCHCONSOLE_PATH . '/assets/js/admin.js' ),
                 'in_footer' => true
-            ],
-            'searchconsole-widget' => [
-                'src'       => SEARCHCONSOLE_ASSETS . '/js/gsc_widget.js',
-                'deps'      => [ 'jquery' ],
-                'version'   => filemtime( SEARCHCONSOLE_PATH . '/assets/js/gsc_widget.js' ),
-                'in_footer' => true
             ]
         ];
 

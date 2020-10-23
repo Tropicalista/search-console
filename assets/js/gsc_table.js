@@ -43,7 +43,7 @@ function getReport(chartQuery){
       // Fire the AJAX request!
       $.ajax({
           method: 'GET',
-          url: '/wp-json/searchconsole/api/config',
+          url: wpApiSettings.root + 'searchconsole/api/config',
           beforeSend: function ( xhr ) {
               xhr.setRequestHeader( 'X-WP-Nonce', _nonce );
           },
