@@ -93,7 +93,7 @@ class Admin {
             wp_enqueue_script( 'searchconsole-gapi', 'https://apis.google.com/js/api.js' );
             wp_enqueue_script( 'dayjs', 'https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.7.5/dayjs.min.js', array(), null, true );
             
-            wp_register_script( 'searchconsole-table', SEARCHCONSOLE_ASSETS . '/js/gsc_table.js', [ 'jquery', 'wp-api', 'dayjs' ] );
+            wp_register_script( 'searchconsole-table', SEARCHCONSOLE_ASSETS . '/js/gsc_table.js', [ 'jquery', 'wp-api', 'dayjs', 'searchconsole-gapi' ] );
             wp_enqueue_script( 'searchconsole-table' );
         }
     }
@@ -124,7 +124,7 @@ class Admin {
         wp_enqueue_script( 'searchconsole-gchart', 'https://www.gstatic.com/charts/loader.js' );
         wp_enqueue_script(  'dayjs', 'https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.7.5/dayjs.min.js', array(), null, true );
         
-        wp_register_script( 'searchconsole-widget', SEARCHCONSOLE_ASSETS . '/js/gsc_widget.js', [ 'jquery', 'wp-api' ] );
+        wp_register_script( 'searchconsole-widget', SEARCHCONSOLE_ASSETS . '/js/gsc_widget.js', [ 'jquery', 'wp-api', 'searchconsole-gapi', 'searchconsole-gchart' ] );
 
         wp_enqueue_script(  'searchconsole-widget' );
 
@@ -133,7 +133,6 @@ class Admin {
     function custom_dashboard_gsc()
     {
         ?>
-        <script src="https://apis.google.com/js/api.js"></script>
         <div id="search-console-widget">
           <div id="gsc-chart"></div>
           <div>

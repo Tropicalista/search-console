@@ -5,8 +5,8 @@
       <a class="filter-button" @click="showModalForm('searchTypeModal')">Search type:{{searchType}}<i class="search icon"></i></a>
     </li>
 
-    <li><a class="filter-button" v-for="filter in filters">
-      <span @click="showModalForm(filter, true)">{{filter.dimension}}:{{filter.expression}}</span><i class="icon-cancel" @click="resetFilter(filter)"></i>
+    <li v-for="filter in filters"><a class="filter-button">
+      <span @click="showModalForm(filter, true)">{{filter.dimension}}:{{filter.expression}}</span><i class="dashicons dashicons-no" @click="resetFilter(filter)"></i>
     </a>
     </li>
     

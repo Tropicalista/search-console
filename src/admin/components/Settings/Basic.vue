@@ -100,10 +100,8 @@ export default {
 
 	    },
 		setSelected (site) {
-			console.log(event.target.value)
 			if(event.target.value){
 				this.$store.commit('setSite', event.target.value)
-				this.getVerification()		
 			}else{
 				this.site = ''
 			}
