@@ -74,4 +74,7 @@ export default {
     padding: 0 1em;
     margin-left: .3em;
   }
+  .tabs > .active {
+    border-bottom: 1px;
+  }
 </style>
