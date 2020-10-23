@@ -1,14 +1,1 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["frontend"],{
-
-/***/ "./src/frontend/main.js":
-/*!******************************!*\
-  !*** ./src/frontend/main.js ***!
-  \******************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-eval("\n\n//# sourceURL=webpack:///./src/frontend/main.js?");
-
-/***/ })
-
-},[["./src/frontend/main.js","runtime"]]]);
+(window.webpackJsonp=window.webpackJsonp||[]).push([[2],{34:function(n,w){}},[[34,0]]]);
