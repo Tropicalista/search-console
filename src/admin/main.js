@@ -8,9 +8,7 @@ import dayjs from 'dayjs'
 import store from './store/newStore'
 import VueEvents from 'vue-events'
 import VueGoogleCharts from 'vue-google-charts'
-import vSelect from 'vue-select'
 import Notifications from 'vue-notification'
-import 'vue-select/dist/vue-select.css';
 
 window.dayjs = dayjs
 window.axios = axios 
@@ -37,8 +35,6 @@ Vue.prototype.dayjs = dayjs
 Vue.use(VueEvents)
 Vue.use(VueGoogleCharts)
 Vue.use(Notifications)
-
-Vue.component('v-select', vSelect)
 
 /* eslint-disable no-undef */
 gapi.load('client', () => {

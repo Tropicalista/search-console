@@ -106,9 +106,6 @@ class Assets {
             ],
             'searchconsole-vendors' => [
                 'src' =>  SEARCHCONSOLE_ASSETS . '/css/chunk-vendors.css'
-            ],
-            'searchconsole-admin-font' => [
-                'src' =>  SEARCHCONSOLE_ASSETS . '/css/fontello.css'
             ]
         ];
 

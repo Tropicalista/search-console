@@ -1,7 +1,7 @@
 <template>
     <div class="input-container">
       <input class="input-field" type="text" v-model="searchFor" @keyup.enter.prevent="doFilter" placeholder="keyword">
-      <span class="icon-field" @click.prevent="doFilter"><i class="icon-search"></i></span>
+      <span class="icon-field" @click.prevent="doFilter"><i class="dashicons dashicons-search"></i></span>
     </div>
 </template>
 

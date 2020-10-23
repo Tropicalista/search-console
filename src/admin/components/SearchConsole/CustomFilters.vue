@@ -11,7 +11,7 @@
     </li>
     
     <li class="dropdown" :class="{ active: isActive }">
-        <a class="pure-button pure-button-primary" @click="openDropDown" v-on-clickaway="away">New <i class="icon-plus"></i></a>
+        <a class="pure-button pure-button-primary" @click="openDropDown" v-on-clickaway="away">New <i class="dashicons dashicons-plus"></i></a>
         <ul class="dropdown-content">
             <li class="item" v-for="option in options" @click="showModalForm(option.value)">
                 <a>{{option.text}}</a>

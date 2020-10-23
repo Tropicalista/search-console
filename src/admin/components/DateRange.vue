@@ -4,7 +4,7 @@
         <div class="input-container" @click="openDropDown()">
             <input type="text" disabled class="input-field" v-model="outputRange">
             <span class="icon-field">
-                <i class="icon-calendar"></i>
+                <i class="dashicons dashicons-calendar-alt"></i>
             </span>
         </div>
         <div class="datedropdown-content">
@@ -21,9 +21,9 @@
                 <div class="calendar-container">
                     <div class="calendar">
                         <div class="toolbar">
-                            <div><a @click="prev"><i class="icon-left-chevron "></i></a></div>
+                            <div><a @click="prev"><i class="dashicons dashicons-arrow-left-alt2"></i></a></div>
                             <div>{{currentMonthDate.subtract(1,'months').format('MMM')}}</div>
-                            <div><a @click="next"><i class="icon-right-open "></i></a></div>
+                            <div><a @click="next"><i class="dashicons dashicons-arrow-right-alt2"></i></a></div>
                         </div>
                         <div class="calendar-grids">
                             <div v-for="n in monthNames"><b>{{n}}</b></div>
@@ -34,9 +34,9 @@
                     </div>
                     <div class="calendar">
                         <div class="toolbar">
-                            <div><a @click="prev"><i class="icon-left-chevron "></i></a></div>
+                            <div><a @click="prev"><i class="dashicons dashicons-arrow-left-alt2"></i></a></div>
                             <div>{{currentMonthDate.format('MMM')}}</div>
-                            <div><a @click="next"><i class="icon-right-open "></i></a></div>
+                            <div><a @click="next"><i class="dashicons dashicons-arrow-right-alt2"></i></a></div>
                         </div>
                         <div class="calendar-grids">
                             <div v-for="n in monthNames"><b>{{n}}</b></div>
