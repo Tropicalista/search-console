@@ -98,7 +98,7 @@ jQuery( document ).ready(function() {
     // Fire the AJAX request!
     jQuery.ajax({
         method: 'GET',
-        url: '/wp-json/searchconsole/api/config',
+        url: wpApiSettings.root + 'searchconsole/api/config',
         beforeSend: function ( xhr ) {
             xhr.setRequestHeader( 'X-WP-Nonce', _nonce );
         },
@@ -108,7 +108,7 @@ jQuery( document ).ready(function() {
                         'siteUrl': data.site,
                         'rowLimit': null,
                         'searchType': 'web',
-                        'startDate': dayjs().subtract(28, 'days').format('YYYY-MM-DD'),
+                        'startDate': dayjs().subtract(14, 'days').format('YYYY-MM-DD'),
                         'endDate': dayjs().format('YYYY-MM-DD'),
                         'dimensions': ['date']
                     }

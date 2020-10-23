@@ -5,8 +5,8 @@ export default {
     tableBodyClass: 'fixed',
     tableClass: 'table-responsive',
     loadingClass: 'loading',
-    ascendingIcon: 'icon-up-open',
-    descendingIcon: 'icon-down-open',
+    ascendingIcon: 'dashicons dashicons-arrow-up',
+    descendingIcon: 'dashicons dashicons-arrow-down',
     ascendingClass: 'sorted-asc',
     descendingClass: 'sorted-desc',
     sortableIcon: 'grey sort icon',
@@ -23,10 +23,10 @@ export default {
     paginationInfoClass: 'left floated left aligned six wide column',
     dropdownClass: 'ui search dropdown',
     icons: {
-      first: 'icon-angle-double-left',
-      prev: 'icon-left-chevron ',
-      next: 'icon-right-open ',
-      last: 'icon-angle-double-right',
+      first: 'dashicons dashicons-controls-back',
+      prev: 'dashicons dashicons-arrow-left-alt2',
+      next: 'dashicons dashicons-arrow-right-alt2',
+      last: 'dashicons dashicons-controls-forward',
     }
   },
 

@@ -407,4 +407,16 @@ tr:hover{background-color:#f5f5f5}
 	color: #666;
 	margin-top: 5px;
 }
+.dashicons.spin {
+   animation: dashicons-spin 1s infinite;
+   animation-timing-function: linear;
+}
+@keyframes dashicons-spin {
+0% {
+      transform: rotate( 0deg );
+}
+100% {
+      transform: rotate( 360deg );
+}
+}
 

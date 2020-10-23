@@ -16,7 +16,7 @@
 			</div>
 			<div class="pure-u-4-5 row">
 				<button @click="storeSettings()" class="button button-primary">
-					Save settings <i v-if="spin" class="icon-spin4 animate-spin"></i>
+					Save settings <i v-if="spin" class="dashicons dashicons-update spin"></i>
 				</button>
 			</div>
 		</div>
@@ -25,8 +25,8 @@
 </template>
 
 <script>
-import SearchConsole from 'admin/components/Settings/searchconsole/Home.vue'
-import Authentication from 'admin/components/Settings/Authentication.vue'
+import Advanced from 'admin/components/Settings/Advanced.vue'
+import Basic from 'admin/components/Settings/Basic.vue'
 
 export default {
 
@@ -37,8 +37,8 @@ export default {
 	},
     data () {
         return {
-			tabs: ["Authentication", "SearchConsole"],
-			selected: "Authentication",
+			tabs: ["Basic", "Advanced"],
+			selected: "Basic",
 			spin: false,
 			loaded: false
         };
@@ -79,8 +79,8 @@ export default {
 		}
     },
 	components: {
-		Authentication,
-		SearchConsole
+		Basic,
+		Advanced
 	}
 };
 </script>
@@ -103,5 +103,18 @@ export default {
 .fields > span {
 	color: #666;
 	margin-top: 5px;
+}
+.dashicons.spin {
+   animation: dashicons-spin 1s infinite;
+   animation-timing-function: linear;
+}
+
+@keyframes dashicons-spin {
+   0% {
+      transform: rotate( 0deg );
+   }
+   100% {
+      transform: rotate( 360deg );
+   }
 }
 </style>
