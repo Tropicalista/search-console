@@ -112,6 +112,7 @@ export default {
 		getVerification () {
 
 			if(this.webmasters.siteVerification && this.webmasters.site.length){
+
 				this.showSpinner = true
 				let mm = this
 				gapi.client.load('siteVerification', 'v1').then(function(r){

@@ -97,6 +97,7 @@ export default {
 				// handle success
 				this.$store.commit('setToken', response.data.access_token)
 			})
+
 	    },
 		setSelected (site) {
 			console.log(event.target.value)
@@ -130,6 +131,7 @@ export default {
 				// reset code just in case
 				this.code = ''
 			})
+
 	    }
     }
 };
