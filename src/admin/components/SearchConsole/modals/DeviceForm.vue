@@ -1,21 +1,25 @@
 <template>
-  <form class="pure-form pure-form-stacked">
+  <form>
     <fieldset>
-        <label for="desktop">
-        <input type="radio" value="desktop" v-model="device" @change="setFilter(device)">
-          Desktop
-        </label>
 
-        <label for="mobile">
-        <input type="radio" value="mobile" v-model="device" @change="setFilter(device)">
-          Mobile
-        </label>
-
-        <label for="tablet">
-        <input type="radio" value="tablet" v-model="device" @change="setFilter(device)">
-          Tablet
-        </label>
-
+        <div class="row">
+          <label for="desktop">
+          <input type="radio" value="desktop" v-model="device" @change="setFilter(device)">
+            Desktop
+          </label>          
+        </div>
+        <div class="row">
+          <label for="mobile">
+          <input type="radio" value="mobile" v-model="device" @change="setFilter(device)">
+            Mobile
+          </label>          
+        </div>
+        <div class="row">
+          <label for="tablet">
+          <input type="radio" value="tablet" v-model="device" @change="setFilter(device)">
+            Tablet
+          </label>          
+        </div>
 
     </fieldset>
   </form>

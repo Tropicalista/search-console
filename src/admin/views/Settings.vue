@@ -15,7 +15,7 @@
 			<div class="pure-u-1-5 row">
 			</div>
 			<div class="pure-u-4-5 row">
-				<button @click="storeSettings()" class="pure-button pure-button-primary">
+				<button @click="storeSettings()" class="button button-primary">
 					Save settings <i v-if="spin" class="icon-spin4 animate-spin"></i>
 				</button>
 			</div>
@@ -84,3 +84,24 @@ export default {
 	}
 };
 </script>
+<style type="text/css">
+.row {
+	margin-bottom: 10px;
+}
+.description {
+	width: 210px;
+	float: left;
+	padding: 20px 10px 20px 0;
+}
+.fields {
+	display: inline-block;
+	padding: 20px 10px 20px 0;
+}
+.hidden {
+	display: none !important;
+}
+.fields > span {
+	color: #666;
+	margin-top: 5px;
+}
+</style>

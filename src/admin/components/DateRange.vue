@@ -1,11 +1,11 @@
 <template>
-    <div class="pure-form datedropdown" :class="{ active: isActive }" v-on-clickaway="away">
+    <div class="bar-field datedropdown" :class="{ active: isActive }" v-on-clickaway="away">
 
-        <div class="inputaddon" @click="openDropDown()">
-            <input type="text" disabled class="inputaddon-field pure-input-1-4" v-model="outputRange">
-            <button class="inputaddon-item pure-button pure-button-primary">
+        <div class="input-container" @click="openDropDown()">
+            <input type="text" disabled class="input-field" v-model="outputRange">
+            <span class="icon-field">
                 <i class="icon-calendar"></i>
-            </button>
+            </span>
         </div>
         <div class="datedropdown-content">
             <div class="dropdown-panel">
@@ -14,11 +14,24 @@
                         <li v-for="p in presets"><a @click="setPresets(p)">{{p.label}}</a></li>
                     </ul>
                     <div class="calendar-buttons">
-                        <button class="pure-button pure-button-primary button-small filter-button" @click="send()">Apply</button>
-                        <button class="pure-button pure-button-danger button-small" @click="away">Cancel</button>
+                        <a class="btn btn-danger" @click="away">Cancel</a>
+                        <a class="btn btn-primary" @click="send()">Apply</a>
                     </div>
                 </div>
                 <div class="calendar-container">
+                    <div class="calendar">
+                        <div class="toolbar">
+                            <div><a @click="prev"><i class="icon-left-chevron "></i></a></div>
+                            <div>{{currentMonthDate.subtract(1,'months').format('MMM')}}</div>
+                            <div><a @click="next"><i class="icon-right-open "></i></a></div>
+                        </div>
+                        <div class="calendar-grids">
+                            <div v-for="n in monthNames"><b>{{n}}</b></div>
+                            <div v-for="(day, index) in prevMonth" :style="{ gridColumn: column2(index) }" :class="[ isSelected(day) ? 'highlight' : '', isSelectedRange(day) ? 'range' : '', isAfter(day) ? '' : 'disabled', isBefore(day) ? '' : 'disabled' ]">
+                                <a @click="checkDate(day)">{{ day.format('D') }}</a>
+                            </div>
+                        </div>
+                    </div>
                     <div class="calendar">
                         <div class="toolbar">
                             <div><a @click="prev"><i class="icon-left-chevron "></i></a></div>
@@ -28,19 +41,6 @@
                         <div class="calendar-grids">
                             <div v-for="n in monthNames"><b>{{n}}</b></div>
                             <div v-for="(day, index) in month" :style="{ gridColumn: column(index) }" :class="[ isSelected(day) ? 'highlight' : '', isSelectedRange(day) ? 'range' : '', isAfter(day) ? '' : 'disabled', isBefore(day) ? '' : 'disabled' ]">
-                                <a @click="checkDate(day)">{{ day.format('D') }}</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="calendar">
-                        <div class="toolbar">
-                            <div><a @click="prev"><i class="icon-left-chevron "></i></a></div>
-                            <div>{{currentMonthDate.add(1,'months').format('MMM')}}</div>
-                            <div><a @click="next"><i class="icon-right-open "></i></a></div>
-                        </div>
-                        <div class="calendar-grids">
-                            <div v-for="n in monthNames"><b>{{n}}</b></div>
-                            <div v-for="(day, index) in nextMonth" :style="{ gridColumn: column2(index) }" :class="[ isSelected(day) ? 'highlight' : '', isSelectedRange(day) ? 'range' : '', isAfter(day) ? '' : 'disabled', isBefore(day) ? '' : 'disabled' ]">
                                 <a @click="checkDate(day)">{{ day.format('D') }}</a>
                             </div>
                         </div>
@@ -59,8 +59,8 @@ import localeData from 'dayjs/plugin/localeData'
 import 'dayjs/locale/en'
 
 export default {
-    mixins: [ clickaway ],
-    props: ['presets'],
+  mixins: [ clickaway ],
+  props: ['presets'],
 	computed: {
 		outputRange () {
             if(this.selectedRange.length > 1){
@@ -72,7 +72,7 @@ export default {
 		return {
 			currentMonthDate: dayjs(),
 			month: [],
-			nextMonth: [],
+			prevMonth: [],
 			monthNames: [],
 			start: dayjs().add(-28, 'days'),
 			end: dayjs(),
@@ -91,7 +91,7 @@ export default {
         this.getMonths(dayjs().startOf('month'))
 
         this.selectedRange = [this.start,this.end]
-    },
+  },
 	methods: {
         openDropDown () {
             this.isActive = !this.isActive
@@ -102,7 +102,7 @@ export default {
                 end: this.end.format('YYYY-MM-DD')
             })
             this.openDropDown()
-		},
+		    },
         isSelected (date) {
           if(date.isBefore(this.end, 'day') && date.isAfter(this.start, 'day')){
             return true
@@ -137,7 +137,7 @@ export default {
         },
         column2(index) {
           if (index == 0) {
-            return this.nextMonth[0].day() + 1
+            return this.prevMonth[0].day() + 1
           }
         },
         next () {
@@ -155,8 +155,8 @@ export default {
             return monthDate.clone().add(i, 'day')
           })
 
-          this.nextMonth = [...Array(monthDate.add(1,'months').daysInMonth())].map((_, i) => {
-            return monthDate.add(1,'months').clone().add(i, 'day')
+          this.prevMonth = [...Array(monthDate.subtract(1,'months').daysInMonth())].map((_, i) => {
+            return monthDate.subtract(1,'months').clone().add(i, 'day')
           })
         },
         setRange (date) {
@@ -222,8 +222,7 @@ export default {
 <style>
 .datedropdown a {
 	cursor: pointer;
-	padding: 8px;
-    color: black;
+	padding: 4px;
 }
 .dropdown-panel {
 	display: flex;
@@ -235,15 +234,16 @@ export default {
 	flex-grow: 2;
 	border-right: 1px solid #ddd;
 	position: relative;
-    min-width: 140px;
+  min-width: 140px;
 }
 .presets-container ul {
     list-style: none;
-    padding: 10px;
+    padding: 0;
+    margin: 0;
 }
 .presets-container li {
-    padding: 4px 8px;
     cursor: pointer;
+    margin: 0;
 }
 .presets-container li:hover {
     background-color: #ddd;
@@ -321,6 +321,7 @@ export default {
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
   right: 0;
+  top: 40px;
   font-size: 14px;
 }
 

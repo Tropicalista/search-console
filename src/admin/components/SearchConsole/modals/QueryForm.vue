@@ -2,14 +2,18 @@
   <form class="pure-form pure-form-stacked">
       <fieldset>
 
-          <select v-model="filter.operator">
+        <div class="row">
+          <select v-model="filter.operator" class="regular-text">
             <option value="contains">Queries containing</option>
             <option value="notContains">Queries not containing</option>
             <option value="equals">Query is exactly</option>
           </select>
+        </div>
 
-          <input type="text" v-model="filter.expression" required placeholder="keyword">
+        <div class="row">
+          <input type="text" v-model="filter.expression" required placeholder="keyword" class="regular-text">
           <span class="pure-form-message">This is a required field.</span>
+        </div>
 
       </fieldset>
   </form>

@@ -1,7 +1,7 @@
 <template>
-	<div class="pure-form">
-	    <div class="inputaddon">
-			<select class="inputaddon-field pure-input-1-4" @change="setDate" v-model="selected">
+	<div class="">
+	    <div class="input-container">
+			<select class="input-field" @change="setDate" v-model="selected">
 				<option>Choose a daterange</option>
 			    <option v-for="d in ranges" :value="d.value">{{d.label}}</option>
 			</select>

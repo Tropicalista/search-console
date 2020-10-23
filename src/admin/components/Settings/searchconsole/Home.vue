@@ -1,31 +1,70 @@
 <template>
-	<div class="pure-g form-div">
+	<div>
 
-		<div class="pure-u-1-5 l-box">
-			<b>Choose site</b>
-		</div>
-		<div class="pure-u-4-5 l-box">
-			<div class="select-site">
-				<v-select label="siteUrl" :options="sites" v-model="webmasters.site" :value="selected" @input="setSelected"></v-select>
+		<div class="row">
+			<div class="description">
+				<b>Add verification to site?</b>
+			</div>
+			<div class="fields">
+				<input type="checkbox" v-model="webmasters.siteVerification" @change="getVerification">
+				<i class="dashicons dashicons-update spin" v-show="showSpinner"></i>
 			</div>
 		</div>
 
-		<div class="pure-u-1-5 l-box">
-			<b>Add verification to site?</b>
-		</div>
-		<div class="pure-u-4-5 l-box">
-			<input type="checkbox" v-model="webmasters.siteVerification" @change="getVerification">
-			<i class="dashicons dashicons-update spin" v-show="showSpinner"></i>
-		</div>
-
-		<div class="pure-u-1-5 l-box">
-			<b>Verification meta</b>
-		</div>
-		<div class="pure-u-4-5 l-box pure-form">
-			<input type="text" class="pure-input-1-4" v-model="webmasters.meta">
+		<div class="row">
+			<div class="description">
+				<b>Verification meta</b>
+			</div>
+			<div class="fields">
+				<input type="text" class="regular-text" v-model="webmasters.meta">
+			</div>
 		</div>
 
-    </div>
+		<div class="row">
+
+		    <div class="description">
+				<b>Custom credentials</b>
+		    </div>
+		    <div class="fields">
+				<input type="checkbox" v-model="settings.custom_credentials" @change="validate()">
+				<input type="checkbox" v-model="settings.reset_token" class="hidden">
+		    </div>
+
+		</div>
+
+		<div v-if="show">
+			<div class="row">
+			    <div class="description">
+					<b>Client ID</b>
+			    </div>
+			    <div class="fields">
+					<input type="text" class="pure-input-1-4" v-model="settings.credentials.clientId">
+					<span>Please go to Analytics settings to set up your view</span>
+			    </div>
+			</div>
+
+			<div class="row">
+			    <div class="description">
+					<b>Client secret</b>
+			    </div>
+			    <div class="fields">
+					<input type="text" class="pure-input-1-4" v-model="settings.credentials.clientSecret">
+					<span>Please go to Search Console settings to set up your site</span>
+			    </div>
+			</div>
+
+			<div class="row">
+			    <div class="description">
+					<b>Redirect url</b>
+			    </div>
+			    <div class="fields">
+					<input type="text" class="pure-input-1-4" v-model="settings.credentials.redirectUri">
+					<span>Please go to Search Console settings to set up your site</span>
+			    </div>
+		    </div>
+		</div>
+
+	</div>
 </template>
 
 <script>
@@ -34,10 +73,10 @@ export default {
     name: 'Settings',
     data () {
         return {
-			selected: '',
-			sites: [],
+			show: this.$store.getters.settings.custom_credentials,
+            settings: this.$store.getters.settings,
 			showSpinner: false,
-            webmasters: this.$store.getters.webmasters
+            webmasters: this.$store.getters.webmasters,
         }
     },
 	computed: {
@@ -45,34 +84,12 @@ export default {
 		return this.$store.getters.token
 	  }
 	},
-    mounted () {
-        gapi.client.load('webmasters', 'v3')
-            .then(() => {
-                gapi.auth.setToken({access_token:this.token})
-                	if(this.token)
-                		this.getSites()
-            })
-    },
     methods: {
-    	getSites() {
-    		let mv = this
-    		if(this.token){
-				gapi.auth.setToken({access_token:this.token})
-		        gapi.client.webmasters.sites.list()
-		            .then((s) => {
-						_.forEach(s.result.siteEntry, function(site){
-							mv.sites.push(site.siteUrl)
-						})
-		                if(!mv.site){
-		                	mv.site = s.result.siteEntry[0]
-		                }
-					})
-		    }
+    	validate () {
+    		this.show = ! this.show
+    		this.settings.reset_token = ! this.settings.reset_token
     	},
-    	authenticate () {
-			window.open(this.$store.getters.authUrl, '', 'width=400,height=600');
-    	},
-		getToken () {
+   		getToken () {
 			this.axios
 		    .post('/token', {
 				code: this.code
@@ -86,8 +103,9 @@ export default {
 
 		},
 		setSelected (site) {
-			if(site){
-				this.$store.commit('setSite', site)
+			console.log(event.target.value)
+			if(event.target.value){
+				this.$store.commit('setSite', event.target.value)
 				this.getVerification()		
 			}else{
 				this.site = ''
