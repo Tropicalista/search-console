@@ -4,8 +4,10 @@ var startDate = dayjs().startOf('month').add(-60, 'day').format('YYYY-MM-DD')
 
 var allUrls = [];
 
-jQuery('.gsc-url').each(function( index ) {
-  allUrls.push(jQuery( this ).data('url'))
+jQuery( document ).ready(function() {
+  jQuery('.gsc-url').each(function( index ) {
+    allUrls.push(jQuery( this ).data('url'))
+  });   
 });
 
 function getReport(chartQuery){
@@ -17,10 +19,12 @@ function getReport(chartQuery){
                 if( allUrls.indexOf(x.keys[0]) > -1){
                   jQuery('span[data-url="' + x.keys[0] + '"]').html(
                     '<b>Clicks:</b> '+ x.clicks +
-                    ' | <b>Position:</b> '+ Math.round(x.position * 100) / 100 +
+                    '<br>' +
+                    '<b>Position:</b> '+ Math.round(x.position * 100) / 100 +
                     '<br>' +
                     '<b>CTR:</b> '+ (Math.round(x.ctr * 10000) / 100) + '%' +
-                    ' | <b>Impressions:</b> '+ x.impressions
+                    '<br>' +
+                    '<b>Impressions:</b> '+ x.impressions
                   )
                 }
               
@@ -29,7 +33,7 @@ function getReport(chartQuery){
           })
           .then(null, function(err) {
               console.log(err);
-          });      
+          });    
 }
 
 
