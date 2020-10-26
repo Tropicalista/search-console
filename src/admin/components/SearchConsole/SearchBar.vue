@@ -1,7 +1,7 @@
 <template>
     <div class="input-container">
       <input class="input-field" type="text" v-model="searchFor" @keyup.enter.prevent="doFilter" placeholder="keyword">
-      <span class="icon-field" @click.prevent="doFilter"><i class="dashicons dashicons-search"></i></span>
+      <span class="icon-field" @click.prevent="doFilter"><i class="dashicons" :class="{'dashicons-no': isActive, 'dashicons-search': !isActive}"></i></span>
     </div>
 </template>
 
@@ -9,15 +9,22 @@
 export default {
   data () {
     return {
+      isActive: false,
       searchFor: ''
     }
   },
   methods: {
     doFilter () {
+      if( this.searchFor.length ){
+        this.isActive = !this.isActive;
+      }
+      if( !this.isActive ){
+        this.searchFor = ''
+      }
       this.$events.fire('filter-setSearch', this.searchFor)
+
     },
     resetFilter () {
-      this.searchFor = ''
       this.$events.fire('filter-resetSearch')
     }
   }
@@ -36,6 +43,9 @@ export default {
   color: white;
   min-width: 50px;
   text-align: center;
+  cursor: pointer;
+}
+.icon-field i {
 }
 
 .input-field {
