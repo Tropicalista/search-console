@@ -39,7 +39,7 @@
 			    </div>
 			    <div class="fields">
 					<input type="text" class="pure-input-1-4" v-model="settings.credentials.clientId">
-					<span>Please go to Analytics settings to set up your view</span>
+					<span>Please go to <a target="_blank" rel="noreferrer noopener" href="https://console.developers.google.com/apis">Developer Console</a> to set up your credentials</span>
 			    </div>
 			</div>
 
@@ -49,7 +49,7 @@
 			    </div>
 			    <div class="fields">
 					<input type="text" class="pure-input-1-4" v-model="settings.credentials.clientSecret">
-					<span>Please go to Search Console settings to set up your site</span>
+					<span>Please go to <a target="_blank" rel="noreferrer noopener" href="https://console.developers.google.com/apis">Developer Console</a> to set up your credentials</span>
 			    </div>
 			</div>
 
@@ -58,8 +58,8 @@
 					<b>Redirect url</b>
 			    </div>
 			    <div class="fields">
-					<input type="text" class="pure-input-1-4" v-model="settings.credentials.redirectUri">
-					<span>Please go to Search Console settings to set up your site</span>
+					<input type="text" readonly class="pure-input-1-4" v-model="settings.credentials.redirectUri">
+					<span>Set this redirect url in Developer console</span>
 			    </div>
 		    </div>
 		</div>

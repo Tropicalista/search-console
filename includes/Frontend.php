@@ -28,7 +28,7 @@ class Frontend {
     public function oauth() {
 
         // Handles Direct OAuth client request.
-        if ( filter_input( INPUT_GET, 'oauth2callback' ) ) {
+        if ( filter_input( INPUT_GET, 'sc-oauth2callback' ) ) {
             $this->auth_client->authorize_user();
             exit;
         }

@@ -81,7 +81,7 @@ class Assets {
             ],
             'searchconsole-admin' => [
                 'src'       => SEARCHCONSOLE_ASSETS . '/js/admin.js',
-                'deps'      => [ 'jquery', 'searchconsole-vendor' ],
+                'deps'      => [ 'jquery', 'searchconsole-vendor', 'wp-i18n' ],
                 'version'   => filemtime( SEARCHCONSOLE_PATH . '/assets/js/admin.js' ),
                 'in_footer' => true
             ]

@@ -9,6 +9,11 @@
 			<date-range :presets="ranges" />
 		</div>
 
+		<div class="sc-alert">
+			<h3>Altough I don't like to add messages on WP dashbooard, I really need some reviews. Please, can you help me?</h3>
+			<p>This message will be completely removed when I'll have enough reviews. Thanks. <a hre="https://wordpress.org/support/plugin/search-console/reviews/" class="button button-primary">Review it now!</a></p>
+		</div>
+
 		<filter-tabs :dimension="dimension" />
 
 		<Table :dimension="dimension" :filters="filters" :searchFor="searchFor" :searchType="searchType" :dates="dates" ref="table" />
@@ -137,3 +142,8 @@ export default {
     }
 }
 </script>
+<style>
+.sc-alert{
+	padding: 10px;
+}
+</style>

@@ -34,11 +34,11 @@ class Admin {
         $capability = 'manage_options';
         $slug       = 'search-console';
 
-        $hook = add_menu_page( __( 'Search Console', 'searchconsole' ), __( 'Search Console', 'searchconsole' ), $capability, $slug, [ $this, 'plugin_page' ], 'dashicons-chart-bar' );
+        $hook = add_menu_page( __( 'Search Console', 'searchconsole' ), __( 'Search Console', 'search-console' ), $capability, $slug, [ $this, 'plugin_page' ], 'dashicons-chart-bar' );
 
         $submenu[ $slug ][] = array( __( 'Search Console', 'searchconsole' ), $capability, 'admin.php?page=' . $slug . '#/' );
         if ( current_user_can( $capability ) ) {
-            $submenu[ $slug ][] = array( __( 'Settings', 'searchconsole' ), $capability, 'admin.php?page=' . $slug . '#/settings' );
+            $submenu[ $slug ][] = array( __( 'Settings', 'search-console' ), $capability, 'admin.php?page=' . $slug . '#/settings' );
         }
 
         add_action( 'load-' . $hook, [ $this, 'init_hooks'] );
@@ -71,6 +71,8 @@ class Admin {
 
         wp_enqueue_script( 'searchconsole-admin' );
         wp_localize_script('searchconsole-admin', 'sc_baseurl', array( 'siteurl' => get_option('siteurl') ));
+        wp_set_script_translations( 'searchconsole-admin' );
+
     }
 
     /**

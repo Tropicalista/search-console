@@ -1,6 +1,12 @@
 //Get today's date from the computer
 var endDate = dayjs().format('YYYY-MM-DD');
-var startDate = dayjs().startOf('month').add(-60, 'day').format('YYYY-MM-DD')
+var startDate = dayjs().add(-7, 'day').format('YYYY-MM-DD');
+
+var endDate2 = dayjs().add(-7, 'day').format('YYYY-MM-DD');
+var startDate2 = dayjs().add(-14, 'day').format('YYYY-MM-DD');
+
+console.log(endDate,endDate2)
+console.log(startDate,startDate2)
 
 var allUrls = [];
 
@@ -11,7 +17,28 @@ jQuery( document ).ready(function() {
 });
 
 function getReport(chartQuery){
-  gapi.client.webmasters.searchanalytics.query(chartQuery)
+  var batch = gapi.client.newBatch();
+
+  var searchRequest = function(name,query) {
+    console.log(query)
+    return gapi.client.request({
+      'path': 'webmasters/v3/',
+      'params':  query 
+     });
+  };
+  var searchAlvin = gapi.client.webmasters.searchanalytics.query(chartQuery[0]);
+  var searchSimon = gapi.client.webmasters.searchanalytics.query(chartQuery[1]);
+
+  // Adding just the request
+  batch.add(searchAlvin, {'id': 'thisWeek'});
+  // Adding the request with an ID
+  batch.add(searchSimon, {'id': 'lastWeek'});
+
+  batch.then( function(res){
+    console.log(res)
+  })
+
+  /*gapi.client.webmasters.searchanalytics.query(chartQuery)
           .then(function(response) {
 
             response.result.rows.forEach(function (x) {
@@ -33,9 +60,12 @@ function getReport(chartQuery){
           })
           .then(null, function(err) {
               console.log(err);
-          });    
+          });    */
 }
 
+function onSuccess(res){
+
+}
 
 ;(function( $ ) {
     'use strict';
@@ -72,6 +102,14 @@ function getReport(chartQuery){
                       'endDate': endDate,
                       'dimensions': ['page']
                   }
+        var chartQuery2 = {
+                      'siteUrl': config.site,
+                      'rowLimit': null,
+                      'searchType': 'web',
+                      'startDate': startDate2,
+                      'endDate': endDate2,
+                      'dimensions': ['page']
+                  }
 
         $('#showSpinner').toggleClass('hidden');
 
@@ -80,7 +118,7 @@ function getReport(chartQuery){
 
                 gapi.auth.setToken({access_token:config.token})
                 if( !jQuery('.column-asc_gsc').hasClass('hidden') ){
-                  getReport(chartQuery);
+                  getReport([chartQuery,chartQuery2]);
                 }
                 $('#showSpinner').toggleClass('hidden');
             

@@ -101,7 +101,7 @@ class Rest_Settings extends Base_Rest {
             "authUrl" => $this->oauth->authUrl(),
 			'custom_credentials' => false,
 			'credentials' => $this->encryption->get('searchconsole_credentials') ? $this->encryption->get('searchconsole_credentials') : [
-				'redirectUri' => home_url() . '/?oauth2callback=1'
+				'redirectUri' => home_url() . '/?sc-oauth2callback=1'
 			]
 		];
 		return wp_parse_args( $data, $defaults );

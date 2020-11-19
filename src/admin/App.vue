@@ -9,8 +9,12 @@
 <script>
 export default {
     name: 'App',
+    data(){
+    	return {
+    		test: __( 'Trnslate from JS', 'search-console' )
+    	}
+    },
     created () {
-
 		gapi.auth.setToken({access_token:this.$store.getters.config.token})
 
     }

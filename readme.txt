@@ -17,8 +17,6 @@ This plugin display your Search Console analytics data in the WordPress dashboar
 
 A nice full-width dashboard is provided out of the box. 
 
-**[Google Search Console for WordPress](https://www.tropicalseo.it/?utm_source=search-console-plugin&utm_medium=readme&utm_campaign=promo)**
-
 == Features == 
 
  - Easily insert **Google Search Console metatag** to verify site ownership
@@ -36,8 +34,6 @@ A nice full-width dashboard is provided out of the box.
  - Full report with all site errors
  - Superfast
 
-Check the **[demo](https://www.tropicalseo.it/?utm_source=search-console-plugin&utm_medium=readme&utm_campaign=promo)**
-
 [youtube https://www.youtube.com/watch?v=r-BxQ_82sdM&t=]
 
 == Screenshots ==
@@ -53,6 +49,11 @@ Download from WordPress repository and give authorization with Google.
 
 
 == Changelog ==
+
+= 2.2.0 =
+
+* Changed the callback url to prevent conflict with other plugins
+* fixed wrong description on advanced settings
 
 = 2.0.0 =
 
