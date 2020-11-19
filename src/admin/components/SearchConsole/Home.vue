@@ -11,7 +11,7 @@
 
 		<div class="sc-alert">
 			<h3>Altough I don't like to add messages on WP dashbooard, I really need some reviews. Please, can you help me?</h3>
-			<p>This message will be completely removed when I'll have enough reviews. Thanks. <a hre="https://wordpress.org/support/plugin/search-console/reviews/" class="button button-primary">Review it now!</a></p>
+			<p>This message will be completely removed once I'll have enough reviews. Thanks. <a hre="https://wordpress.org/support/plugin/search-console/reviews/" class="button button-primary">Review it now!</a></p>
 		</div>
 
 		<filter-tabs :dimension="dimension" />
