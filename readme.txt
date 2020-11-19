@@ -1,7 +1,7 @@
 === Search Console ===
-Contributors: tropicalista, freemius
+Contributors: tropicalista
 Donate link: https://www.francescopepe.com/
-Tags: search console, google search console, search console widget, search console metatag, webmaster tools widget, webmaster tools, webmaster tools metatag
+Tags: search console, google search console, search console widget, search console metatag
 Requires at least: 3.0.1
 Requires PHP: 5.2.4
 Tested up to: 5.5.0
@@ -50,7 +50,7 @@ Download from WordPress repository and give authorization with Google.
 
 == Changelog ==
 
-= 2.2.0 =
+= 2.2.3 =
 
 * Changed the callback url to prevent conflict with other plugins
 * fixed wrong description on advanced settings
