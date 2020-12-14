@@ -1,5 +1,17 @@
 OAuth 2.0 Google Provider Changelog
 
+## 3.0.3 - 2020-07-24
+
+### Fixed
+
+- Remove the `approval_prompt` from default parameters, #90
+
+## 3.0.2 - 2019-11-16
+
+### Fixed
+
+- Allow for `family_name` to be undefined in user information, #79 by @majkel89
+
 ## 3.0.1 - 2018-12-28
 
 ### Fixed

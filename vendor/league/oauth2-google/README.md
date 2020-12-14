@@ -24,6 +24,7 @@ The following versions of PHP are supported.
 * PHP 7.1
 * PHP 7.2
 * PHP 7.3
+* PHP 7.4
 
 This package uses [OpenID Connect][openid-connect] to authenticate users with
 Google accounts.
@@ -170,10 +171,10 @@ $token = $provider->getAccessToken('authorization_code', [
 $refreshToken = $token->getRefreshToken();
 ```
 
-If you ever need to get a new refresh token you can request one by forcing the approval prompt:
+If you ever need to get a new refresh token you can request one by forcing the consent prompt:
 
 ```php
-$authUrl = $provider->getAuthorizationUrl(['approval_prompt' => 'force']);
+$authUrl = $provider->getAuthorizationUrl(['prompt' => 'consent']);
 ```
 
 Now you have everything you need to refresh an access token using a refresh token:
