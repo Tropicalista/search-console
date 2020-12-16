@@ -71,7 +71,6 @@ class Admin {
 
         wp_enqueue_script( 'searchconsole-admin' );
         wp_localize_script('searchconsole-admin', 'sc_baseurl', array( 'siteurl' => get_option('siteurl') ));
-        wp_set_script_translations( 'searchconsole-admin' );
 
     }
 

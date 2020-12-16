@@ -57,7 +57,7 @@ class Rest_Token extends Base_Rest {
 			return null;
 		}
 
-		$provider = new \League\OAuth2\Client\Provider\Google($this->credentials->get());
+		$provider = new \Tropicalista\SearchConsole\League\OAuth2\Client\Provider\Google($this->credentials->get());
 
 		$token = $provider->getAccessToken('authorization_code', [
 		    'code' => $req

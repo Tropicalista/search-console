@@ -43,6 +43,7 @@ class Assets {
 
             wp_register_script( $handle, $script['src'], $deps, $version, $in_footer );
         }
+        wp_set_script_translations( 'searchconsole-admin', 'search-console' );
     }
 
     /**

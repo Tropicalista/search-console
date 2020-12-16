@@ -16,7 +16,6 @@ class Base_Rest {
 	 */
 	public function permissions_check( $request ) {
         return defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? true : current_user_can( 'manage_options' );
-		//return current_user_can( 'manage_options' );
 	}
 
 }

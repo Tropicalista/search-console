@@ -1,6 +1,7 @@
 /.wordpress-org
 /.git
 /.github
+/build
 
 .distignore
 .DS_Store
@@ -18,3 +19,4 @@ Gruntfile.js
 gulpfile.js
 config.json
 webpack.config.js
+scoper.inc.php

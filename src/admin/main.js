@@ -11,7 +11,7 @@ import VueGoogleCharts from 'vue-google-charts'
 import Notifications from 'vue-notification'
 
 const { __, _x, _n, _nx } = wp.i18n
-window.__ = __
+window.__ = wp.i18n.__
 
 window.dayjs = dayjs
 window.axios = axios 

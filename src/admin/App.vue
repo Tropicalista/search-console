@@ -1,8 +1,8 @@
 <template>
     <div class="dashy-dashboard">
-		<notifications group="errors" position="center" />
-		<notifications group="settings" position="center" />
-        <router-view />
+		  <notifications group="errors" position="center" />
+		  <notifications group="settings" position="center" />
+      <router-view />
     </div>
 </template>
 
@@ -11,12 +11,10 @@ export default {
     name: 'App',
     data(){
     	return {
-    		test: __( 'Trnslate from JS', 'search-console' )
     	}
     },
     created () {
-		gapi.auth.setToken({access_token:this.$store.getters.config.token})
-
+		  gapi.auth.setToken({access_token:this.$store.getters.config.token})
     }
 }
 </script>

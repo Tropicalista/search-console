@@ -139,7 +139,6 @@ final class Plugin {
         delete_option( 'searchconsole_settings' );
         delete_option( 'searchconsole_widgets' );
         delete_option( 'searchconsole_custom_widgets' );
-         
     }
 
     /**
@@ -199,7 +198,7 @@ final class Plugin {
      * @uses load_plugin_textdomain()
      */
     public function localization_setup() {
-        load_plugin_textdomain( 'search-console', false, dirname( plugin_basename( SEARCHCONSOLE_FILE ) ) . '/languages/' );
+        load_plugin_textdomain( 'search-console', false, dirname( plugin_basename( SEARCHCONSOLE_FILE ) ) . 'languages' );
     }
 
     private function load_dependencies() {

@@ -16,8 +16,8 @@ class Oauth {
     public function __construct() {
         $this->credentials = new \Tropicalista\SearchConsole\Data\Credentials();
         $this->encrypted_options = new \Tropicalista\SearchConsole\Data\Encrypted_Options();
-        $this->provider = new \League\OAuth2\Client\Provider\Google($this->credentials->get());
-        $this->grant = new \League\OAuth2\Client\Grant\RefreshToken();
+        $this->provider = new \Tropicalista\SearchConsole\League\OAuth2\Client\Provider\Google($this->credentials->get());
+        $this->grant = new \Tropicalista\SearchConsole\League\OAuth2\Client\Grant\RefreshToken();
     }
 
     function get_token(){

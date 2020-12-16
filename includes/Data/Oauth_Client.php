@@ -21,7 +21,7 @@ class Oauth_Client {
         $this->oauth = new Oauth();
         $this->credentials = new \Tropicalista\SearchConsole\Data\Credentials();
         $this->encryption = new \Tropicalista\SearchConsole\Data\Encrypted_Options();  
-        $this->provider = new \League\OAuth2\Client\Provider\Google($this->credentials->get());
+        $this->provider = new \Tropicalista\SearchConsole\League\OAuth2\Client\Provider\Google($this->credentials->get());
     }
 
     public function authorize_user() {

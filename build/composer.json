@@ -1,0 +1,25 @@
+{
+    "name": "tropicalista\/dashy",
+    "description": "Dashy is a plugin that helps you build better insigths to succeed on the web.",
+    "version": "1.0.0",
+    "license": "Freemius",
+    "type": "wordpress-plugin",
+    "homepage": "https:\/\/tropicalseo.it",
+    "require": {
+        "php": ">=5.6",
+        "league\/oauth2-google": "^3.0"
+    },
+    "replace": {
+        "phpseclib\/phpseclib": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tropicalista\\SearchConsole\\Tropicalista\\SearchConsole\\": "includes"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": ">=5.6"
+        }
+    }
+}
