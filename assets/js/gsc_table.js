@@ -38,7 +38,7 @@ function getReport(chartQuery){
     console.log(res)
   })*/
 
-  gapi.client.webmasters.searchanalytics.query(chartQuery)
+  gapi.client.webmasters.searchanalytics.query(chartQuery[0])
           .then(function(response) {
 
             response.result.rows.forEach(function (x) {
