@@ -52,7 +52,7 @@ Download from WordPress repository and give authorization with Google.
 
 = 2.2.6 =
 
-Small fixes
+Small fixes table
 
 = 2.2.5 =
 
