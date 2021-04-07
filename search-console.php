@@ -13,8 +13,8 @@
  * Domain Path:       /languages
  */
 
-// don't call the file directly
-if ( !defined( 'ABSPATH' ) ) exit;
+// don't call the file directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 define( 'SEARCHCONSOLE_VERSION', '2.2.5' );
 define( 'SEARCHCONSOLE_FILE', __FILE__ );

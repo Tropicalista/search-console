@@ -17,7 +17,7 @@ jQuery( document ).ready(function() {
 });
 
 function getReport(chartQuery){
-  var batch = gapi.client.newBatch();
+  /*var batch = gapi.client.newBatch();
 
   var searchRequest = function(name,query) {
     console.log(query)
@@ -36,9 +36,9 @@ function getReport(chartQuery){
 
   batch.then( function(res){
     console.log(res)
-  })
+  })*/
 
-  /*gapi.client.webmasters.searchanalytics.query(chartQuery)
+  gapi.client.webmasters.searchanalytics.query(chartQuery)
           .then(function(response) {
 
             response.result.rows.forEach(function (x) {
@@ -60,7 +60,7 @@ function getReport(chartQuery){
           })
           .then(null, function(err) {
               console.log(err);
-          });    */
+          });  
 }
 
 function onSuccess(res){

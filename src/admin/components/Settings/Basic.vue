@@ -96,6 +96,7 @@ export default {
 			.then( response => {
 				// handle success
 				this.$store.commit('setToken', response.data.access_token)
+				this.getSites()
 			})
 
 	    },
