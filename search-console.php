@@ -13,7 +13,7 @@
  * @package           search-console
  */
 
-require_once plugin_dir_path( __FILE__ ) . 'includes/frontend.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/functions.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/Api.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/Encryption.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/Rest/Settings.php';
