@@ -4,8 +4,8 @@ Donate link: https://www.francescopepe.com/
 Tags: search console, google search console, search console widget, search console metatag
 Requires at least: 3.0.1
 Requires PHP: 5.2.4
-Tested up to: 5.5.3
-Stable tag: 2.2.7
+Tested up to: 5.8.1
+Stable tag: 2.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 

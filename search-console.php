@@ -96,7 +96,7 @@ add_action('wp_dashboard_setup', 'my_custom_dashboard_widgets');
 function my_custom_dashboard_widgets() {
 	global $wp_meta_boxes;
 	wp_register_script( 'search-console-visualization', 'https://www.gstatic.com/charts/loader.js' );
-	wp_register_script( 'search-console-widget', plugin_dir_url( __FILE__ ) . 'build/frontend.js', array( 'wp-api', 'moment', 'search-console-visualization' ), array(), 'all' );
+	wp_register_script( 'search-console-widget', plugin_dir_url( __FILE__ ) . 'build/widget.js', array( 'wp-api', 'moment', 'search-console-visualization' ), array(), 'all' );
 	wp_enqueue_script( 'search-console-widget' );
 	wp_add_dashboard_widget('custom_help_widget', __( 'Search Console', 'search-console' ), 'custom_dashboard_help');
 }

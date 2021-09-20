@@ -6,8 +6,8 @@ namespace Tropicalista\SearchConsole\Rest;
  */
 class Settings {
 
-	private $option_key = 'searchconsole';
-	private $token_key = 'searchconsole_token2';
+	private $option_key = 'search_console';
+	private $token_key = 'search_console_token';
 	private $api;
 
 	public function __construct() {

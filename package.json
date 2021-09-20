@@ -1,12 +1,12 @@
 {
-	"name": "search-console2",
+	"name": "search-console",
 	"version": "0.1.0",
 	"description": "Example block written with ESNext standard and JSX support – build step required.",
 	"author": "The WordPress Contributors",
 	"license": "GPL-2.0-or-later",
 	"main": "build/index.js",
 	"scripts": {
-		"build": "wp-scripts build",
+		"build": "wp-scripts build src/index.js src/frontend/widget.js src/frontend/table.js",
 		"format": "wp-scripts format",
 		"lint:css": "wp-scripts lint-style",
 		"lint:js": "wp-scripts lint-js",
@@ -15,13 +15,9 @@
 		"packages-update": "wp-scripts packages-update"
 	},
 	"dependencies": {
-		"@material-ui/core": "^4.12.3",
-		"@wordpress/block-editor": "^7.0.2",
-		"@wordpress/blocks": "^11.1.0",
-		"@wordpress/i18n": "^4.2.2",
 		"gapi-script": "^1.2.0",
-		"material-table": "^1.69.3",
-		"react-google-charts": "^3.0.15"
+		"react-google-charts": "^3.0.15",
+		"react-table": "^7.7.0"
 	},
 	"devDependencies": {
 		"@wordpress/scripts": "^18.0.1"

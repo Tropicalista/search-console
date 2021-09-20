@@ -18,35 +18,17 @@ export default function Dimensions ( props ) {
 
     const onSelect = ( dimension ) => {
         setDimension( dimension )
+        setSelected( dimension )
     };
 
+    const [ selected, setSelected ] = useState('query');
+
 	return (
-        <Fragment>
-            <TabPanel
-                className="search-console-dimensions"
-                activeClass="active-tab"
-                onSelect={ onSelect }
-                tabs={ [
-                    {
-                        name: 'query',
-                        title: 'Query',
-                    },
-                    {
-                        name: 'page',
-                        title: 'Pages',
-                    },
-                    {
-                        name: 'country',
-                        title: 'Countries',
-                    },
-                    {
-                        name: 'device',
-                        title: 'Devices',
-                    },
-                ] }
-            >
-        { ( tab ) => <></> }
-    </TabPanel>
-        </Fragment>
+        <div className="search-console-dimensions">
+            <a className={ 'query' === selected ? 'is-selected' : '' } onClick={ () => onSelect( 'query' ) }>{ __( 'Query', 'search-console' ) }</a>
+            <a className={ 'page' === selected ? 'is-selected' : '' } onClick={ () => onSelect( 'page' ) }>{ __( 'Pages', 'search-console' ) }</a>
+            <a className={ 'country' === selected ? 'is-selected' : '' } onClick={ () => onSelect( 'country' ) }>{ __( 'Countries', 'search-console' ) }</a>
+            <a className={ 'device' === selected ? 'is-selected' : '' } onClick={ () => onSelect( 'device' ) }>{ __( 'Devices', 'search-console' ) }</a>
+        </div>
 	)
 }

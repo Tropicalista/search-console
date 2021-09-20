@@ -42,7 +42,7 @@ class Api {
 	 *
 	 * @var $option_key string.
 	 */
-	private $option_key = 'searchconsole_token';
+	private $option_key = 'search_console_token';
 
 	/**
 	 * Empty constructor.

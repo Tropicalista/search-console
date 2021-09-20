@@ -21,7 +21,7 @@ import apiFetch from '@wordpress/api-fetch';
 import MyChart from './chart'
 import Dimensions from './dimensions'
 import Filters from './filters'
-import Table from './table'
+import Table from './table2'
 
 import {
 	useSelect,
@@ -42,9 +42,9 @@ const Dashboard = ( props ) => {
 
 	useEffect( () => { 
 
-		gapi.load('client:auth', () => {
+		/*gapi.load('client:auth', () => {
 			gapi.client.load('webmasters', 'v3')//.then( getToken )
-		});
+		});*/
 
 	}, [] );
 
