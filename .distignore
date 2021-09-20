@@ -1,7 +1,6 @@
 /.wordpress-org
 /.git
 /.github
-/build
 
 .distignore
 .DS_Store
