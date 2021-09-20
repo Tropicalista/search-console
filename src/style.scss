@@ -1,0 +1,111 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+body.toplevel_page_search-console2 {
+    background-color: #fff;
+}
+
+#search-console-wrapper {
+    background-color: #fff;
+    margin-left: -20px;
+}
+
+.search-console-header {
+    background-color: #fff;
+    padding: 20px;
+}
+
+.search-console-settings {
+    background-color: #fff;
+    padding: 20px;
+    max-width: 25rem;
+    .components-base-control {
+        margin: 2em 0;
+    }
+}
+
+.search-console-chart {
+    background-color: #fff;
+    display: block;
+    height: 400px;
+    padding: 20px;
+}
+
+.search-console-filters {
+    background-color: #fff;
+    display: flex;
+    padding: 20px;
+    justify-content: space-between;
+    .button-group {
+        display: flex;
+        button:first-child {
+            margin: 0;
+            border-top-right-radius: 0px;
+            border-bottom-right-radius: 0px;
+        }
+        button {
+            margin: 0;
+            border-top-left-radius: 0px;
+            border-bottom-left-radius: 0px;
+        }
+    }
+    button {
+        margin-right: 10px;
+    }
+}
+
+.search-console-modal-container {
+    padding: 10px;
+    max-height: 400px;
+    overflow-y: auto; 
+}
+
+.search-console-modal-footer {
+    float: right;
+    margin: 10px 0;
+    button {
+        margin-left: 10px;
+    }
+}
+
+.search-console-dimensions {
+    padding: 0;
+}
+
+.search-console-table-wrapper {
+    padding: 0 20px;
+    table {
+        width: 100%;
+    }
+}
+
+.search-console-table {
+    font-weight: 400px;
+}
+
+.search-console-calendar {
+    background-color: #fff;
+    display: flex;
+    width: 600px;
+    min-width: 600px;
+}
+
+.components-modal__header{
+    text-transform: capitalize;
+}
+
+input[type].MuiInputBase-input {
+    border: none;
+}
+
+.star {
+    color: #ffb900;
+}
+
+.red {
+    color: red;
+}
