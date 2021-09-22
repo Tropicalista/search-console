@@ -35,7 +35,7 @@ const Settings = ( props ) => {
 
     const { settings } = useSelect( ( select ) => { 
         return { 
-            settings:  select( 'stocazzo' ).getSettings(),
+            settings:  select( 'searchconsole' ).getSettings(),
         }
     }, [] );
 

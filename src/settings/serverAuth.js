@@ -30,7 +30,7 @@ const ServerAuth = ( props ) => {
 
 	const { settings } = props;
 
-	const { setSettings, setSetting } = useDispatch( 'stocazzo' );
+	const { setSettings, setSetting } = useDispatch( 'searchconsole' );
 
 	const [ token, setToken ] = useState( false );
 	const [ active, setActive ] = useState( false );

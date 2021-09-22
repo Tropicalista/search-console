@@ -27,7 +27,7 @@ export default function SearchType( props ) {
 	} = props;
 
 
-    const searchType = select( 'stocazzo' ).getSearchType();
+    const searchType = select( 'searchconsole' ).getSearchType();
 
 	const [ type, setType ] = useState( searchType );
 

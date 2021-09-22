@@ -9,14 +9,20 @@ body.toplevel_page_search-console2 {
 	background-color: #fff;
 }
 
+#wpcontent {
+	background-color: #fff;
+	padding: 0 !important;
+}
+
 #search-console-wrapper {
 	background-color: #fff;
-	margin-left: -20px;
 }
 
 .search-console-header {
 	background-color: #fff;
 	padding: 20px;
+	display: flex;
+	justify-content: space-between;
 }
 
 .search-console-settings {
@@ -113,6 +119,9 @@ body.toplevel_page_search-console2 {
 			td {
 			  border-bottom: 0;
 			}
+		}
+		tr:hover {
+			background-color: #ddd;
 		}
 		th,
 		td {

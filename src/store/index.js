@@ -70,7 +70,7 @@ const actions = {
     },
 };
  
-const store = createReduxStore( 'stocazzo', {
+const store = createReduxStore( 'searchconsole', {
     reducer( state = DEFAULT_STATE, action ) {
         switch ( action.type ) {
             case 'SET_SETTINGS':

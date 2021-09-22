@@ -1,0 +1,246 @@
+# Copyright (C) 2021 Tropicalista
+# This file is distributed under the same license as the Search Console plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Search Console 2.3.5\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/search-console2\n"
+"POT-Creation-Date: 2021-09-20T13:20:34+02:00\n"
+"PO-Revision-Date: 2021-09-20 13:22+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: it_IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.0\n"
+"X-Domain: search-console\n"
+
+#. Plugin Name of the plugin
+#: search-console.php:22 search-console.php:101 search-console.php:122
+msgid "Search Console"
+msgstr "Search Console"
+
+#. Plugin URI of the plugin
+msgid "https://www.formello.net/"
+msgstr "https://www.formello.net/"
+
+#. Description of the plugin
+msgid ""
+"This plugin displays your Google Search Console Analytics data inside your "
+"WordPress."
+msgstr ""
+"Questo plugin visualizza i dati di Google Search Console Analytics "
+"all'interno del tuo WordPress."
+
+#. Author of the plugin
+msgid "Tropicalista"
+msgstr "Tropicalista"
+
+#. Author URI of the plugin
+#, fuzzy
+#| msgid "https://www.formello.net/"
+msgid "https://www.formello.net"
+msgstr "https://www.formello.net/"
+
+#: src/dashboard/datedropdown.js:14 src/dashboard/datedropdown.js:43
+#: build/index.js:151 build/index.js:180
+msgid "Last 28 days"
+msgstr "Ulttimi 28 giorni"
+
+#: src/dashboard/datedropdown.js:40 build/index.js:177
+msgid "Last 7 days"
+msgstr "Ulttimi 7 giorni"
+
+#: src/dashboard/datedropdown.js:45 src/dashboard/datedropdown.js:48
+#: src/dashboard/datedropdown.js:51 src/dashboard/datedropdown.js:54
+#: build/index.js:182 build/index.js:185 build/index.js:188 build/index.js:191
+msgid "months"
+msgstr "mesi"
+
+#: src/dashboard/datedropdown.js:46 build/index.js:183
+msgid "Last 3 months"
+msgstr "Ultimi 3 Mesi"
+
+#: src/dashboard/datedropdown.js:49 build/index.js:186
+msgid "Last 6 months"
+msgstr "Ultimi 6 mesi"
+
+#: src/dashboard/datedropdown.js:52 build/index.js:189
+msgid "Last 12 months"
+msgstr "Ultimi 12 mesi"
+
+#: src/dashboard/datedropdown.js:55 build/index.js:192
+msgid "Last 18 months"
+msgstr "Ultimi 18 mesi"
+
+#: src/dashboard/dimensions.js:28 src/dashboard/filters.js:74
+#: build/index.js:294 build/index.js:374
+msgid "Query"
+msgstr "Query"
+
+#: src/dashboard/dimensions.js:29 build/index.js:295
+msgid "Pages"
+msgstr "Pagine"
+
+#: src/dashboard/dimensions.js:30 build/index.js:296
+msgid "Countries"
+msgstr "Paesi"
+
+#: src/dashboard/dimensions.js:31 build/index.js:297
+msgid "Devices"
+msgstr "Dispositivi"
+
+#: src/dashboard/filters.js:54 build/index.js:354
+msgid "Search type: "
+msgstr "Tipo di ricerca: "
+
+#: src/dashboard/filters.js:78 build/index.js:378
+msgid "Page"
+msgstr "Pagina"
+
+#: src/dashboard/filters.js:82 build/index.js:382
+msgid "Country"
+msgstr "Paese"
+
+#: src/dashboard/filters.js:86 build/index.js:386
+msgid "Device"
+msgstr "Dispositivo"
+
+#: src/dashboard/modals/device.js:23 build/index.js:910
+msgid "Desktop"
+msgstr "Desktop"
+
+#: src/dashboard/modals/device.js:24 build/index.js:911
+msgid "Mobile"
+msgstr "Mobile"
+
+#: src/dashboard/modals/device.js:25 build/index.js:912
+msgid "Tablet"
+msgstr "Tablet"
+
+#: src/dashboard/modals/page.js:23 build/index.js:944
+msgid "Urls containing"
+msgstr "Url che contengono"
+
+#: src/dashboard/modals/page.js:24 build/index.js:945
+msgid "Urls not containing"
+msgstr "Url che non contengono"
+
+#: src/dashboard/modals/page.js:25 build/index.js:946
+msgid "Exact url"
+msgstr "Url esatto"
+
+#: src/dashboard/modals/query.js:23 build/index.js:985
+msgid "Queries containing"
+msgstr "Query che contengono"
+
+#: src/dashboard/modals/query.js:24 build/index.js:986
+msgid "Queries not containing"
+msgstr "Query che non contengono"
+
+#: src/dashboard/modals/query.js:25 build/index.js:987
+msgid "Exact query"
+msgstr "Query esatta"
+
+#: src/dashboard/modals/searchtype.js:37 build/index.js:1038
+msgid "Search Type"
+msgstr "Tipo di ricerca"
+
+#: src/dashboard/table2.js:100 build/index.js:1154
+msgid "Clicks"
+msgstr "Click"
+
+#: src/dashboard/table2.js:104 build/index.js:1158
+msgid "Impressions"
+msgstr "Impressioni"
+
+#: src/dashboard/table2.js:108 build/index.js:1162
+msgid "CTR"
+msgstr "CTR"
+
+#: src/dashboard/table2.js:113 build/index.js:1167
+msgid "Position"
+msgstr "Posizione"
+
+#: src/dashboard/table2.js:155 build/index.js:1209
+msgid "search"
+msgstr "cerca"
+
+#: src/settings/advanced.js:36 build/index.js:1430
+msgid "Custom credentials"
+msgstr "Credenziali personalizzate"
+
+#: src/settings/advanced.js:54 build/index.js:1448
+msgid ""
+"<p>The simplest way to get your own credentials is to go to %s site. You can "
+"still using Search Console with our keys.</p>"
+msgstr ""
+"<p>Il modo più semplice per ottenere le proprie credenziali è andare al %s "
+"sito. Puoi comunque utilizzare Search Console con le nostre chiavi.</p>"
+
+#: src/settings/advanced.js:60 build/index.js:1454
+msgid "Go to Site Kit site"
+msgstr "Vai al sito Site Kit"
+
+#: src/settings/advanced.js:66 build/index.js:1460
+msgid "Client ID"
+msgstr "ID Cliente"
+
+#: src/settings/advanced.js:67 src/settings/advanced.js:75 build/index.js:1461
+#: build/index.js:1469
+msgid "Please go to Developer Console to set up your credentials."
+msgstr ""
+"Vai alla Console per gli sviluppatori per configurare le tue credenziali."
+
+#: src/settings/advanced.js:74 build/index.js:1468
+msgid "Client secret"
+msgstr "Chiave utente segreta"
+
+#: src/settings/advanced.js:83 build/index.js:1477
+msgid "Redirect url"
+msgstr "Url di redirezione"
+
+#: src/settings/advanced.js:84 build/index.js:1478
+msgid "Please do not change this."
+msgstr "Per favore non cambiare questo campo."
+
+#: src/settings/auth.js:50 build/index.js:1537
+msgid "Empty code"
+msgstr "Codice vuoto"
+
+#: src/settings/auth.js:117 build/index.js:1604
+msgid "Authorization code"
+msgstr "Codice di autorizzazione"
+
+#: src/settings/auth.js:126 build/index.js:1613
+msgid "Authenticate"
+msgstr "Autenticati"
+
+#: src/settings/auth.js:135 build/index.js:1622
+msgid "Revoke token"
+msgstr "Revoca token"
+
+#: src/settings/chooser.js:68 build/index.js:1699
+msgid "Choose site"
+msgstr "Scegli il sito"
+
+#: src/settings/chooser.js:69 build/index.js:1700
+msgid "Choose one of your site."
+msgstr "Scegli uno dei tuoi siti."
+
+#: src/settings/verification.js:56 build/index.js:1962
+msgid "Add verification to site?"
+msgstr "Aggiungi il metatag di verifica al sito?"
+
+#: src/settings/verification.js:57 build/index.js:1963
+msgid "Check this if you want output meta verification on frontend."
+msgstr ""
+"Spunta questa casella per mostrare il codice di verifica lato frontend."
+
+#: src/settings/verification.js:66 build/index.js:1972
+msgid "Please click on icon to generate your meta verification tag."
+msgstr "Per favore clicca sull'icona per generare il tuo codice di verifica."
+
+#: src/settings/verification.js:67 build/index.js:1973
+msgid "Your meta verification tag"
+msgstr "Il tuo codice di verifica"

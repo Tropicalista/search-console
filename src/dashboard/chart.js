@@ -21,7 +21,7 @@ export default function MyChart ( props ) {
 
     const [ table, setTable ] = useState([]);
 
-    const query = select( 'stocazzo' ).getQuery()
+    const query = select( 'searchconsole' ).getQuery()
 
     useEffect( () => { 
         if( !token ){
@@ -30,7 +30,7 @@ export default function MyChart ( props ) {
         gapi.load('client:auth', () => {
             gapi.client.load('webmasters', 'v3').then( getData )
         });
-    }, [ token, searchType, filters, startDate ] );
+    }, [ token, searchType, filters, startDate, site ] );
 
     const getData = () => {
         gapi.auth.setToken({access_token:token})

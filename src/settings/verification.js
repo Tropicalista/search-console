@@ -28,7 +28,7 @@ import {
 const Verification = ( props ) => {
 
     const { token, settings } = props;
-    const { setSettings, setSetting } = useDispatch( 'stocazzo' );
+    const { setSettings, setSetting } = useDispatch( 'searchconsole' );
 
     const getMeta = () => {
 

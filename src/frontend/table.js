@@ -15,7 +15,7 @@ let chartQuery = {
 var allUrls = [];
 
 jQuery( document ).ready(function() {
-  jQuery('.search-console').each(function( index ) {
+  jQuery('.gsc-url').each(function( index ) {
 	console.log(jQuery( this ).data('url'))
 	allUrls.push(jQuery( this ).data('url'))
   });   

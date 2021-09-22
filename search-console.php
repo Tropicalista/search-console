@@ -3,9 +3,9 @@
  * Plugin Name:       Search Console
  * Plugin URI:        https://www.formello.net/
  * Description:       This plugin displays your Google Search Console Analytics data inside your WordPress.
- * Version:           2.3.5
+ * Version:           2.3.6
  * Author:            Tropicalista
- * Author URI:        https://www.francescopepe.com
+ * Author URI:        https://www.formello.net
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       search-console
@@ -19,7 +19,7 @@ require_once plugin_dir_path( __FILE__ ) . 'includes/Encryption.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/Rest/Settings.php';
 
 function search_console_admin_menu() {
-	$title = __( 'Search Console 2', 'search-console' );
+	$title = __( 'Search Console', 'search-console' );
 
 	$hook_suffix = add_menu_page( $title, $title, 'export', 'search-console', 'search_console_load_admin_view', 'dashicons-chart-bar' );
 
@@ -42,16 +42,12 @@ function search_console_load_assets() {
 
 	wp_register_script( 'search-console', plugin_dir_url( __FILE__ ) . 'build/index.js', $script_asset['dependencies'], $script_asset['version'], 'all' );
 
-	wp_register_style( 'search-console-material', 'https://fonts.googleapis.com/icon?family=Material+Icons' );
-
 	wp_enqueue_script( 'search-console' );
 
 	wp_enqueue_style( 'search-console' . '-bundle-styles', plugin_dir_url( __FILE__ ) . 'build/style-index.css', array('wp-components'), $script_asset['version'], 'all' );
 
-	wp_enqueue_style( 'search-console-material' );
-
-	add_filter('update_footer', 'search_console2_remove_footer_admin' );
-	add_filter('admin_footer_text', 'search_console2_add_rating' );
+	add_filter('update_footer', 'search_console_remove_footer_admin' );
+	add_filter('admin_footer_text', 'search_console_add_rating' );
 
 }
 add_action( 'admin_menu', 'search_console_admin_menu' );
@@ -83,11 +79,11 @@ function search_console_update( $token ) {
 
 register_setting( 'options', 'searchconsole_token', array( 'show_in_rest' => true ) );
 
-function search_console2_remove_footer_admin() {
+function search_console_remove_footer_admin() {
     echo 'Made with <span class="dashicons dashicons-heart red"></span> by <a href="https://www.formello.net">Tropicalista</a>';
 }
 
-function search_console2_add_rating() {
+function search_console_add_rating() {
     echo 'If you like <b>Search Console</b> please add <i class="dashicons dashicons-star-filled star"></i><i class="dashicons dashicons-star-filled star"></i><i class="dashicons dashicons-star-filled star"></i><i class="dashicons dashicons-star-filled star"></i><i class="dashicons dashicons-star-filled star"></i> review on <a href="https://wordpress.org/support/plugin/search-console/reviews/" target="_blank">WordPress.org</a>';
 }
 

@@ -28,7 +28,7 @@ import {
 const Advanced = ( props ) => {
 
     const { settings } = props;
-    const { setSettings, setSetting } = useDispatch( 'stocazzo' );
+    const { setSettings, setSetting } = useDispatch( 'searchconsole' );
 
     return (
         <div className='search-console-Advanced'>

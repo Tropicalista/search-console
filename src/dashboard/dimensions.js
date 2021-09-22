@@ -14,7 +14,7 @@ import {
 
 export default function Dimensions ( props ) {
 
-    const { setDimension } = useDispatch( 'stocazzo' );
+    const { setDimension } = useDispatch( 'searchconsole' );
 
     const onSelect = ( dimension ) => {
         setDimension( dimension )

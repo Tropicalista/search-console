@@ -21,7 +21,7 @@ import apiFetch from '@wordpress/api-fetch';
 import MyChart from './chart'
 import Dimensions from './dimensions'
 import Filters from './filters'
-import Table from './table2'
+import Table from './table'
 
 import {
 	useSelect,
@@ -47,12 +47,6 @@ const Dashboard = ( props ) => {
 		});*/
 
 	}, [] );
-
-	const getToken = () => {
-		apiFetch( { path: '/searchconsole/settings' } ).then( settings => {
-		    setToken( settings.token );
-		} );
-	}
 
 	return (
 		<Fragment>

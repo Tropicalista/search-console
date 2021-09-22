@@ -1,0 +1,290 @@
+# Copyright (C) 2021 Tropicalista
+# This file is distributed under the same license as the Search Console plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Search Console 2.3.5\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/search-console2\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2021-09-20T13:20:34+02:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.4.0\n"
+"X-Domain: search-console\n"
+
+#. Plugin Name of the plugin
+#: search-console.php:22
+#: search-console.php:101
+#: search-console.php:122
+msgid "Search Console"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://www.formello.net/"
+msgstr ""
+
+#. Description of the plugin
+msgid "This plugin displays your Google Search Console Analytics data inside your WordPress."
+msgstr ""
+
+#. Author of the plugin
+msgid "Tropicalista"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://www.formello.net"
+msgstr ""
+
+#: src/dashboard/datedropdown.js:14
+#: src/dashboard/datedropdown.js:43
+#: build/index.js:151
+#: build/index.js:180
+msgid "Last 28 days"
+msgstr ""
+
+#: src/dashboard/datedropdown.js:40
+#: build/index.js:177
+msgid "Last 7 days"
+msgstr ""
+
+#: src/dashboard/datedropdown.js:45
+#: src/dashboard/datedropdown.js:48
+#: src/dashboard/datedropdown.js:51
+#: src/dashboard/datedropdown.js:54
+#: build/index.js:182
+#: build/index.js:185
+#: build/index.js:188
+#: build/index.js:191
+msgid "months"
+msgstr ""
+
+#: src/dashboard/datedropdown.js:46
+#: build/index.js:183
+msgid "Last 3 months"
+msgstr ""
+
+#: src/dashboard/datedropdown.js:49
+#: build/index.js:186
+msgid "Last 6 months"
+msgstr ""
+
+#: src/dashboard/datedropdown.js:52
+#: build/index.js:189
+msgid "Last 12 months"
+msgstr ""
+
+#: src/dashboard/datedropdown.js:55
+#: build/index.js:192
+msgid "Last 18 months"
+msgstr ""
+
+#: src/dashboard/dimensions.js:28
+#: src/dashboard/filters.js:74
+#: build/index.js:294
+#: build/index.js:374
+msgid "Query"
+msgstr ""
+
+#: src/dashboard/dimensions.js:29
+#: build/index.js:295
+msgid "Pages"
+msgstr ""
+
+#: src/dashboard/dimensions.js:30
+#: build/index.js:296
+msgid "Countries"
+msgstr ""
+
+#: src/dashboard/dimensions.js:31
+#: build/index.js:297
+msgid "Devices"
+msgstr ""
+
+#: src/dashboard/filters.js:54
+#: build/index.js:354
+msgid "Search type: "
+msgstr ""
+
+#: src/dashboard/filters.js:78
+#: build/index.js:378
+msgid "Page"
+msgstr ""
+
+#: src/dashboard/filters.js:82
+#: build/index.js:382
+msgid "Country"
+msgstr ""
+
+#: src/dashboard/filters.js:86
+#: build/index.js:386
+msgid "Device"
+msgstr ""
+
+#: src/dashboard/modals/device.js:23
+#: build/index.js:910
+msgid "Desktop"
+msgstr ""
+
+#: src/dashboard/modals/device.js:24
+#: build/index.js:911
+msgid "Mobile"
+msgstr ""
+
+#: src/dashboard/modals/device.js:25
+#: build/index.js:912
+msgid "Tablet"
+msgstr ""
+
+#: src/dashboard/modals/page.js:23
+#: build/index.js:944
+msgid "Urls containing"
+msgstr ""
+
+#: src/dashboard/modals/page.js:24
+#: build/index.js:945
+msgid "Urls not containing"
+msgstr ""
+
+#: src/dashboard/modals/page.js:25
+#: build/index.js:946
+msgid "Exact url"
+msgstr ""
+
+#: src/dashboard/modals/query.js:23
+#: build/index.js:985
+msgid "Queries containing"
+msgstr ""
+
+#: src/dashboard/modals/query.js:24
+#: build/index.js:986
+msgid "Queries not containing"
+msgstr ""
+
+#: src/dashboard/modals/query.js:25
+#: build/index.js:987
+msgid "Exact query"
+msgstr ""
+
+#: src/dashboard/modals/searchtype.js:37
+#: build/index.js:1038
+msgid "Search Type"
+msgstr ""
+
+#: src/dashboard/table2.js:100
+#: build/index.js:1154
+msgid "Clicks"
+msgstr ""
+
+#: src/dashboard/table2.js:104
+#: build/index.js:1158
+msgid "Impressions"
+msgstr ""
+
+#: src/dashboard/table2.js:108
+#: build/index.js:1162
+msgid "CTR"
+msgstr ""
+
+#: src/dashboard/table2.js:113
+#: build/index.js:1167
+msgid "Position"
+msgstr ""
+
+#: src/dashboard/table2.js:155
+#: build/index.js:1209
+msgid "search"
+msgstr ""
+
+#: src/settings/advanced.js:36
+#: build/index.js:1430
+msgid "Custom credentials"
+msgstr ""
+
+#: src/settings/advanced.js:54
+#: build/index.js:1448
+msgid "<p>The simplest way to get your own credentials is to go to %s site. You can still using Search Console with our keys.</p>"
+msgstr ""
+
+#: src/settings/advanced.js:60
+#: build/index.js:1454
+msgid "Go to Site Kit site"
+msgstr ""
+
+#: src/settings/advanced.js:66
+#: build/index.js:1460
+msgid "Client ID"
+msgstr ""
+
+#: src/settings/advanced.js:67
+#: src/settings/advanced.js:75
+#: build/index.js:1461
+#: build/index.js:1469
+msgid "Please go to Developer Console to set up your credentials."
+msgstr ""
+
+#: src/settings/advanced.js:74
+#: build/index.js:1468
+msgid "Client secret"
+msgstr ""
+
+#: src/settings/advanced.js:83
+#: build/index.js:1477
+msgid "Redirect url"
+msgstr ""
+
+#: src/settings/advanced.js:84
+#: build/index.js:1478
+msgid "Please do not change this."
+msgstr ""
+
+#: src/settings/auth.js:50
+#: build/index.js:1537
+msgid "Empty code"
+msgstr ""
+
+#: src/settings/auth.js:117
+#: build/index.js:1604
+msgid "Authorization code"
+msgstr ""
+
+#: src/settings/auth.js:126
+#: build/index.js:1613
+msgid "Authenticate"
+msgstr ""
+
+#: src/settings/auth.js:135
+#: build/index.js:1622
+msgid "Revoke token"
+msgstr ""
+
+#: src/settings/chooser.js:68
+#: build/index.js:1699
+msgid "Choose site"
+msgstr ""
+
+#: src/settings/chooser.js:69
+#: build/index.js:1700
+msgid "Choose one of your site."
+msgstr ""
+
+#: src/settings/verification.js:56
+#: build/index.js:1962
+msgid "Add verification to site?"
+msgstr ""
+
+#: src/settings/verification.js:57
+#: build/index.js:1963
+msgid "Check this if you want output meta verification on frontend."
+msgstr ""
+
+#: src/settings/verification.js:66
+#: build/index.js:1972
+msgid "Please click on icon to generate your meta verification tag."
+msgstr ""
+
+#: src/settings/verification.js:67
+#: build/index.js:1973
+msgid "Your meta verification tag"
+msgstr ""

@@ -40,12 +40,12 @@ export function MyModal ( props ) {
 		title,
 	} = props;
 
-    const remote = select( 'stocazzo' ).getFilterByDimension( modal );
-    const searchType = select( 'stocazzo' ).getSearchType();
+    const remote = select( 'searchconsole' ).getFilterByDimension( modal );
+    const searchType = select( 'searchconsole' ).getSearchType();
 
 	const [ localFilter, setLocalFilter ] = useState( remote );
 
-    const { setSearchType, setFilter } = useDispatch( 'stocazzo' );
+    const { setSearchType, setFilter } = useDispatch( 'searchconsole' );
 
 	const handleChange = ( expression, operator ) => {
 		if( 'searchType' === modal ){

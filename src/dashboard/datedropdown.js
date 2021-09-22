@@ -9,7 +9,7 @@ import {
 
 export default function DateDropdown ( props ) {
 
-    const { setStartDate } = useDispatch( 'stocazzo' );
+    const { setStartDate } = useDispatch( 'searchconsole' );
 
     const [ range, setRange ] = useState( __( 'Last 28 days', 'search-console' ) );
 

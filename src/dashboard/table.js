@@ -13,11 +13,9 @@ import {
 	__,
 	sprintf,
 } from '@wordpress/i18n';
-import MaterialTable from "material-table";
+import { useTable, usePagination, useSortBy, useGlobalFilter } from 'react-table'
 import Countries from './modals/countries'
 import {
-	withSelect,
-	useDispatch,
 	useSelect,
 	select
 } from '@wordpress/data';
@@ -26,7 +24,7 @@ import {
 	Button,
 	Spinner,
 	SelectControl,
-	Modal,
+	Icon,
 } from '@wordpress/components';
 
 import Dimensions from './dimensions';
@@ -35,23 +33,23 @@ export default function Table ( props ) {
 
 	const { token, searchType, dimension, site, filters } = props;
 
-	const [ table, setTable ] = useState();
+	const [ data, setData ] = useState([]);
 	const [ isLoading, setIsLoading ] = useState(false);
 
-    const { query } = useSelect( ( select ) => { 
-        return { 
-            query:  select( 'stocazzo' ).getQuery(),
-        }
-    }, [] );
+	const { query } = useSelect( ( select ) => { 
+		return { 
+			query: select( 'searchconsole' ).getQuery(),
+		}
+	}, [] );
 
-    useEffect( () => { 
-        if( !token ){
-            return
-        }
-        //gapi.load('client:auth', () => {
-            gapi.client.load('webmasters', 'v3').then( getData )
-        //});
-    }, [ token, searchType, dimension, filters ] );
+	useEffect( () => { 
+		if( !token ){
+			return
+		}
+		gapi.load('client:auth', () => {
+			gapi.client.load('webmasters', 'v3').then( getData )
+		});
+	}, [ token, searchType, dimension, filters, site ] );
  
 
 	const getData = () => {
@@ -62,23 +60,27 @@ export default function Table ( props ) {
 				'siteUrl': site,
 				'fields': 'rows',
 				'rowLimit': null,
-                'searchType': query.searchType,
-                'startDate': query.startDate,
-                'endDate': query.endDate,
+				'searchType': query.searchType,
+				'startDate': query.startDate,
+				'endDate': query.endDate,
 				'dimensions': [ dimension ],
-			    'dimensionFilterGroups': [{
-			    	filters: filters
-			    }],
+				'dimensionFilterGroups': [{
+					filters: filters
+				}],
 			}
 		)
 		.then((response) => {
-            if ( dimension === 'country' ) {
-                response.result.rows.map( (row) => {
-                    row.keys[0] = Countries[row.keys[0]]
-                })
-            }
 			setIsLoading(false)
-			setTable(response.result.rows)
+			if( ! response.result.rows ){
+				setData( [] )
+				return
+			}
+			if ( dimension === 'country' ) {
+				response.result.rows.map( (row) => {
+					row.keys[0] = Countries[row.keys[0]]
+				})
+			}
+			setData(response.result.rows)
 
 		})
 		.then(null, function(err) {
@@ -92,31 +94,147 @@ export default function Table ( props ) {
 		pageSizeOptions: [ 5, 10, 20, 50, 100 ]
 	}
 
-	return (
+	const columns = React.useMemo(
+		() => [
+			{
+				Header: '',
+				accessor: 'keys', // accessor is the "key" in the data
+			},
+			{
+				Header: __( 'Clicks', 'search-console' ),
+				accessor: 'clicks', // accessor is the "key" in the data
+			},
+			{
+				Header: __( 'Impressions', 'search-console' ),
+				accessor: 'impressions',
+			},
+			{
+				Header: __( 'CTR', 'search-console' ),
+				accessor: 'ctr',
+				Cell: ({value}) => { return ( value * 100 ).toFixed(1) +' %' }
+			},
+			{
+				Header: __( 'Position', 'search-console' ),
+				accessor: 'position',
+				Cell: ({value}) => { return value.toFixed(1) }
+			},
+		],
+		[]
+	)
 
-		<div className="search-console-table-wrapper">
-		<MaterialTable
-			columns={[
-				{ 
-					title: dimension, 
-					field: 'keys',
-					headerStyle: { 'textTransform': 'capitalize' },
-					render: rowData => <>{ rowData.keys ? rowData.keys[0] : '' }</>
-				},
-				{ title: 'Clicks', field: 'clicks', maxWidth: '100px' },
-				{ title: 'Impressions', field: 'impressions', maxWidth: '100px' },
-				{ title: 'CTR', field: 'ctr', maxWidth: '100px', render: rowData => <>{ (rowData.ctr*100).toFixed(1) + '%' }</> },
-				{ title: 'Position', field: 'position', maxWidth: '100px', render: rowData => <>{ (rowData.position).toFixed(1) }</> },
-			]}
-		    data={ table }
-		    title={ <Dimensions /> }
-		    isLoading={ isLoading }
-		    options={ options }
-		    tableLayout={ 'fixed' }
-		    className={ 'search-console-table' }
-		/>
-
+	const {
+		getTableProps,
+		getTableBodyProps,
+		headerGroups,
+		page,
+		prepareRow,
+		canPreviousPage,
+		canNextPage,
+		pageOptions,
+		pageCount,
+		gotoPage,
+		nextPage,
+		previousPage,
+		setPageSize,
+		setGlobalFilter,
+		state: { pageIndex, pageSize, globalFilter },
+	} = useTable(
+		{
+			columns,
+			data,
+			initialState: { pageIndex: 0 },
+		},
+		useGlobalFilter,
+		useSortBy,
+		usePagination,
+	)
+ 
+   return (
+	<div className="search-console-table-wrapper">
+		<div className="search-console-table-bar">
+			<Dimensions />
+			<input
+				type="text"
+				value={globalFilter || ""}
+				placeholder={ __( 'search', 'search-console' ) }
+				onChange={e => setGlobalFilter(e.target.value)}
+			/>
 		</div>
-	 )
+		{ isLoading ? <Spinner /> : null }
+	 <table {...getTableProps()}>
+	   <thead>
+		 {headerGroups.map(headerGroup => (
+		   <tr {...headerGroup.getHeaderGroupProps()}>
+			 {headerGroup.headers.map(column => (
+				<th {...column.getHeaderProps(column.getSortByToggleProps())}>
+				 {column.render('Header')}
+				  <span>
+					{column.isSorted
+					  ? column.isSortedDesc
+						? <Icon icon="arrow-down" />
+						: <Icon icon="arrow-up" />
+					  : ''}
+				  </span>
+			   </th>
+			 ))}
+		   </tr>
+		 ))}
+	   </thead>
+		<tbody {...getTableBodyProps()}>
+		  {page.map((row, i) => {
+			prepareRow(row)
+			return (
+				<tr {...row.getRowProps()}>
+				{row.cells.map(cell => {
+					return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+				})}
+				</tr>
+			)
+		  })}
+		</tbody>
+	 </table>
+		<div className="search-console-pagination">
+			<div>
+				<select
+					value={pageSize}
+					onChange={e => {
+						setPageSize(Number(e.target.value))
+					}}
+				>
+				{[10, 20, 30, 40, 50].map(pageSize => (
+					<option key={pageSize} value={pageSize}>
+					Show {pageSize}
+					</option>
+				))}
+				</select>
+			</div>
+			<div>
+				<Button onClick={ () => gotoPage(0) } icon="controls-back" disabled={!canPreviousPage} />
+				<Button onClick={ () => previousPage() } icon="arrow-left" disabled={!canPreviousPage} />
+				<Button onClick={ () => nextPage() } icon="arrow-right" disabled={!canNextPage} />
+				<Button onClick={ () => gotoPage(pageCount - 1) } icon="controls-forward" disabled={!canNextPage} />
+			</div>
+			<div>
+				{ __( 'Page ', 'search-console' ) }
+				<strong>
+					{pageIndex + 1} { __( 'of', 'search-console' ) } {pageOptions.length}
+				</strong>
+			</div>
+			<span>
+				{ __( 'Go to page: ', 'searchconsole' ) }
+			<input
+				type="number"
+				defaultValue={pageIndex + 1}
+				onChange={e => {
+					const page = e.target.value ? Number(e.target.value) - 1 : 0
+					gotoPage(page)
+				}}
+				min="1"
+				style={{ width: '50px' }}
+			/>
+			</span>
+		</div>
+	  </div>
+   )
 
 }

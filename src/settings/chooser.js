@@ -30,7 +30,7 @@ export default function Chooser ( props ) {
     const [ loading, setLoading ] = useState( false );
 
 
-    const { setSetting } = useDispatch( 'stocazzo' );
+    const { setSetting } = useDispatch( 'searchconsole' );
 
     useEffect( () => {
 

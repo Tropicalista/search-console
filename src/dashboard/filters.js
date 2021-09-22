@@ -22,7 +22,6 @@ import {
 	select
 } from '@wordpress/data';
 
-import { gapi } from 'gapi-script';
 import { MyModal } from './modals';
 import DateDropdown from './datedropdown';
 import {DateSelect} from './dateselect';
@@ -31,9 +30,9 @@ export default function Filters ( props ) {
 
 	const [ showModal, setShowModal ] = useState( false );
 
-    const { removeFilter } = useDispatch( 'stocazzo' );
+    const { removeFilter } = useDispatch( 'searchconsole' );
 
-	const query = select( 'stocazzo' ).getQuery()
+	const query = select( 'searchconsole' ).getQuery()
 
 	const onRequestClose = ( e ) => {
 		setShowModal( false )
