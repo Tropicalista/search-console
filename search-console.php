@@ -80,11 +80,11 @@ function search_console_update( $token ) {
 register_setting( 'options', 'searchconsole_token', array( 'show_in_rest' => true ) );
 
 function search_console_remove_footer_admin() {
-    echo 'Made with <span class="dashicons dashicons-heart red"></span> by <a href="https://www.formello.net">Tropicalista</a>';
+	echo 'Made with <span class="dashicons dashicons-heart red"></span> by <a href="https://www.formello.net">Tropicalista</a>';
 }
 
 function search_console_add_rating() {
-    echo 'If you like <b>Search Console</b> please add <i class="dashicons dashicons-star-filled star"></i><i class="dashicons dashicons-star-filled star"></i><i class="dashicons dashicons-star-filled star"></i><i class="dashicons dashicons-star-filled star"></i><i class="dashicons dashicons-star-filled star"></i> review on <a href="https://wordpress.org/support/plugin/search-console/reviews/" target="_blank">WordPress.org</a>';
+	echo 'If you like <b>Search Console</b> please add <i class="dashicons dashicons-star-filled star"></i><i class="dashicons dashicons-star-filled star"></i><i class="dashicons dashicons-star-filled star"></i><i class="dashicons dashicons-star-filled star"></i><i class="dashicons dashicons-star-filled star"></i> review on <a href="https://wordpress.org/support/plugin/search-console/reviews/" target="_blank">WordPress.org</a>';
 }
 
 add_action('wp_dashboard_setup', 'my_custom_dashboard_widgets');
@@ -103,10 +103,10 @@ function custom_dashboard_help() {
 }
 
 function search_console_posts_data( $column_name, $id ) {
-    if ( $column_name == 'search-console' ) {
-        $post_slug = get_permalink( $id );
-        echo '<span class="gsc-url" data-url="' . esc_attr( $post_slug ) . '"></span>';
-    }
+	if ( $column_name == 'search-console' ) {
+		$post_slug = get_permalink( $id );
+		echo '<span class="gsc-url" data-url="' . esc_attr( $post_slug ) . '"></span>';
+	}
 }
 
 /**
@@ -115,8 +115,8 @@ function search_console_posts_data( $column_name, $id ) {
  * @param array $defaults An array of column names.
  */
 function search_console_posts( $defaults ) {
-    $defaults['search-console'] = __( 'Search Console', 'search-console' );
-    return $defaults;
+	$defaults['search-console'] = __( 'Search Console', 'search-console' );
+	return $defaults;
 }
 
 add_filter( 'manage_posts_columns', 'search_console_posts' );
@@ -125,13 +125,13 @@ add_action( 'manage_pages_custom_column', 'search_console_posts_data', 10, 2 );
 add_action( 'manage_posts_custom_column', 'search_console_posts_data', 10, 2 );
 
 function add_table_scripts( $hook ) {
-    $screen = get_current_screen()->id;
+	$screen = get_current_screen()->id;
 
-    if ( $screen == 'edit-post' || $screen == 'edit-page' ) {
-        
-        wp_register_script( 'searchconsole-table', plugin_dir_url( __FILE__ ) . 'build/table.js', [ 'jquery', 'moment', 'wp-api' ] );
-        wp_enqueue_script( 'searchconsole-table' );
-    }
+	if ( $screen == 'edit-post' || $screen == 'edit-page' || $screen == 'edit-product' ) {
+
+		wp_register_script( 'searchconsole-table', plugin_dir_url( __FILE__ ) . 'build/table.js', [ 'jquery', 'moment', 'wp-api' ] );
+		wp_enqueue_script( 'searchconsole-table' );
+	}
 }
 
 add_action( 'admin_enqueue_scripts', 'add_table_scripts' );
