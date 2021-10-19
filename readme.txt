@@ -5,7 +5,7 @@ Tags: search console, google search console, search console widget, search conso
 Requires at least: 3.0.1
 Requires PHP: 5.2.4
 Tested up to: 5.8.1
-Stable tag: 2.3.7
+Stable tag: 2.3.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,7 +21,7 @@ A nice full-width dashboard is provided out of the box.
 
  - Easily insert **Google Search Console metatag** to verify site ownership
  - Wordpress widget chart (**position|clicks|impressions|CTR**)
- - Filter date (14|30|60 days anmd custom dates)
+ - Filter date (14|30|60 days and custom dates)
  - Beautiful full width chart on admin page (**position|clicks|impressions|CTR**)
  - Table with all your keywords (**position|clicks|impressions|CTR**)
  - Add metabox on pages/posts to show performance
@@ -36,6 +36,14 @@ A nice full-width dashboard is provided out of the box.
 
 [youtube https://www.youtube.com/watch?v=r-BxQ_82sdM&t=]
 
+== WHAT’S NEXT ==
+
+If you like this plugin, then consider checking out our other projects:
+
+* [Formello](https://wordpress.org/plugins/formello): a form builder to collect leads, newsletter signup, contact form and more.
+* [Popper](https://wordpress.org/plugins/popper): a popup builder to increase leads with exit intent.
+* [Mortgage Calculator](https://wordpress.org/plugins/mortgage): a mortgage calculator block for Gutenberg.
+
 == Screenshots ==
 
 1. A beautiful dashboard widget
@@ -47,6 +55,9 @@ A nice full-width dashboard is provided out of the box.
 
 Download from WordPress repository and give authorization with Google.
 
+== More ==
+
+If you like this plugin 
 
 == Changelog ==
 
