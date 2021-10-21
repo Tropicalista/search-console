@@ -5,7 +5,7 @@ Tags: search console, google search console, search console widget, search conso
 Requires at least: 3.0.1
 Requires PHP: 5.2.4
 Tested up to: 5.8.1
-Stable tag: 2.3.8
+Stable tag: 2.3.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,6 +16,8 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 This plugin display your Search Console analytics data in the WordPress dashboard and adds the verification code of **Google Search Console**, to your site. You can see **Clicks**, **Posistions**, **CTR** and **Impressions**.
 
 A nice full-width dashboard is provided out of the box. 
+
+[youtube https://www.youtube.com/watch?v=r-BxQ_82sdM&t=]
 
 == Features == 
 
@@ -34,8 +36,6 @@ A nice full-width dashboard is provided out of the box.
  - Full report with all site errors
  - Superfast
 
-[youtube https://www.youtube.com/watch?v=r-BxQ_82sdM&t=]
-
 == WHAT’S NEXT ==
 
 If you like this plugin, then consider checking out our other projects:
@@ -51,15 +51,22 @@ If you like this plugin, then consider checking out our other projects:
 3. Automatic generation of metatag
 4. Full-width dashboard chart
 
-== Easy installation ==
+== Installation ==
 
-Download from WordPress repository and give authorization with Google.
+There's two ways to install Formello.
 
-== More ==
+1. Go to "Plugins > Add New" in your Dashboard and search for: Formello. Then activate the plugin through the 'Plugins' screen in WordPress
+2. Download the .zip from WordPress.org, and upload the folder to the `/wp-content/plugins/` directory via FTP.
 
-If you like this plugin 
+In most cases, #1 will work fine and is way easier.
 
 == Changelog ==
+
+= 2.3.8 =
+* Added translations
+
+* Fix bug on site selection
+* Add support for woocommerce produtct table
 
 = 2.3.7 =
 

@@ -65,7 +65,7 @@ class Settings {
 				'methods'             => \WP_REST_Server::CREATABLE,
 				'permission_callback' => array( $this, 'permissions_check' ),
 				'callback'            => array( $this, 'revoke_token' ),
-			),
+			)
 		);
 		register_rest_route(
 			$namespace,
@@ -125,14 +125,14 @@ class Settings {
 
 	public function parse_defaults( $data ) {
 
-		$defaults = [
+		$defaults = array(
 			'wp_url' => get_site_url(),
 			'site' => '',
 			'siteVerification' => '',
 			'meta' => '',
 			'authUrl' => $this->api->get_authurl(),
 			'custom_credentials' => false,
-		];
+		);
 		return wp_parse_args( $data, $defaults );
 
 	}
