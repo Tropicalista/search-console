@@ -62,6 +62,9 @@ In most cases, #1 will work fine and is way easier.
 
 == Changelog ==
 
+= 2.4.0 =
+* Fix api url changes
+
 = 2.3.8 =
 * Added translations
 
