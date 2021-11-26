@@ -42,7 +42,7 @@ window.onGoogleScriptLoad = () => {
 }
 
 function start(){
-	gapi.client.load('webmasters', 'v3')
+	gapi.client.load('searchconsole', 'v1')
 	.then( () => {
 		gapi.auth.setToken( {access_token:token} )
 		getReport()

@@ -28,7 +28,7 @@ export default function MyChart ( props ) {
             return
         }
         gapi.load('client:auth', () => {
-            gapi.client.load('webmasters', 'v3').then( getData )
+            gapi.client.load('searchconsole', 'v1').then( getData )
         });
     }, [ token, searchType, filters, startDate, site ] );
 

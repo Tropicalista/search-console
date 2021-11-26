@@ -97,9 +97,9 @@ class Settings {
 		$token = $this->api->generate_access_key( $code );
 
 		if ( ! is_wp_error( $token ) ) {
+			$token['created_at'] = time();
 			update_option( $this->token_key, $token );
 		}
-
 
 		return $token;
 

@@ -37,7 +37,7 @@ export default function Chooser ( props ) {
         if( token ) {
 
             gapi.load('client:auth', () => {
-                gapi.client.load('webmasters', 'v3').then( getSites )
+                gapi.client.load('searchconsole', 'v1').then( getSites )
             });
 
         }
