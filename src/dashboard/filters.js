@@ -5,6 +5,7 @@ import {
 	MenuItem,
 	MenuGroup,
 	Icon,
+	Flex,
 	ButtonGroup
 } from '@wordpress/components';
 
@@ -46,7 +47,6 @@ export default function Filters ( props ) {
 	return (
 		<Fragment>
 			<div className='search-console-filters'>
-				<div>
 					<Button 
 						isPrimary={ true } 
 						onClick={ () => setShowModal( 'searchType' ) }>
@@ -97,7 +97,6 @@ export default function Filters ( props ) {
 							</div>
 						) )
 					}
-				</div>
 				<DateDropdown />
 			</div>
 			{

@@ -45,7 +45,7 @@ body.toplevel_page_search-console2 {
 	background-color: #fff;
 	display: flex;
 	padding: 20px;
-	justify-content: space-between;
+	gap: 8px;
 	.button-group {
 		display: flex;
 		button:first-child {
@@ -59,8 +59,8 @@ body.toplevel_page_search-console2 {
 			border-bottom-left-radius: 0px;
 		}
 	}
-	button {
-		margin-right: 10px;
+	div:last-child {
+		margin-left: auto;
 	}
 }
 

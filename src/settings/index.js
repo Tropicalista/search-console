@@ -5,11 +5,11 @@ import {
     Placeholder,
     Spinner,
     TextControl,
-    __experimentalInputControl as InputControl,
-    Notices
+    __experimentalInputControl as InputControl
 } from '@wordpress/components';
 
 import { __ } from '@wordpress/i18n';
+import { Notices } from '@wordpress/data';
 
 import {
     useState,

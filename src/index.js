@@ -8,7 +8,6 @@ import {
 	withNotices,
 	NoticeList,
 	SnackbarList,
-	Notices,
 	SelectControl
 } from '@wordpress/components';
 import { store as noticesStore } from '@wordpress/notices';
@@ -29,28 +28,22 @@ import {
 import Settings from './settings/';
 import Dashboard from './dashboard/';
 
-function App(props) {
+const App = withNotices(
+	( { noticeOperations, noticeUI, noticeList } ) => {
 
 	const [ view, setView ] = useState( 'dashboard' );
 	const [ sites, setSites ] = useState( [] );
 
     const { setSetting } = useDispatch( 'searchconsole' );
 
-	const notices = useSelect(
-		( select ) => select( noticesStore ).getNotices(),
-		[]
-	);
-	const { createNotice, removeNotice } = useDispatch( noticesStore );
-
 	const changeView = () => {
 		if( 'dashboard' === view ){
 			setView( 'settings' )
 		} else{
 			if( !settings.token || !settings.site ){
-				createNotice( 'warning', 'Please you must autenthicate and select a site.', {
+				noticeOperations.createErrorNotice( 'Please you must autenthicate and select a site.', {
 					isDismissible: true,
-					type: 'snackbar',
-					explicitDismiss: true
+					explicitDismiss: false
 				} );
 				return
 			}
@@ -76,15 +69,6 @@ function App(props) {
 		}
 	}, [settings] );
 
-	useEffect( () => {
-		let notes = notices
-		if( notices.length ){
-			setTimeout(function(){
-				removeNotice( notes[0].id )
-			}, 3000);
-		}
-	}, [notices] );
-
     const getSites = () => {
 
         let sites = []
@@ -104,10 +88,8 @@ function App(props) {
 
 	return (
 		<Fragment>
-			<NoticeList
-				notices={ notices }
-				onRemove={ (n) => removeNotice(n) }
-			/>
+			{ noticeUI }
+
 			<div className="search-console-header">
 				<Button 
 					isPrimary={ true } 
@@ -125,7 +107,7 @@ function App(props) {
 		</Fragment>
 	)
 
-}
+})
 
 window.addEventListener( 'DOMContentLoaded', () => {
 	render(
