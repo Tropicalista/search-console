@@ -46,7 +46,7 @@ export default function Chooser ( props ) {
 
     const getSites = () => {
 
-        let sites = [{ value:'', label:'Select a site' }]
+        let sites = [{ value:'', label: __( 'Select a site', 'search-console' ) }]
         gapi.auth.setToken({access_token:token})
         gapi.client.webmasters.sites.list()
             .then( (s) => {

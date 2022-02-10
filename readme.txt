@@ -4,8 +4,8 @@ Donate link: https://www.formello.net
 Tags: search console, google search console, search console widget, search console metatag
 Requires at least: 3.0.1
 Requires PHP: 5.2.4
-Tested up to: 5.8.1
-Stable tag: 2.4.1
+Tested up to: 5.9
+Stable tag: 2.4.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -61,6 +61,9 @@ There's two ways to install Formello.
 In most cases, #1 will work fine and is way easier.
 
 == Changelog ==
+
+= 2.4.2 =
+* Missing translations
 
 = 2.4.1 =
 * Fix languages

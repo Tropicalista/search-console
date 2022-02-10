@@ -14,6 +14,7 @@ import {
     useSelect,
     select
 } from '@wordpress/data';
+import { __ } from '@wordpress/i18n';
 
 export default function MyChart ( props ) {
 
@@ -51,11 +52,10 @@ export default function MyChart ( props ) {
         .then((response) => {
             const data = response.result.rows
             let temp = []
-            temp.push( ['Keys', 'Clicks', 'Impressions', 'CTR', 'Position'] )
+            temp.push( [ 'Keys', __( 'Clicks', 'search-console' ), __( 'Impressions', 'search-console' ), 'CTR', __( 'Position', 'search-console' ) ] )
             data.forEach( (row) => {
                 temp.push([
                     moment( row.keys[0], 'YYYY-MM-DD' ).toDate(),
-                    //new Date( row.keys[0] ),
                     row.clicks,
                     row.impressions,
                     (row.ctr * 100),
@@ -76,7 +76,7 @@ export default function MyChart ( props ) {
                 <Chart
                     height={ 300 }
                     chartType="LineChart"
-                    loader={<div><Spinner /> Loading Chart...</div>}
+                    loader={<div><Spinner /> __( 'Loading Chart...', 'search-console' ) </div>}
                     data={ table }
                     options={ Options }
                     legendToggle

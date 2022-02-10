@@ -75,7 +75,9 @@ const Settings = ( props ) => {
                     aria-disabled={ loading } 
                     isPrimary 
                     isBusy={ loading } 
-                    onClick={ saveSettings }>Save
+                    onClick={ saveSettings }
+                >
+                    { __( 'Save', 'search-console' ) }
                 </Button>
             :
                 null

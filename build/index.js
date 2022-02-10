@@ -110,6 +110,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__);
+
 
 
 
@@ -154,10 +157,9 @@ function MyChart(props) {
     }).then(response => {
       const data = response.result.rows;
       let temp = [];
-      temp.push(['Keys', 'Clicks', 'Impressions', 'CTR', 'Position']);
+      temp.push(['Keys', (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Clicks', 'search-console'), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Impressions', 'search-console'), 'CTR', (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Position', 'search-console')]);
       data.forEach(row => {
-        temp.push([moment(row.keys[0], 'YYYY-MM-DD').toDate(), //new Date( row.keys[0] ),
-        row.clicks, row.impressions, row.ctr * 100, parseFloat(row.position)]);
+        temp.push([moment(row.keys[0], 'YYYY-MM-DD').toDate(), row.clicks, row.impressions, row.ctr * 100, parseFloat(row.position)]);
       });
       setTable(temp);
     }).then(null, function (err) {
@@ -170,7 +172,7 @@ function MyChart(props) {
   }, table.length ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_google_charts__WEBPACK_IMPORTED_MODULE_1__.Chart, {
     height: 300,
     chartType: "LineChart",
-    loader: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Spinner, null), " Loading Chart..."),
+    loader: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Spinner, null), " __( 'Loading Chart...', 'search-console' ) "),
     data: table,
     options: _ChartOptions__WEBPACK_IMPORTED_MODULE_2__["default"],
     legendToggle: true
@@ -434,7 +436,7 @@ function Filters(props) {
       variant: "secondary",
       onClick: onToggle,
       "aria-expanded": isOpen
-    }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('New'), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Icon, {
+    }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('New', 'search-console'), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Icon, {
       icon: "plus",
       size: "10"
     })),
@@ -1771,7 +1773,7 @@ function Chooser(props) {
   const getSites = () => {
     let sites = [{
       value: '',
-      label: 'Select a site'
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Select a site', 'search-console')
     }];
     gapi.auth.setToken({
       access_token: token
@@ -1885,7 +1887,7 @@ const Settings = props => {
     isPrimary: true,
     isBusy: loading,
     onClick: saveSettings
-  }, "Save") : null);
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Save', 'search-console')) : null);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Settings);

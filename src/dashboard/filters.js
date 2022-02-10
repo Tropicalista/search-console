@@ -62,7 +62,7 @@ export default function Filters ( props ) {
 								onClick={ onToggle }
 								aria-expanded={ isOpen }
 							>
-								{ __( 'New' ) }
+								{ __( 'New', 'search-console' ) }
 								<Icon icon="plus" size="10" />
 							</Button>
 						) }

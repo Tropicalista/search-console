@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <ruleset name="Formello">
-	<description>Rules for Formello</description>
+	<description>Rules for Search Console</description>
 
     <arg name="extensions" value="php" />
 
@@ -43,7 +43,7 @@
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
 		<properties>
 			<property name="prefixes" type="array">
-				<element value="formello"/>
+				<element value="search-console"/>
 			</property>
 		</properties>
 	</rule>
