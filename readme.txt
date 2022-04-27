@@ -5,7 +5,7 @@ Tags: search console, google search console, search console widget, search conso
 Requires at least: 3.0.1
 Requires PHP: 5.2.4
 Tested up to: 5.9
-Stable tag: 2.4.3
+Stable tag: 2.4.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,6 +43,7 @@ If you like this plugin, then consider checking out our other projects:
 * [Formello](https://wordpress.org/plugins/formello): a form builder to collect leads, newsletter signup, contact form and more.
 * [Popper](https://wordpress.org/plugins/popper): a popup builder to increase leads with exit intent.
 * [Mortgage Calculator](https://wordpress.org/plugins/mortgage): a mortgage calculator block for Gutenberg.
+* [Pdf Embed](https://wordpress.org/plugins/pdf-embed): a simple block for Gutenberg to embed a PDF using official Adobe Embed API.
 
 == Screenshots ==
 
@@ -53,14 +54,20 @@ If you like this plugin, then consider checking out our other projects:
 
 == Installation ==
 
-There's two ways to install Formello.
+There's two ways to install Search Console.
 
-1. Go to "Plugins > Add New" in your Dashboard and search for: Formello. Then activate the plugin through the 'Plugins' screen in WordPress
+1. Go to "Plugins > Add New" in your Dashboard and search for: Search Console. Then activate the plugin through the 'Plugins' screen in WordPress
 2. Download the .zip from WordPress.org, and upload the folder to the `/wp-content/plugins/` directory via FTP.
 
 In most cases, #1 will work fine and is way easier.
 
 == Changelog ==
+
+= 2.4.4 =
+* Code beautified
+
+= 2.4.3 =
+* Missing translations
 
 = 2.4.2 =
 * Missing translations
