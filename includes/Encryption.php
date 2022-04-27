@@ -1,6 +1,11 @@
 <?php
+/**
+ * Encryption class
+ *
+ * @package Search_Console
+ */
 
-namespace Tropicalista\SearchConsole;
+namespace Search_Console;
 
 /**
  * Class responsible for encrypting and decrypting data.
@@ -9,126 +14,121 @@ namespace Tropicalista\SearchConsole;
  * @access private
  * @ignore
  */
-class Encryption
-{
-    /**
-     * Key to use for encryption.
-     *
-     * @since 1.0.0
-     * @var string
-     */
-    private $key;
+class Encryption {
 
-    /**
-     * Salt to use for encryption.
-     *
-     * @since 1.0.0
-     * @var string
-     */
-    private $salt;
+	/**
+	 * Key to use for encryption.
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	private $key;
 
-    /**
-     * Constructor.
-     *
-     * @since 1.0.0
-     */
-    public function __construct()
-    {
-        $this->key  = $this->get_default_key();
-        $this->salt = $this->get_default_salt();
-    }
+	/**
+	 * Salt to use for encryption.
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	private $salt;
 
-    /**
-     * Encrypts a value.
-     *
-     * If a user-based key is set, that key is used. Otherwise the default key is used.
-     *
-     * @since 1.0.0
-     *
-     * @param string $value Value to encrypt.
-     * @return string|bool Encrypted value, or false on failure.
-     */
-    public function encrypt($value)
-    {
-        if (! extension_loaded('openssl')) {
-            return $value;
-        }
+	/**
+	 * Constructor.
+	 *
+	 * @since 1.0.0
+	 */
+	public function __construct() {
+		$this->key  = $this->get_default_key();
+		$this->salt = $this->get_default_salt();
+	}
 
-        $method = 'aes-256-ctr';
-        $ivlen  = openssl_cipher_iv_length($method);
-        $iv     = openssl_random_pseudo_bytes($ivlen);
+	/**
+	 * Encrypts a value.
+	 *
+	 * If a user-based key is set, that key is used. Otherwise the default key is used.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $value Value to encrypt.
+	 * @return string|bool Encrypted value, or false on failure.
+	 */
+	public function encrypt( $value ) {
+		if ( ! extension_loaded( 'openssl' ) ) {
+			return $value;
+		}
 
-        $raw_value = openssl_encrypt($value . $this->salt, $method, $this->key, 0, $iv);
-        if (! $raw_value) {
-            return false;
-        }
+		$method = 'aes-256-ctr';
+		$ivlen  = openssl_cipher_iv_length( $method );
+		$iv     = openssl_random_pseudo_bytes( $ivlen );
 
-        return base64_encode($iv . $raw_value);
-    }
+		$raw_value = openssl_encrypt( $value . $this->salt, $method, $this->key, 0, $iv );
+		if ( ! $raw_value ) {
+			return false;
+		}
 
-    /**
-     * Decrypts a value.
-     *
-     * If a user-based key is set, that key is used. Otherwise the default key is used.
-     *
-     * @since 1.0.0
-     *
-     * @param string $raw_value Value to decrypt.
-     * @return string|bool Decrypted value, or false on failure.
-     */
-    public function decrypt($raw_value)
-    {
-        if (! extension_loaded('openssl')) {
-            return $raw_value;
-        }
+		return base64_encode( $iv . $raw_value );
+	}
 
-        $raw_value = base64_decode($raw_value, true);
+	/**
+	 * Decrypts a value.
+	 *
+	 * If a user-based key is set, that key is used. Otherwise the default key is used.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $raw_value Value to decrypt.
+	 * @return string|bool Decrypted value, or false on failure.
+	 */
+	public function decrypt( $raw_value ) {
+		if ( ! extension_loaded( 'openssl' ) ) {
+			return $raw_value;
+		}
 
-        $method = 'aes-256-ctr';
-        $ivlen  = openssl_cipher_iv_length($method);
-        $iv     = substr($raw_value, 0, $ivlen);
+		$raw_value = base64_decode( $raw_value, true );
 
-        $raw_value = substr($raw_value, $ivlen);
+		$method = 'aes-256-ctr';
+		$ivlen  = openssl_cipher_iv_length( $method );
+		$iv     = substr( $raw_value, 0, $ivlen );
 
-        $value = openssl_decrypt($raw_value, $method, $this->key, 0, $iv);
-        if (! $value || substr($value, - strlen($this->salt)) !== $this->salt) {
-            return false;
-        }
+		$raw_value = substr( $raw_value, $ivlen );
 
-        return substr($value, 0, - strlen($this->salt));
-    }
+		$value = openssl_decrypt( $raw_value, $method, $this->key, 0, $iv );
+		if ( ! $value || substr( $value, - strlen( $this->salt ) ) !== $this->salt ) {
+			return false;
+		}
 
-    /**
-     * Gets the default encryption key to use.
-     *
-     * @since 1.0.0
-     *
-     * @return string Default (not user-based) encryption key.
-     */
-    private function get_default_key()
-    {
-        if (defined('LOGGED_IN_KEY') && '' !== LOGGED_IN_KEY) {
-            return LOGGED_IN_KEY;
-        }
+		return substr( $value, 0, - strlen( $this->salt ) );
+	}
 
-        // If this is reached, you're either not on a live site or have a serious security issue.
-        return 'im-anfang-war-die-tat';
-    }
+	/**
+	 * Gets the default encryption key to use.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Default (not user-based) encryption key.
+	 */
+	private function get_default_key() {
+		if ( defined( 'LOGGED_IN_KEY' ) && '' !== LOGGED_IN_KEY ) {
+			return LOGGED_IN_KEY;
+		}
 
-    /**
-     * Gets the default encryption salt to use.
-     *
-     * @since 1.0.0
-     *
-     * @return string Encryption salt.
-     */
-    private function get_default_salt()
-    {
-        if (defined('LOGGED_IN_SALT') && '' !== LOGGED_IN_SALT) {
-            return LOGGED_IN_SALT;
-        }
+		// If this is reached, you're either not on a live site or have a serious security issue.
+		return 'im-anfang-war-die-tat';
+	}
 
-        // If this is reached, you're either not on a live site or have a serious security issue.
-        return 'im-anfang-war-die-wort';
-    }
+	/**
+	 * Gets the default encryption salt to use.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Encryption salt.
+	 */
+	private function get_default_salt() {
+		if ( defined( 'LOGGED_IN_SALT' ) && '' !== LOGGED_IN_SALT ) {
+			return LOGGED_IN_SALT;
+		}
+
+		// If this is reached, you're either not on a live site or have a serious security issue.
+		return 'im-anfang-war-die-wort';
+	}
 }

@@ -2,221 +2,219 @@
 /**
  * Api class.
  *
- * @package SearchConsole
+ * @package Search_Console
  */
 
-namespace Tropicalista\SearchConsole;
+namespace Search_Console;
 
-if (! defined('ABSPATH')) {
-    exit; // Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
 }
 
 /**
  * Class to perform oAuth request.
  */
-class Api
-{
-    /**
-     * Default client id.
-     *
-     * @var $client_id string.
-     */
-    private $client_id = '447159129054-penpradideh7rc13boh1upfqafv3n6pp.apps.googleusercontent.com';
+class Api {
 
-    /**
-     * Default client secret.
-     *
-     * @var $client_secret string.
-     */
-    private $client_secret = 'ZpCiemNSNmpgO8IgWDKhhV32';
+	/**
+	 * Default client id.
+	 *
+	 * @var $client_id string.
+	 */
+	private $client_id = '447159129054-penpradideh7rc13boh1upfqafv3n6pp.apps.googleusercontent.com';
 
-    /**
-     * Default redirect uri.
-     *
-     * @var $redirect_uri string.
-     */
-    private $redirect_uri = 'urn:ietf:wg:oauth:2.0:oob';
+	/**
+	 * Default client secret.
+	 *
+	 * @var $client_secret string.
+	 */
+	private $client_secret = 'ZpCiemNSNmpgO8IgWDKhhV32';
 
-    /**
-     * Empty constructor.
-     *
-     * @var $option_key string.
-     */
-    private $option_key = 'search_console_token';
+	/**
+	 * Default redirect uri.
+	 *
+	 * @var $redirect_uri string.
+	 */
+	private $redirect_uri = 'urn:ietf:wg:oauth:2.0:oob';
 
-    /**
-     * Empty constructor.
-     */
-    public function __construct()
-    {
-    }
+	/**
+	 * Empty constructor.
+	 *
+	 * @var $option_key string.
+	 */
+	private $option_key = 'search_console_token';
 
-    /**
-     * Make request to api.
-     *
-     * @param string $url The url posting to.
-     * @param array  $bodyArgs Array of body arguments.
-     * @param string $type Type of request.
-     * @param array  $headers Array of headers to pass.
-     */
-    public function make_request($url, $bodyArgs, $type = 'GET', $headers = false)
-    {
-        if (! $headers) {
-            $headers = array(
-                'Content-Type' => 'application/http',
-                'Content-Transfer-Encoding' => 'binary',
-                'MIME-Version' => '1.0',
-            );
-        }
+	/**
+	 * Empty constructor.
+	 */
+	public function __construct() {
+	}
 
-        $args = array(
-            'headers' => $headers,
-        );
-        if ($bodyArgs) {
-            $args['body'] = wp_json_encode($bodyArgs);
-        }
+	/**
+	 * Make request to api.
+	 *
+	 * @param string $url The url posting to.
+	 * @param array  $bodyArgs Array of body arguments.
+	 * @param string $type Type of request.
+	 * @param array  $headers Array of headers to pass.
+	 */
+	public function make_request( $url, $bodyArgs, $type = 'GET', $headers = false ) {
+		if ( ! $headers ) {
+			$headers = array(
+				'Content-Type' => 'application/http',
+				'Content-Transfer-Encoding' => 'binary',
+				'MIME-Version' => '1.0',
+			);
+		}
 
-        $args['method'] = $type;
-        $request = wp_remote_request($url, $args);
+		$args = array(
+			'headers' => $headers,
+		);
+		if ( $bodyArgs ) {
+			$args['body'] = wp_json_encode( $bodyArgs );
+		}
 
-        if (is_wp_error($request)) {
-            $message = $request->get_error_message();
-            return new \WP_Error(423, $message);
-        }
+		$args['method'] = $type;
+		$request = wp_remote_request( $url, $args );
 
-        $body = json_decode(wp_remote_retrieve_body($request), true);
+		if ( is_wp_error( $request ) ) {
+			$message = $request->get_error_message();
+			return new \WP_Error( 423, $message );
+		}
 
-        if (! empty($body['error'])) {
-            $error = 'Unknown Error';
-            if (isset($body['error_description'])) {
-                $error = $body['error_description'];
-            } elseif (! empty($body['error']['message'])) {
-                $error = $body['error']['message'];
-            }
-            return new \WP_Error(423, $error);
-        }
+		$body = json_decode( wp_remote_retrieve_body( $request ), true );
 
-        return $body;
-    }
+		if ( ! empty( $body['error'] ) ) {
+			$error = 'Unknown Error';
+			if ( isset( $body['error_description'] ) ) {
+				$error = $body['error_description'];
+			} elseif ( ! empty( $body['error']['message'] ) ) {
+				$error = $body['error']['message'];
+			}
+			return new \WP_Error( 423, $error );
+		}
 
-    /**
-     * Empty constructor.
-     *
-     * @param string $code Code to send.
-     */
-    public function generate_access_key($code)
-    {
-        $body = array(
-            'code'          => $code,
-            'grant_type'    => 'authorization_code',
-            'redirect_uri'  => $this->redirect_uri,
-            'client_id'     => $this->client_id,
-            'client_secret' => $this->client_secret,
-        );
-        return $this->make_request('https://accounts.google.com/o/oauth2/token', $body, 'POST');
-    }
+		return $body;
+	}
 
-    /**
-     * Retrieve an access token.
-     */
-    public function get_access_token()
-    {
-        $token = get_option($this->option_key);
+	/**
+	 * Empty constructor.
+	 *
+	 * @param string $code Code to send.
+	 */
+	public function generate_access_key( $code ) {
+		$body = array(
+			'code'          => $code,
+			'grant_type'    => 'authorization_code',
+			'redirect_uri'  => $this->redirect_uri,
+			'client_id'     => $this->client_id,
+			'client_secret' => $this->client_secret,
+		);
+		return $this->make_request( 'https://accounts.google.com/o/oauth2/token', $body, 'POST' );
+	}
 
-        if (! $token) {
-            return false;
-        }
+	/**
+	 * Retrieve an access token.
+	 */
+	public function get_access_token() {
+		$token = get_option( $this->option_key );
 
-        if (($token['created_at'] + $token['expires_in'] - 30) < time()) {
-            // It's expired so we have to re-issue again.
-            $refreshToken = $this->refreshToken($token);
+		if ( ! $token ) {
+			return false;
+		}
 
-            if (! is_wp_error($refreshToken)) {
-                $token['access_token'] = $refreshToken['access_token'];
-                $token['expires_in'] = $refreshToken['expires_in'];
-                $token['created_at'] = time();
-                update_option($this->option_key, $token, false);
-            } else {
-                return false;
-            }
-        }
+		if ( ( $token['created_at'] + $token['expires_in'] - 30 ) < time() ) {
+			// It's expired so we have to re-issue again.
+			$refreshToken = $this->refreshToken( $token );
 
-        return $token['access_token'];
-    }
+			if ( ! is_wp_error( $refreshToken ) ) {
+				$token['access_token'] = $refreshToken['access_token'];
+				$token['expires_in'] = $refreshToken['expires_in'];
+				$token['created_at'] = time();
+				update_option( $this->option_key, $token, false );
+			} else {
+				return false;
+			}
+		}
 
-    public function exchange_token()
-    {
-        session_start();
+		return $token['access_token'];
+	}
 
-        if (!empty($_GET['error'])) {
+	/**
+	 * Exchange token
+	 */
+	public function exchange_token() {
+		session_start();
 
-            // Got an error, probably user denied access
-            exit('Got error: ' . htmlspecialchars($_GET['error'], ENT_QUOTES, 'UTF-8'));
-        } elseif (empty($_GET['code'])) {
+		if ( ! empty( $_GET['error'] ) ) {
 
-            // If we don't have an authorization code then get one
-            $authUrl = $this->get_authurl();
-            //$_SESSION['oauth2state'] = $this->provider->getState();
-            wp_redirect($authUrl);
-            exit;
-        } elseif (empty($_GET['state']) || ($_GET['state'] !== $_SESSION['oauth2state'])) {
+			// Got an error, probably user denied access.
+			exit( 'Got error: ' . wp_kses( $_GET['error'] ) );
+		} elseif ( empty( $_GET['code'] ) ) {
 
-            // State is invalid, possible CSRF attack in progress
-            unset($_SESSION['oauth2state']);
-            exit('Invalid state');
-        } else {
+			// If we don't have an authorization code then get one.
+			$authUrl = $this->get_authurl();
+			wp_safe_redirect( $authUrl );
+			exit;
+		} elseif ( empty( $_GET['state'] ) || ( $_GET['state'] !== $_SESSION['oauth2state'] ) ) {
 
-            // Try to get an access token (using the authorization code grant)
-            $token = $this->provider->get_access_token('authorization_code', [
-                'code' => $_GET['code']
-            ]);
+			// State is invalid, possible CSRF attack in progress.
+			unset( $_SESSION['oauth2state'] );
+			exit( 'Invalid state' );
+		} else {
 
-            // Optional: Now you have a token you can look up a users profile data
-            try {
-                $refreshToken = $token->jsonSerialize();
-                // safely store
-                $this->encryption->set('searchconsole_token', $refreshToken);
+			// Try to get an access token (using the authorization code grant).
+			$token = $this->provider->get_access_token(
+				'authorization_code',
+				array(
+					'code' => $_GET['code'],
+				)
+			);
 
-                wp_redirect(admin_url() . 'admin.php?page=searchconsole#/settings');
+			// Optional: Now you have a token you can look up a users profile data.
+			try {
+				$refreshToken = $token->jsonSerialize();
+				// safely store.
+				$this->encryption->set( 'searchconsole_token', $refreshToken );
 
-                exit;
-            } catch (Exception $e) {
+				wp_safe_redirect( admin_url() . 'admin.php?page=searchconsole#/settings' );
 
-                // Failed to get user details
-                exit('Something went wrong: ' . $e->getMessage());
-            }
-        }
-    }
+				exit;
+			} catch ( Exception $e ) {
 
-    /**
-     * Build auth url.
-     */
-    public function get_authurl()
-    {
-        $params = array(
-            'client_id' => $this->client_id,
-            'redirect_uri' => $this->redirect_uri,
-            'scope' => 'https://www.googleapis.com/auth/webmasters.readonly https://www.googleapis.com/auth/siteverification',
-            'response_type' => 'code',
-            'access_type' => 'offline',
-        );
-        return 'https://accounts.google.com/o/oauth2/auth?' . http_build_query($params);
-    }
+				// Failed to get user details.
+				exit( 'Something went wrong: ' . esc_html( $e->getMessage() ) );
+			}
+		}
+	}
 
-    /**
-     * Refresh access token.
-     *
-     * @param mixed $token the secret token.
-     */
-    public function refresh_token($token)
-    {
-        $args = array(
-            'client_id' => $this->client_id,
-            'client_secret' => $this->client_secret,
-            'refresh_token' => $token['refresh_token'],
-            'grant_type' => 'refresh_token',
-        );
+	/**
+	 * Build auth url.
+	 */
+	public function get_authurl() {
+		$params = array(
+			'client_id' => $this->client_id,
+			'redirect_uri' => $this->redirect_uri,
+			'scope' => 'https://www.googleapis.com/auth/webmasters.readonly https://www.googleapis.com/auth/siteverification',
+			'response_type' => 'code',
+			'access_type' => 'offline',
+		);
+		return 'https://accounts.google.com/o/oauth2/auth?' . http_build_query( $params );
+	}
 
-        return $this->make_request('https://accounts.google.com/o/oauth2/token', $args, 'POST');
-    }
+	/**
+	 * Refresh access token.
+	 *
+	 * @param mixed $token the secret token.
+	 */
+	public function refresh_token( $token ) {
+		$args = array(
+			'client_id' => $this->client_id,
+			'client_secret' => $this->client_secret,
+			'refresh_token' => $token['refresh_token'],
+			'grant_type' => 'refresh_token',
+		);
+
+		return $this->make_request( 'https://accounts.google.com/o/oauth2/token', $args, 'POST' );
+	}
 }

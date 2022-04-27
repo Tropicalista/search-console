@@ -1,17 +1,43 @@
 <?php
-namespace Tropicalista\SearchConsole\Rest;
+/**
+ * Rest class
+ *
+ * @package Search_Console
+ */
+
+namespace Search_Console\Rest;
 
 /**
  * REST_SETTINGS Handler
  */
 class Settings {
 
+	/**
+	 * Default client id.
+	 *
+	 * @var $option_key string.
+	 */
 	private $option_key = 'search_console';
+
+	/**
+	 * Default client id.
+	 *
+	 * @var $token_key  string.
+	 */
 	private $token_key = 'search_console_token';
+
+	/**
+	 * Default client id.
+	 *
+	 * @var $api string.
+	 */
 	private $api;
 
+	/**
+	 * COnstructor.
+	 */
 	public function __construct() {
-		$this->api = new \Tropicalista\SearchConsole\Api();
+		$this->api = new \Search_Console\Api();
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 	}
 
@@ -78,7 +104,11 @@ class Settings {
 		);
 	}
 
-
+	/**
+	 * Get settings.
+	 *
+	 * @return \WP_REST_Response.
+	 */
 	public function get_settings() {
 
 		$settings = $this->parse_defaults(
@@ -91,6 +121,12 @@ class Settings {
 
 	}
 
+	/**
+	 * Get credentials.
+	 *
+	 * @param \WP_REST_Request $request Full data about the request.
+	 * @return $token.
+	 */
 	public function get_credentials( \WP_REST_Request $request ) {
 
 		$code = $request->get_param( 'code' );
@@ -105,7 +141,13 @@ class Settings {
 
 	}
 
-	public function save_settings( \WP_REST_Request $request ){
+	/**
+	 * Save settings.
+	 *
+	 * @param \WP_REST_Request $request Full data about the request.
+	 * @return $token.
+	 */
+	public function save_settings( \WP_REST_Request $request ) {
 
 		$req = $request->get_params();
 
@@ -114,7 +156,13 @@ class Settings {
 		return new \WP_REST_Response( $req );
 	}
 
-	public function revoke_token( \WP_REST_Request $request ){
+	/**
+	 * Revoke token.
+	 *
+	 * @param \WP_REST_Request $request Full data about the request.
+	 * @return $token.
+	 */
+	public function revoke_token( \WP_REST_Request $request ) {
 
 		$req = $request->get_params();
 
@@ -123,6 +171,12 @@ class Settings {
 		return new \WP_REST_Response( $req );
 	}
 
+	/**
+	 * Get defaults.
+	 *
+	 * @param array $data Full data about the request.
+	 * @return defaults.
+	 */
 	public function parse_defaults( $data ) {
 
 		$defaults = array(
@@ -137,6 +191,11 @@ class Settings {
 
 	}
 
+	/**
+	 * Get token.
+	 *
+	 * @return $token.
+	 */
 	public function get_token() {
 
 		$token = get_option( $this->token_key );
@@ -146,10 +205,10 @@ class Settings {
 		}
 
 		if ( ( $token['created_at'] + $token['expires_in'] - 30 ) < time() ) {
-			// It's expired so we have to re-issue again
+			// It's expired so we have to re-issue again.
 			$refreshToken = $this->api->refresh_token( $token );
 
-			if ( !is_wp_error( $refreshToken ) ) {
+			if ( ! is_wp_error( $refreshToken ) ) {
 				$token['access_token'] = $refreshToken['access_token'];
 				$token['expires_in'] = $refreshToken['expires_in'];
 				$token['created_at'] = time();
@@ -171,4 +230,4 @@ class Settings {
 	}
 
 }
-\Tropicalista\SearchConsole\Rest\Settings::get_instance();
+\Search_Console\Rest\Settings::get_instance();

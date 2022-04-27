@@ -43,7 +43,7 @@
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
 		<properties>
 			<property name="prefixes" type="array">
-				<element value="search-console"/>
+				<element value="search_console"/>
 			</property>
 		</properties>
 	</rule>
