@@ -1,5 +1,7 @@
 <?php
 /**
+ * Plugin main file.
+ *
  * Plugin Name:       Search Console
  * Plugin URI:        https://www.formello.net/
  * Description:       This plugin displays your Google Search Console Analytics data inside your WordPress.
@@ -32,7 +34,7 @@ function search_console_admin_menu() {
  * Load view
  */
 function search_console_load_admin_view() {
-	include trailingslashit( __DIR__ ) . 'views/admin.php';
+	echo '<div id="search-console-wrapper"></div>';
 }
 
 /**

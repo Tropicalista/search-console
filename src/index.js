@@ -2,6 +2,7 @@ import './style.scss';
 import './store';
 
 import { __ } from '@wordpress/i18n';
+import { getQueryArg } from '@wordpress/url';
 
 import {
 	Button,
@@ -35,6 +36,8 @@ const App = withNotices(
 	const [ sites, setSites ] = useState( [] );
 
     const { setSetting } = useDispatch( 'searchconsole' );
+
+	const page = getQueryArg( window.location.href, 'page' );
 
 	const changeView = () => {
 		if( 'dashboard' === view ){
