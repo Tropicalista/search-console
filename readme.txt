@@ -5,7 +5,7 @@ Tags: search console, google search console, search console widget, search conso
 Requires at least: 3.0.1
 Requires PHP: 5.2.4
 Tested up to: 5.9
-Stable tag: 2.4.6
+Stable tag: 2.4.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -62,6 +62,9 @@ There's two ways to install Search Console.
 In most cases, #1 will work fine and is way easier.
 
 == Changelog ==
+
+= 2.4.7 =
+* Sanitize all
 
 = 2.4.6 =
 * Security check scanned and fixed

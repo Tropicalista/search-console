@@ -149,7 +149,7 @@ class Api {
 		if ( ! empty( $_GET['error'] ) ) {
 
 			// Got an error, probably user denied access.
-			exit( 'Got error: ' . wp_kses( $_GET['error'] ) );
+			exit( 'Got error: ' . wp_kses_post( $_GET['error'] ) );
 		} elseif ( empty( $_GET['code'] ) ) {
 
 			// If we don't have an authorization code then get one.
@@ -167,7 +167,7 @@ class Api {
 			$token = $this->provider->get_access_token(
 				'authorization_code',
 				array(
-					'code' => $_GET['code'],
+					'code' => sanitize_text_field( $_GET['code'] ),
 				)
 			);
 

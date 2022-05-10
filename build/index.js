@@ -1438,7 +1438,7 @@ const App = (0,_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.withNotices)((
   const {
     setSetting
   } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_8__.useDispatch)('searchconsole');
-  const page = (0,_wordpress_url__WEBPACK_IMPORTED_MODULE_4__.getQueryArg)(window.location.href, 'page');
+  const tab = (0,_wordpress_url__WEBPACK_IMPORTED_MODULE_4__.getQueryArg)(window.location.href, 'tab');
 
   const changeView = () => {
     if ('dashboard' === view) {
