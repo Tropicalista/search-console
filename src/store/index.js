@@ -4,6 +4,7 @@ import { createReduxStore, register } from '@wordpress/data';
 const DEFAULT_STATE = {
     settings: {},
     site: '',
+    sites: [],
     dimension: 'query',
     searchType: 'web',
     startDate: moment().subtract( 29, 'days' ).format('YYYY-MM-DD'),
@@ -12,6 +13,13 @@ const DEFAULT_STATE = {
 };
  
 const actions = {
+    setSites( sites ) {
+        return {
+            type: 'SET_SITES',
+            sites,
+        };
+    },
+ 
     setSettings( settings ) {
         return {
             type: 'SET_SETTINGS',
@@ -79,6 +87,12 @@ const store = createReduxStore( 'searchconsole', {
                     settings: action.settings,
                 };
  
+            case 'SET_SITES':
+                return {
+                    ...state,
+                    sites: action.sites,
+                };
+ 
             case 'SET_SETTING':
                 return {
                     ...state,
@@ -140,6 +154,10 @@ const store = createReduxStore( 'searchconsole', {
         getSettings( state ) {
             const { settings } = state;
             return settings;
+        },
+        getSites( state ) {
+            const { sites } = state;
+            return sites;
         },
         getQuery( state ) {
             const { site, searchType, filters, settings, dimension, startDate, endDate } = state;

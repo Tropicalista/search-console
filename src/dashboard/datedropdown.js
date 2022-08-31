@@ -36,22 +36,22 @@ export default function DateDropdown ( props ) {
             renderContent={ ( { isOpen, onToggle } ) => (
                 <Fragment>
                     <MenuGroup>
-                        <MenuItem onClick={ () => { setDate( 7, __( 'days' ) ), onToggle() } }>
+                        <MenuItem onClick={ () => { setDate( 7, 'days' ), onToggle() } }>
                             { __( 'Last 7 days', 'search-console' ) }
                         </MenuItem>
-                        <MenuItem onClick={ () => { setDate( 28, __( 'days' ) ), onToggle() } }>
+                        <MenuItem onClick={ () => { setDate( 28, 'days' ), onToggle() } }>
                             { __( 'Last 28 days', 'search-console' ) }
                         </MenuItem>
-                        <MenuItem onClick={ () => { setDate( 3, __( 'months', 'search-console' ) ), onToggle() } }>
+                        <MenuItem onClick={ () => { setDate( 3, 'months' ), onToggle() } }>
                             { __( 'Last 3 months', 'search-console' ) }
                         </MenuItem>
-                        <MenuItem onClick={ () => { setDate( 6, __( 'months', 'search-console' ) ), onToggle() } }>
+                        <MenuItem onClick={ () => { setDate( 6, 'months' ), onToggle() } }>
                             { __( 'Last 6 months', 'search-console' ) }
                         </MenuItem>
-                        <MenuItem onClick={ () => { setDate( 12, __( 'months', 'search-console' ) ), onToggle() } }>
+                        <MenuItem onClick={ () => { setDate( 12, 'months' ), onToggle() } }>
                             { __( 'Last 12 months', 'search-console' ) }
                         </MenuItem>
-                        <MenuItem onClick={ () => { setDate( 16, __( 'months', 'search-console' ) ), onToggle() } }>
+                        <MenuItem onClick={ () => { setDate( 16, 'months' ), onToggle() } }>
                             { __( 'Last 18 months', 'search-console' ) }
                         </MenuItem>
                     </MenuGroup>

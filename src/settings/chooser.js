@@ -26,7 +26,6 @@ export default function Chooser ( props ) {
     const { token, settings } = props;
 
     const [ sites, setSites ] = useState( [] );
-    const [ site, setSite ] = useState( settings.site );
     const [ loading, setLoading ] = useState( false );
 
 
@@ -67,8 +66,9 @@ export default function Chooser ( props ) {
                 options={ sites }
                 label={ __( 'Choose site', 'search-console' ) }
                 help={ __( 'Choose one of your site.', 'search-console' ) }
-                value={ site }
+                value={ settings.site }
                 onChange={ ( val ) => {
+                    console.log(val)
                     setSetting( 'site', val )
                 } }
             />

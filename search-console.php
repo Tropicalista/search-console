@@ -5,7 +5,7 @@
  * Plugin Name:       Search Console
  * Plugin URI:        https://www.formello.net/
  * Description:       This plugin displays your Google Search Console Analytics data inside your WordPress.
- * Version:           2.4.8
+ * Version:           2.4.9
  * Author:            Tropicalista
  * Author URI:        https://www.formello.net
  * License:           GPL-2.0+
@@ -22,12 +22,41 @@ require_once plugin_dir_path( __FILE__ ) . 'includes/Rest/Settings.php';
 /**
  * Add menu
  */
-function search_console_admin_menu() {
+function search_console_admin_menu2() {
 	$title = __( 'Search Console', 'search-console' );
+	$settings = __( 'Settings', 'search-console' );
 
-	$hook_suffix = add_menu_page( $title, $title, 'export', 'search-console', 'search_console_load_admin_view', 'dashicons-chart-bar' );
+	$capability = 'manage_options';
+	$slug       = 'search-console';
+
+	$hook_suffix = add_menu_page( $title, $title, $capability, 'search-console', 'search_console_load_admin_view', 'dashicons-chart-bar' );
+	$settings_suffix = add_submenu_page( 'search-console', $settings, $settings, $capability, 'search-console#/settings', 'search_console_load_admin_view' );
 
 	add_action( 'load-' . $hook_suffix, 'search_console_load_assets' );
+	add_action( 'load-' . $settings_suffix, 'search_console_load_assets' );
+}
+
+/**
+ * Register our menu page
+ *
+ * @return void
+ */
+function search_console_admin_menu() {
+	global $submenu;
+
+	$capability = 'search_console';
+	$slug       = 'search-console';
+	$title = __( 'Search Console', 'search-console' );
+	$settings = __( 'Settings' );
+
+	$hook = add_menu_page( $title, $title, $capability, 'search-console', 'search_console_load_admin_view', 'dashicons-chart-bar' );
+
+	if ( current_user_can( $capability ) ) {
+		$submenu[ $slug ][] = array( 'Dashboard', $capability, 'admin.php?page=' . $slug . '#/' );
+		$submenu[ $slug ][] = array( $settings, $capability, 'admin.php?page=' . $slug . '#/settings' );
+	}
+
+	add_action( 'load-' . $hook, 'search_console_load_assets' );
 }
 
 /**
@@ -190,3 +219,23 @@ function search_console_add_meta() {
 
 	echo wp_kses( $options['meta'], $args );
 }
+
+/**
+ * Updating the role
+ */
+function search_console_activate() {
+
+	$plugin_data = get_plugin_data( __FILE__ );
+	$plugin_version = $plugin_data['Version'];
+
+	if ( version_compare( $plugin_version, '2.4.0', '>' ) ) {
+		delete_option( 'search_console' );
+	}
+
+	$administrator_role = get_role( 'administrator' );
+
+	// Adding a new capability to role.
+	$administrator_role->add_cap( 'search_console' );
+
+}
+register_activation_hook( __FILE__, 'search_console_activate' );

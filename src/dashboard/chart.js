@@ -76,7 +76,7 @@ export default function MyChart ( props ) {
                 <Chart
                     height={ 300 }
                     chartType="LineChart"
-                    loader={<div><Spinner /> __( 'Loading Chart...', 'search-console' ) </div>}
+                    loader={ <Spinner /> }
                     data={ table }
                     options={ Options }
                     legendToggle

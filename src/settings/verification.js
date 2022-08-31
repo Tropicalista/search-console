@@ -52,14 +52,17 @@ const Verification = ( props ) => {
 
     return (
         <div className='search-console-Advanced'>
-            <ToggleControl
-                label={ __( 'Add verification to site?', 'search-console' ) }
-                help={ __( 'Check this if you want output meta verification on frontend.', 'search-console' ) }
-                checked={ settings.siteVerification }
-                onChange={ (val) => {
-                    setSetting( 'siteVerification', val )
-                } }
-            />
+            {
+                settings.site &&
+                <ToggleControl
+                    label={ __( 'Add verification to site?', 'search-console' ) }
+                    help={ __( 'Check this if you want output meta verification on frontend.', 'search-console' ) }
+                    checked={ settings.siteVerification }
+                    onChange={ (val) => {
+                        setSetting( 'siteVerification', val )
+                    } }
+                />
+            }
             {
                 settings.siteVerification &&
                 <BaseControl 

@@ -16,8 +16,9 @@
 	},
 	"dependencies": {
 		"gapi-script": "^1.2.0",
-		"react-google-charts": "^3.0.15",
+		"react-google-charts": "4.0.0",
 		"react-router-dom": "^6.2.1",
+		"react-simple-oauth2-login": "^0.5.3",
 		"react-table": "^7.7.0"
 	},
 	"devDependencies": {

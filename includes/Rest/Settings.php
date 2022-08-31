@@ -39,6 +39,7 @@ class Settings {
 	public function __construct() {
 		$this->api = new \Search_Console\Api();
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
+		add_action( 'init', array( $this, 'oauth_callback' ) );
 	}
 
 	/**
@@ -181,11 +182,15 @@ class Settings {
 
 		$defaults = array(
 			'wp_url' => get_site_url(),
+			'title' => get_bloginfo( 'name' ),
 			'site' => '',
 			'siteVerification' => '',
 			'meta' => '',
 			'authUrl' => $this->api->get_authurl(),
-			'custom_credentials' => false,
+			'custom_credentials' => true,
+			'client_id' => '',
+			'client_secret' => '',
+			'redirect_uri' => get_site_url() . '?sc-oauth2callback=1',
 		);
 		return wp_parse_args( $data, $defaults );
 
@@ -226,7 +231,17 @@ class Settings {
 	 * @return WP_Error|bool
 	 */
 	public function permissions_check( $request ) {
-		return current_user_can( 'manage_options' );
+		return current_user_can( 'search_console' );
+	}
+
+	/**
+	 * Render the oauthcallback
+	 */
+	public function oauth_callback() {
+		if ( filter_input( INPUT_GET, 'sc-oauth2callback' ) ) {
+			$this->api->exchange_token();
+			wp_die();
+		}
 	}
 
 }

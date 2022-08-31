@@ -42,12 +42,23 @@ class Api {
 	 *
 	 * @var $option_key string.
 	 */
-	private $option_key = 'search_console_token';
+	private $option_key = 'search_console';
+
+	/**
+	 * Default client id.
+	 *
+	 * @var $token_key  string.
+	 */
+	private $token_key = 'search_console_token';
 
 	/**
 	 * Empty constructor.
 	 */
 	public function __construct() {
+		$options = get_option( $this->option_key );
+		$this->client_id = $options['client_id'];
+		$this->client_secret = $options['client_secret'];
+		$this->redirect_uri = $options['redirect_uri'];
 	}
 
 	/**
@@ -156,35 +167,32 @@ class Api {
 			$authUrl = $this->get_authurl();
 			wp_safe_redirect( $authUrl );
 			exit;
-		} elseif ( empty( $_GET['state'] ) || ( $_GET['state'] !== $_SESSION['oauth2state'] ) ) {
-
-			// State is invalid, possible CSRF attack in progress.
-			unset( $_SESSION['oauth2state'] );
-			exit( 'Invalid state' );
 		} else {
+			// phpcs:ignore
+			$token = $this->generate_access_key( sanitize_text_field( $_GET['code'] ) );
 
-			// Try to get an access token (using the authorization code grant).
-			$token = $this->provider->get_access_token(
-				'authorization_code',
-				array(
-					'code' => sanitize_text_field( $_GET['code'] ),
-				)
-			);
-
-			// Optional: Now you have a token you can look up a users profile data.
-			try {
-				$refreshToken = $token->jsonSerialize();
-				// safely store.
-				$this->encryption->set( 'searchconsole_token', $refreshToken );
-
-				wp_safe_redirect( admin_url() . 'admin.php?page=searchconsole#/settings' );
-
-				exit;
-			} catch ( Exception $e ) {
-
-				// Failed to get user details.
-				exit( 'Something went wrong: ' . esc_html( $e->getMessage() ) );
+			if ( ! is_wp_error( $token ) ) {
+				update_option( $this->token_key, $token );
 			}
+
+			?>
+				<html>
+				<head></head>
+				<body>
+					<script>
+						window.addEventListener("message", function (event) {
+							if (event.data.message === "requestResult") {
+								event.source.postMessage({
+									"message": "deliverResult", 
+									result: <?php echo wp_json_encode( $token ); ?>
+								}, "*");
+							}
+						});
+					</script>
+				</body>
+				</html>			
+			<?php
+
 		}
 	}
 
