@@ -30,7 +30,7 @@ const Advanced = ( props ) => {
     const { settings } = props;
     const { setSettings, setSetting } = useDispatch( 'searchconsole' );
 
-    const authUrl = sprintf( 'https://developers.google.com/web/site-kit?sitename=test&siteurl=%s' , settings.wp_url )
+    const authUrl = sprintf( 'https://developers.google.com/web/site-kit?sitename=%s&siteurl=%s', settings.title, settings.wp_url )
                 
     return (
         <div className='search-console-Advanced'>
@@ -38,8 +38,8 @@ const Advanced = ( props ) => {
                 <div className="components-base-control">
                     <RawHTML>
                         { sprintf(
-                            __( '<p>The simplest way to get your own credentials is to go to %s site.</p>', 'search-console' ),
-                            `<strong>Google Site Kit</strong>` )
+                            __( '<p>You can generate your credentials on <a href="%s" target="_blank">Google Developer Console</a>.</p><p>The simplest way to get your own credentials is to go to %s site.</p>', 'search-console' ),
+                            'https://console.developers.google.com/', `<strong>Google Site Kit</strong>` )
                         }
                     </RawHTML>
                     <p>
@@ -49,6 +49,7 @@ const Advanced = ( props ) => {
                     </p>
                 </div>
                 <TextControl
+                    placeholder={ 'CLIENT ID' }
                     value={ settings.client_id || '' }
                     label={ __( 'Client ID', 'search-console' ) }
                     help={ __( 'Please go to Developer Console to set up your credentials.', 'search-console' ) }
@@ -57,6 +58,7 @@ const Advanced = ( props ) => {
                     } }
                 />
                 <TextControl
+                    placeholder={ 'CLIENT SECRET' }
                     value={ settings.client_secret || '' }
                     label={ __( 'Client secret', 'search-console' ) }
                     help={ __( 'Please go to Developer Console to set up your credentials.', 'search-console' ) }

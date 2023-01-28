@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ruleset name="Formello">
+<ruleset name="SearchConsole">
 	<description>Rules for Search Console</description>
 
     <arg name="extensions" value="php" />

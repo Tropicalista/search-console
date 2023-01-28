@@ -16,6 +16,9 @@ body.toplevel_page_search-console2 {
 
 #search-console-wrapper {
 	background-color: #fff;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
 }
 
 .search-console-header {

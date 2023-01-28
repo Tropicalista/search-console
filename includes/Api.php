@@ -21,21 +21,21 @@ class Api {
 	 *
 	 * @var $client_id string.
 	 */
-	private $client_id = '447159129054-penpradideh7rc13boh1upfqafv3n6pp.apps.googleusercontent.com';
+	private $client_id = '';
 
 	/**
 	 * Default client secret.
 	 *
 	 * @var $client_secret string.
 	 */
-	private $client_secret = 'ZpCiemNSNmpgO8IgWDKhhV32';
+	private $client_secret = '';
 
 	/**
 	 * Default redirect uri.
 	 *
 	 * @var $redirect_uri string.
 	 */
-	private $redirect_uri = 'urn:ietf:wg:oauth:2.0:oob';
+	private $redirect_uri = '';
 
 	/**
 	 * Empty constructor.
@@ -56,9 +56,11 @@ class Api {
 	 */
 	public function __construct() {
 		$options = get_option( $this->option_key );
-		$this->client_id = $options['client_id'];
-		$this->client_secret = $options['client_secret'];
-		$this->redirect_uri = $options['redirect_uri'];
+		if ( ! empty( $options ) ) {
+			$this->client_id = $options['credentials']['client_id'];
+			$this->client_secret = $options['credentials']['client_secret'];
+			$this->redirect_uri = $options['credentials']['redirect_uri'];
+		}
 	}
 
 	/**
@@ -72,9 +74,7 @@ class Api {
 	public function make_request( $url, $bodyArgs, $type = 'GET', $headers = false ) {
 		if ( ! $headers ) {
 			$headers = array(
-				'Content-Type' => 'application/http',
-				'Content-Transfer-Encoding' => 'binary',
-				'MIME-Version' => '1.0',
+				'Content-Type' => 'application/x-www-form-urlencoded',
 			);
 		}
 
@@ -82,7 +82,7 @@ class Api {
 			'headers' => $headers,
 		);
 		if ( $bodyArgs ) {
-			$args['body'] = wp_json_encode( $bodyArgs );
+			$args['body'] = $bodyArgs;
 		}
 
 		$args['method'] = $type;
@@ -117,11 +117,11 @@ class Api {
 		$body = array(
 			'code'          => $code,
 			'grant_type'    => 'authorization_code',
-			'redirect_uri'  => $this->redirect_uri,
+			'redirect_uri'  => 'postmessage',
 			'client_id'     => $this->client_id,
 			'client_secret' => $this->client_secret,
 		);
-		return $this->make_request( 'https://accounts.google.com/o/oauth2/token', $body, 'POST' );
+		return $this->make_request( 'https://oauth2.googleapis.com/token', $body, 'POST' );
 	}
 
 	/**
@@ -170,6 +170,10 @@ class Api {
 		} else {
 			// phpcs:ignore
 			$token = $this->generate_access_key( sanitize_text_field( $_GET['code'] ) );
+
+			if ( is_wp_error( $token ) ) {
+				wp_die( esc_html__( 'Error on generating token.', 'search-console' ), 403 );
+			}
 
 			if ( ! is_wp_error( $token ) ) {
 				update_option( $this->token_key, $token );

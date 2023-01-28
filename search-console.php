@@ -15,9 +15,11 @@
  * @package           Search_Console
  */
 
+require_once plugin_dir_path( __FILE__ ) . 'includes/register-settings.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/Api.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/Encryption.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/Rest/Settings.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/Rest/Token.php';
 
 /**
  * Add menu
@@ -47,13 +49,12 @@ function search_console_admin_menu() {
 	$capability = 'search_console';
 	$slug       = 'search-console';
 	$title = __( 'Search Console', 'search-console' );
-	$settings = __( 'Settings' );
 
 	$hook = add_menu_page( $title, $title, $capability, 'search-console', 'search_console_load_admin_view', 'dashicons-chart-bar' );
 
 	if ( current_user_can( $capability ) ) {
 		$submenu[ $slug ][] = array( 'Dashboard', $capability, 'admin.php?page=' . $slug . '#/' );
-		$submenu[ $slug ][] = array( $settings, $capability, 'admin.php?page=' . $slug . '#/settings' );
+		$submenu[ $slug ][] = array( __( 'Settings' ), $capability, 'admin.php?page=' . $slug . '#/settings' );
 	}
 
 	add_action( 'load-' . $hook, 'search_console_load_assets' );
@@ -83,12 +84,23 @@ function search_console_load_assets() {
 
 	load_plugin_textdomain( 'search-console', false, plugin_dir_path( __FILE__ ) . 'languages/' );
 
-	wp_register_script( 'search-console', plugin_dir_url( __FILE__ ) . 'build/index.js', $script_asset['dependencies'], $script_asset['version'], 'all' );
+	wp_register_script(
+		'search-console',
+		plugin_dir_url( __FILE__ ) . 'build/index.js',
+		$script_asset['dependencies'],
+		$script_asset['version'],
+		true
+	);
 
 	wp_enqueue_script( 'search-console' );
 	wp_set_script_translations( 'search-console', 'search-console', plugin_dir_path( __FILE__ ) . 'languages' );
 
-	wp_enqueue_style( 'search-console-bundle-styles', plugin_dir_url( __FILE__ ) . 'build/style-index.css', array( 'wp-components' ), $script_asset['version'], 'all' );
+	wp_enqueue_style(
+		'search-console-bundle-styles',
+		plugin_dir_url( __FILE__ ) . 'build/index.css',
+		array( 'wp-components' ),
+		$script_asset['version']
+	);
 
 	add_filter( 'update_footer', 'search_console_remove_footer_admin' );
 	add_filter( 'admin_footer_text', 'search_console_add_rating' );
@@ -96,16 +108,32 @@ function search_console_load_assets() {
 add_action( 'admin_menu', 'search_console_admin_menu' );
 
 /**
- * Filter to retrieve unencrypted key
+ * Function to retrieve unencrypted settings
  *
  * @param mixed $settings The general settings.
  */
-function search_console_option( $settings ) {
-	$crypto   = new \Tropicalista\SearchConsole\Encryption();
+function search_console_decrypt_option( $settings ) {
+	if ( is_array( $settings ) ) {
+		return $settings;
+	}
+	$crypto = new \Tropicalista\SearchConsole\Encryption();
+
 	$settings = $crypto->decrypt( $settings );
-	return $settings;
+	return maybe_unserialize( $settings );
 }
-add_filter( 'option_searchconsole', 'search_console_option' );
+add_filter( 'option_search_console', 'search_console_decrypt_option' );
+
+/**
+ * Function to retrieve unencrypted settings
+ *
+ * @param mixed $settings The general settings.
+ */
+function search_console_encrypt_option( $settings ) {
+	$crypto = new \Tropicalista\SearchConsole\Encryption();
+
+	return $crypto->encrypt( maybe_serialize( $settings ) );
+}
+//add_filter( 'pre_update_option_search_console', 'search_console_encrypt_option' );
 
 /**
  * Action to store encrypted key
@@ -119,8 +147,6 @@ function search_console_update( $token ) {
 		update_option( 'search_console', $key );
 	}
 }
-
-register_setting( 'options', 'searchconsole_token', array( 'show_in_rest' => true ) );
 
 /**
  * My footer
@@ -210,14 +236,17 @@ add_action( 'wp_head', 'search_console_add_meta' );
 function search_console_add_meta() {
 	$options = get_option( 'search_console' );
 
-	$args = array(
-		'meta'     => array(
-			'content' => array(),
-			'name' => array(),
-		),
-	);
+	if ( $options ) {
+		$args = array(
+			'meta'     => array(
+				'content' => array(),
+				'name' => array(),
+			),
+		);
 
-	echo wp_kses( $options['meta'], $args );
+		echo wp_kses( $options['meta'], $args );
+	}
+
 }
 
 /**

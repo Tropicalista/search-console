@@ -1,18 +1,22 @@
 import './style.scss';
 import './store';
+import menuFix from './utils/menuFix'
 
 import { __ } from '@wordpress/i18n';
 import { getQueryArg } from '@wordpress/url';
 
 import {
 	Button,
+	Spinner,
 	withNotices,
 	NoticeList,
+	Notice,
 	SnackbarList,
 	SelectControl
 } from '@wordpress/components';
 import { store as noticesStore } from '@wordpress/notices';
 import { gapi } from 'gapi-script';
+import { HashRouter, Routes, Route } from "react-router-dom";
 
 import {
 	useState,
@@ -26,33 +30,17 @@ import {
 	useDispatch
 } from '@wordpress/data';
 
-import Settings from './settings/';
-import Dashboard from './dashboard/';
+import Settings from './routes/settings';
+import Dashboard from './routes/dashboard';
+import Navbar from './components/Navbar';
+import Header from './components/Header';
+import SettingsNew from './routes/new-settings';
 
 const App = withNotices(
 	( { noticeOperations, noticeUI, noticeList } ) => {
 
-	const [ view, setView ] = useState( 'dashboard' );
-	const [ sites, setSites ] = useState( [] );
-
-    const { setSetting } = useDispatch( 'searchconsole' );
-
-	const tab = getQueryArg( window.location.href, 'tab' );
-
-	const changeView = () => {
-		if( 'dashboard' === view ){
-			setView( 'settings' )
-		} else{
-			if( !settings.token || !settings.site ){
-				noticeOperations.createErrorNotice( 'Please you must autenthicate and select a site.', {
-					isDismissible: true,
-					explicitDismiss: false
-				} );
-				return
-			}
-			setView( 'dashboard' )
-		}
-	}
+    const { setSites } = useDispatch( 'searchconsole' );
+	const [ apiLoaded, setApiLoaded ] = useState( false );
 
 	const { settings, query } = useSelect( ( select ) => { 
 		return { 
@@ -62,9 +50,6 @@ const App = withNotices(
 	}, [] );
 
 	useEffect( () => { 
-		if( '' === settings.token || '' === settings.site ){
-			setView( 'settings' )
-		}
 		if( settings.token ){
 			gapi.load('client:auth', () => {
 				gapi.client.load('searchconsole', 'v1').then( getSites )
@@ -89,25 +74,21 @@ const App = withNotices(
             })
     }
 
-	return (
-		<Fragment>
-			{ noticeUI }
+	if( !Object.keys(settings).length ){
+		return <Spinner />
+	}
 
-			<div className="search-console-header">
-				<Button 
-					isPrimary={ true } 
-					onClick={ changeView } 
-					icon={ 'settings' === view ? 'dashboard' : 'admin-generic' }>
-				</Button>
-		        <SelectControl
-		            value={ settings.site }
-		            options={ sites }
-		            onChange={ ( val ) => setSetting( 'site', val ) }
-		        />
-			</div>
-			{ ( 'dashboard' === view && '' !== settings.token ) && <Dashboard settings={ settings } query={ query } /> }
-			{ ( 'settings' === view ) && <Settings settings={ settings } /> }
-		</Fragment>
+	return (
+		<React.StrictMode>
+			<HashRouter basename="/">
+				<Header title={ __( 'Search Console', 'formello' ) } />
+				<Routes>
+					<Route path="/" element={<Dashboard />} />
+					<Route path="/settings" element={<Settings />} />
+					<Route path="/stocazzo" element={<SettingsNew />} />
+				</Routes>
+			</HashRouter>
+		</React.StrictMode>
 	)
 
 })
@@ -118,3 +99,6 @@ window.addEventListener( 'DOMContentLoaded', () => {
 		document.getElementById( 'search-console-wrapper' )
 	);
 } );
+
+// fix the admin menu for the slug "search-console"
+menuFix('search-console');

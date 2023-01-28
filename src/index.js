@@ -1,27 +1,10 @@
-import './style.scss';
-import './store';
-import menuFix from './utils/menuFix'
-
 import { __ } from '@wordpress/i18n';
-import { getQueryArg } from '@wordpress/url';
-
-import {
-	Button,
-	Spinner,
-	withNotices,
-	NoticeList,
-	Notice,
-	SnackbarList,
-	SelectControl
-} from '@wordpress/components';
-import { store as noticesStore } from '@wordpress/notices';
-import { gapi } from 'gapi-script';
 import { HashRouter, Routes, Route } from "react-router-dom";
+import LoadingSpinner from './components/loading-spinner.js';
 
 import {
 	useState,
 	render,
-	Fragment,
 	useEffect
 } from '@wordpress/element';
 import {
@@ -30,65 +13,82 @@ import {
 	useDispatch
 } from '@wordpress/data';
 
-import Settings from './routes/settings';
+import menuFix from './utils/menuFix'
+import './style-new.scss';
+import './store';
+
 import Dashboard from './routes/dashboard';
-import Navbar from './components/Navbar';
+import Settings from './routes/settings';
+import Header from './components/Header';
+import apiFetch from '@wordpress/api-fetch';
 
-const App = withNotices(
-	( { noticeOperations, noticeUI, noticeList } ) => {
+const App = () => {
 
-    const { setSites } = useDispatch( 'searchconsole' );
-	const [ apiLoaded, setApiLoaded ] = useState( false );
+    const { settings, isReady } = useSelect( ( select ) => { 
+        return { 
+            settings: select( 'searchconsole' ).getSettings() ?? null,
+            isReady: select( 'searchconsole' ).isReady(),
+        }
+    }, [] );
+    const { setSettings } = useDispatch( 'searchconsole' );
 
-	const { settings, query } = useSelect( ( select ) => { 
-		return { 
-			settings:  select( 'searchconsole' ).getSettings(),
-			query: select( 'searchconsole' ).getQuery(),
-		}
-	}, [] );
+	const [ mounted, setMounted ] = useState( false );
+    const token = settings?.token ?? false;
 
-	useEffect( () => { 
-		if( settings.token ){
-			gapi.load('client:auth', () => {
-				gapi.client.load('searchconsole', 'v1').then( getSites )
-			});	
-		}
-	}, [settings] );
+    useEffect( () => { 
 
-    const getSites = () => {
+        if( !token ){
+            return
+        }
 
-        let sites = []
-        gapi.auth.setToken({access_token:settings.token})
-        gapi.client.webmasters.sites.list()
-            .then( (s) => {
-                s.result.siteEntry.map( (t) => {
-                    sites.push({ value:t.siteUrl, label:t.siteUrl })
-                } )
-                sites.sort(function(a, b){
-                    if(a.value < b.value) { return -1; }
-                    return 0;
-                })
-                setSites(sites.sort())
-            })
+        gapi.load('client:auth', () => {
+            gapi.client.load('searchconsole', 'v1').then( () => {
+            	gapi.auth.setToken( token )
+            	setMounted( true )
+            } )
+        }); 
+
+    }, [token] );
+
+    const refreshToken = () => {
+        apiFetch( {
+            path: '/searchconsole/v1/refresh',
+            method: 'POST',
+        } ).then( ( result ) => {
+            console.log( result )
+            setSettings( {
+                ...settings,
+                token: result,
+            } );
+            gapi.auth.setToken( result )
+        } )
+        .catch( ( error ) => {
+            console.log(error)
+        } )
+        .finally( () => setMounted(true) )
     }
 
-	if( !Object.keys(settings).length ){
-		return <Spinner />
-	}
+    if( !mounted ){
+        return <LoadingSpinner text={ __( 'Loading...', 'search-console' ) } />
+    }
 
 	return (
 		<React.StrictMode>
 			<HashRouter basename="/">
-				<Navbar />
+				<Header title={ 'Search Console' } />
 				<Routes>
-					<Route path="/" element={<Dashboard />} />
-					<Route path="/settings" element={<Settings />} />
+					<Route path="/" element={
+						<Dashboard settings={ settings } gapi={ gapi } refreshToken={ refreshToken } />
+					} />
+					<Route path="/settings" element={
+						<Settings settings={ settings } gapi={ gapi } refreshToken={ refreshToken } />
+					} />
 				</Routes>
 			</HashRouter>
 		</React.StrictMode>
 	)
 
-})
+}
 
 window.addEventListener( 'DOMContentLoaded', () => {
 	render(

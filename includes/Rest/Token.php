@@ -10,7 +10,7 @@ namespace Search_Console\Rest;
 /**
  * REST_SETTINGS Handler
  */
-class Settings {
+class Token {
 
 	/**
 	 * Namespace.
@@ -22,9 +22,9 @@ class Settings {
 	/**
 	 * Default client id.
 	 *
-	 * @var $option_key string.
+	 * @var $token_key  string.
 	 */
-	private $option_key = 'search_console';
+	private $token_key = 'search_console';
 
 	/**
 	 * Default client id.
@@ -67,74 +67,102 @@ class Settings {
 
 		register_rest_route(
 			$this->namespace,
-			'settings',
+			'revoke',
 			array(
 				'methods'             => \WP_REST_Server::CREATABLE,
 				'permission_callback' => array( $this, 'permissions_check' ),
-				'callback'            => array( $this, 'save_settings' ),
+				'callback'            => array( $this, 'revoke_token' ),
 			)
 		);
 		register_rest_route(
 			$this->namespace,
-			'settings',
+			'refresh',
 			array(
-				'methods'             => \WP_REST_Server::READABLE,
+				'methods'             => \WP_REST_Server::CREATABLE,
 				'permission_callback' => array( $this, 'permissions_check' ),
-				'callback'            => array( $this, 'get_settings' ),
+				'callback'            => array( $this, 'refresh_token' ),
 			)
 		);
-
+		register_rest_route(
+			$this->namespace,
+			'credentials',
+			array(
+				'methods'             => \WP_REST_Server::CREATABLE,
+				'permission_callback' => array( $this, 'permissions_check' ),
+				'callback'            => array( $this, 'get_credentials' ),
+			)
+		);
 	}
 
 	/**
-	 * Get settings.
-	 *
-	 * @return \WP_REST_Response.
-	 */
-	public function get_settings() {
-
-		$settings = get_option( $this->option_key );
-
-		return new \WP_REST_Response( $settings );
-
-	}
-
-	/**
-	 * Save settings.
+	 * Get credentials.
 	 *
 	 * @param \WP_REST_Request $request Full data about the request.
 	 * @return $token.
 	 */
-	public function save_settings( \WP_REST_Request $request ) {
+	public function get_credentials( \WP_REST_Request $request ) {
 
-		$req = $request->get_params();
+		$code = $request->get_param( 'code' );
+		$token = $this->api->generate_access_key( $code );
 
-		$res = update_option( $this->option_key, $req['settings'] );
-
-		return new \WP_REST_Response( $res );
+		if ( ! is_wp_error( $token ) ) {
+			$this->save_token( $token );
+			return $token;
+		}
+		return $token;
 	}
 
 	/**
-	 * Get defaults.
+	 * Revoke token.
 	 *
-	 * @param array $data Full data about the request.
-	 * @return defaults.
+	 * @param \WP_REST_Request $request Full data about the request.
+	 * @return $token.
 	 */
-	public function parse_defaults( $data ) {
+	public function revoke_token( \WP_REST_Request $request ) {
 
-		$defaults = array(
-			'wp_url' => get_site_url(),
-			'title' => get_bloginfo( 'name' ),
-			'site' => '',
-			'siteVerification' => '',
-			'meta' => '',
-			'authUrl' => $this->api->get_authurl(),
-			'custom_credentials' => true,
-			'client_id' => '',
-			'client_secret' => '',
-			'redirect_uri' => get_site_url() . '?sc-oauth2callback=1',
-		);
-		return wp_parse_args( $data, $defaults );
+		$req = $request->get_params();
+
+		delete_option( $this->token_key );
+
+		return new \WP_REST_Response( $req );
+	}
+
+	/**
+	 * Get token.
+	 *
+	 * @return $token.
+	 */
+	public function refresh_token() {
+
+		$options = get_option( $this->token_key );
+
+		$token = $options['token'];
+
+		// It's expired so we have to re-issue again.
+		$refreshToken = $this->api->refresh_token( $token );
+
+		$newToken = array_merge( $token, $refreshToken );
+
+		if ( ! is_wp_error( $refreshToken ) ) {
+			$this->save_token( $newToken );
+		}
+
+		return $newToken;
+
+	}
+
+	/**
+	 * Store token in DB.
+	 *
+	 * @param array $token The token.
+	 */
+	private function save_token( $token ) {
+
+		$options = get_option( $this->token_key );
+
+		$options['token'] = $token;
+
+		update_option( $this->token_key, $options );
 
 	}
 
@@ -159,4 +187,4 @@ class Settings {
 	}
 
 }
-\Search_Console\Rest\Settings::get_instance();
+\Search_Console\Rest\Token::get_instance();

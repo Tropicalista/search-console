@@ -20,11 +20,11 @@ window.onGoogleScriptLoad = () => {
 	google.charts.load('current', {'packages':['corechart']});
 
 	// get settings
-	wp.apiRequest( { path: '/searchconsole/settings/' } )
+	wp.apiRequest( { path: 'wp/v2/settings?_locale=user' } )
 			.then(
 				(result) => {
 
-					token = result.token
+					token = result.search_console.token.access_token
 					chartQuery.siteUrl = result.site
 					gapi.load( 'client', start );
 

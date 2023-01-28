@@ -15,13 +15,16 @@
 		"packages-update": "wp-scripts packages-update"
 	},
 	"dependencies": {
+		"@react-oauth/google": "^0.6.1",
 		"gapi-script": "^1.2.0",
+		"react-gapi": "^1.0.2",
 		"react-google-charts": "4.0.0",
-		"react-router-dom": "^6.2.1",
-		"react-simple-oauth2-login": "^0.5.3",
+		"react-router-dom": "^6.8.0",
 		"react-table": "^7.7.0"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^18.0.1"
+		"@wordpress/icons": "^9.16.0",
+		"@wordpress/scripts": "^25.2.0",
+		"classnames": "^2.3.1"
 	}
 }

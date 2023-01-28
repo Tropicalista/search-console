@@ -28,9 +28,6 @@ export default function Chooser ( props ) {
     const [ sites, setSites ] = useState( [] );
     const [ loading, setLoading ] = useState( false );
 
-
-    const { setSetting } = useDispatch( 'searchconsole' );
-
     useEffect( () => {
 
         if( token ) {
@@ -68,7 +65,6 @@ export default function Chooser ( props ) {
                 help={ __( 'Choose one of your site.', 'search-console' ) }
                 value={ settings.site }
                 onChange={ ( val ) => {
-                    console.log(val)
                     setSetting( 'site', val )
                 } }
             />

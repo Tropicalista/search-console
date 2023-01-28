@@ -3,7 +3,6 @@ import { createReduxStore, register } from '@wordpress/data';
  
 const DEFAULT_STATE = {
     settings: {},
-    site: '',
     sites: [],
     dimension: 'query',
     searchType: 'web',
@@ -63,6 +62,13 @@ const actions = {
         };
     },
  
+    setEndDate( date ) {
+        return {
+            type: 'SET_ENDDATE',
+            date
+        };
+    },
+ 
     removeFilter( filter ) {
         return {
             type: 'REMOVE_FILTER',
@@ -96,10 +102,7 @@ const store = createReduxStore( 'searchconsole', {
             case 'SET_SETTING':
                 return {
                     ...state,
-                    settings: {
-                        ...state.settings,
-                        [ action.setting ]: action.value,
-                    },
+                    [ action.setting ]: action.value,
                 };
  
             case 'SET_SEARCHTYPE':
@@ -118,6 +121,12 @@ const store = createReduxStore( 'searchconsole', {
                 return {
                     ...state,
                     startDate: action.date,
+                };
+ 
+            case 'SET_ENDDATE':
+                return {
+                    ...state,
+                    endDate: action.date,
                 };
  
             case 'SET_FILTER':
@@ -151,6 +160,9 @@ const store = createReduxStore( 'searchconsole', {
     actions,
  
     selectors: {
+        isReady( state ) {
+            return state.settings ?? false;
+        },
         getSettings( state ) {
             const { settings } = state;
             return settings;
@@ -159,10 +171,13 @@ const store = createReduxStore( 'searchconsole', {
             const { sites } = state;
             return sites;
         },
+        getSite( state ) {
+            const { settings } = state;
+            return settings.site;
+        },
         getQuery( state ) {
             const { site, searchType, filters, settings, dimension, startDate, endDate } = state;
             return {
-                site: settings.site,
                 dimension,
                 startDate,
                 endDate,
@@ -201,9 +216,9 @@ const store = createReduxStore( 'searchconsole', {
  
     resolvers: {
         *getSettings() {
-            const path = '/searchconsole/settings/';
+            const path = '/searchconsole/v1/settings/';
             const settings = yield actions.fetchFromAPI( path );
-            return actions.setSettings( settings );
+            return actions.setSettings( settings )             
         },
     },
 } );
