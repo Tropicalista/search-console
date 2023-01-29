@@ -56,7 +56,7 @@ class Api {
 	 */
 	public function __construct() {
 		$options = get_option( $this->option_key );
-		if ( ! empty( $options ) ) {
+		if ( is_array( $options ) ) {
 			$this->client_id = $options['credentials']['client_id'];
 			$this->client_secret = $options['credentials']['client_secret'];
 			$this->redirect_uri = $options['credentials']['redirect_uri'];

@@ -32,9 +32,6 @@ function register_settings() {
 		'meta' => array(
 			'type' => 'string',
 		),
-		'authUrl' => array(
-			'type' => 'string',
-		),
 		'credentials' => array(
 			'type'       => 'object',
 			'properties' => array(
@@ -80,8 +77,7 @@ function register_settings() {
 		'site' => '',
 		'siteVerification' => '',
 		'meta' => '',
-		'authUrl' => '',
-		'token' => '',
+		'token' => false,
 		'credentials' => array(
 			'client_id' => '',
 			'client_secret' => '',

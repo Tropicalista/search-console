@@ -5,7 +5,7 @@
  * Plugin Name:       Search Console
  * Plugin URI:        https://www.formello.net/
  * Description:       This plugin displays your Google Search Console Analytics data inside your WordPress.
- * Version:           2.5.0
+ * Version:           2.6.0
  * Author:            Tropicalista
  * Author URI:        https://www.formello.net
  * License:           GPL-2.0+
@@ -97,7 +97,7 @@ function search_console_load_assets() {
 
 	wp_enqueue_style(
 		'search-console-bundle-styles',
-		plugin_dir_url( __FILE__ ) . 'build/index.css',
+		plugin_dir_url( __FILE__ ) . 'build/style-index.css',
 		array( 'wp-components' ),
 		$script_asset['version']
 	);
@@ -116,7 +116,7 @@ function search_console_decrypt_option( $settings ) {
 	if ( is_array( $settings ) ) {
 		return $settings;
 	}
-	$crypto = new \Tropicalista\SearchConsole\Encryption();
+	$crypto = new \Search_Console\Encryption();
 
 	$settings = $crypto->decrypt( $settings );
 	return maybe_unserialize( $settings );
@@ -129,11 +129,11 @@ add_filter( 'option_search_console', 'search_console_decrypt_option' );
  * @param mixed $settings The general settings.
  */
 function search_console_encrypt_option( $settings ) {
-	$crypto = new \Tropicalista\SearchConsole\Encryption();
+	$crypto = new \Search_Console\Encryption();
 
 	return $crypto->encrypt( maybe_serialize( $settings ) );
 }
-//add_filter( 'pre_update_option_search_console', 'search_console_encrypt_option' );
+add_filter( 'pre_update_option_search_console', 'search_console_encrypt_option' );
 
 /**
  * Action to store encrypted key
@@ -142,7 +142,7 @@ function search_console_encrypt_option( $settings ) {
  */
 function search_console_update( $token ) {
 	if ( ! empty( $token ) ) {
-		$crypto = new \Tropicalista\SearchConsole\Encryption();
+		$crypto = new \Search_Console\Encryption();
 		$key    = $crypto->encrypt( $token );
 		update_option( 'search_console', $key );
 	}

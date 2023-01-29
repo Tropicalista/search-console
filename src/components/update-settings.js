@@ -37,23 +37,24 @@ export default function UpdateSettings( props ) {
 			: __( 'Update', 'search-console' );
 
 	const saveSettings = () => {
-        setStatus( 'saving' )
-        apiFetch( {
-            path: '/searchconsole/v1/settings',
-            method: 'POST',
-            data: {
-            	settings: settings
-            }
-        } ).then( ( result ) => {
-        	setStatus( 'saved' )
-            console.log( result )
-        } )
-        .catch( ( error ) => {
-        	setStatus( 'error' )
-        	console.log( error )
-        } )
-        .finally( () => console.log( 'saved' ) )
-	}
+		setStatus( 'saving' );
+		apiFetch( {
+			path: '/searchconsole/v1/settings',
+			method: 'POST',
+			data: {
+				settings,
+			},
+		} )
+			.then( ( result ) => {
+				setStatus( 'saved' );
+				console.log( result );
+			} )
+			.catch( ( error ) => {
+				setStatus( 'error' );
+				console.log( error );
+			} )
+			.finally( () => console.log( 'saved' ) );
+	};
 
 	return (
 		<>
@@ -71,7 +72,8 @@ export default function UpdateSettings( props ) {
 					status === 'saving' && (
 						<Animate type="loading" key="saving">
 							{ ( { className: animateClassName } ) => (
-								<Flex justify="flex-start"
+								<Flex
+									justify="flex-start"
 									className={ classnames(
 										'message',
 										animateClassName

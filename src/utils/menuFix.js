@@ -3,32 +3,33 @@
  * to highlight the current selected menu
  *
  * Requires jQuery
+ *
+ * @param  slug
  */
-function menuFix(slug) {
-    var $ = jQuery;
+function menuFix( slug ) {
+	const $ = jQuery;
 
-    let menuRoot = $('#toplevel_page_' + slug);
-    let currentUrl = window.location.href;
-    let currentPath = currentUrl.substr( currentUrl.indexOf('admin.php') );
+	const menuRoot = $( '#toplevel_page_' + slug );
+	const currentUrl = window.location.href;
+	const currentPath = currentUrl.substr( currentUrl.indexOf( 'admin.php' ) );
 
-    menuRoot.on('click', 'a', function() {
-        var self = $(this);
+	menuRoot.on( 'click', 'a', function () {
+		const self = $( this );
 
-        $('ul.wp-submenu li', menuRoot).removeClass('current');
+		$( 'ul.wp-submenu li', menuRoot ).removeClass( 'current' );
 
-        if ( self.hasClass('wp-has-submenu') ) {
-            $('li.wp-first-item', menuRoot).addClass('current');
-        } else {
-            self.parents('li').addClass('current');
-        }
-    });
+		if ( self.hasClass( 'wp-has-submenu' ) ) {
+			$( 'li.wp-first-item', menuRoot ).addClass( 'current' );
+		} else {
+			self.parents( 'li' ).addClass( 'current' );
+		}
+	} );
 
-    $('ul.wp-submenu a', menuRoot).each(function(index, el) {
-        if ( $(el).attr( 'href' ) === currentPath ) {
-            $(el).parent().addClass('current');
-            return;
-        }
-    });
+	$( 'ul.wp-submenu a', menuRoot ).each( function ( index, el ) {
+		if ( $( el ).attr( 'href' ) === currentPath ) {
+			$( el ).parent().addClass( 'current' );
+		}
+	} );
 }
 
 export default menuFix;

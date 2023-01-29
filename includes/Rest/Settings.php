@@ -37,7 +37,6 @@ class Settings {
 	 * COnstructor.
 	 */
 	public function __construct() {
-		$this->api = new \Search_Console\Api();
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 		add_action( 'init', array( $this, 'oauth_callback' ) );
 	}
@@ -128,7 +127,6 @@ class Settings {
 			'site' => '',
 			'siteVerification' => '',
 			'meta' => '',
-			'authUrl' => $this->api->get_authurl(),
 			'custom_credentials' => true,
 			'client_id' => '',
 			'client_secret' => '',

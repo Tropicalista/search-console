@@ -37,7 +37,6 @@ class Token {
 	 * COnstructor.
 	 */
 	public function __construct() {
-		$this->api = new \Search_Console\Api();
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 		add_action( 'init', array( $this, 'oauth_callback' ) );
 	}
@@ -180,6 +179,7 @@ class Token {
 	 * Render the oauthcallback
 	 */
 	public function oauth_callback() {
+		$this->api = new \Search_Console\Api();
 		if ( filter_input( INPUT_GET, 'sc-oauth2callback' ) ) {
 			$this->api->exchange_token();
 			wp_die();

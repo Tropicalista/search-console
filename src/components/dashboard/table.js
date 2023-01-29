@@ -6,86 +6,78 @@ import {
 	RawHTML,
 	useState,
 	useMemo,
-	useEffect
+	useEffect,
 } from '@wordpress/element';
 
+import { __, sprintf } from '@wordpress/i18n';
 import {
-	__,
-	sprintf,
-} from '@wordpress/i18n';
-import { useTable, usePagination, useSortBy, useGlobalFilter } from 'react-table'
-import Countries from './countries'
-import {
-	useSelect,
-	select
-} from '@wordpress/data';
+	useTable,
+	usePagination,
+	useSortBy,
+	useGlobalFilter,
+} from 'react-table';
+import Countries from './countries';
+import { useSelect, select } from '@wordpress/data';
 
-import {
-	Button,
-	Spinner,
-	SelectControl,
-	Icon,
-} from '@wordpress/components';
+import { Button, Spinner, SelectControl, Icon } from '@wordpress/components';
 
 import Pagination from './table/pagination';
 import TableBar from './table/table-bar';
 
-export function MyTable ( props ) {
-
+export function MyTable( props ) {
 	const { token, searchType, dimension, site, filters, query } = props;
 
-	const [ data, setData ] = useState([]);
-	const [ isLoading, setIsLoading ] = useState(false);
+	const [ data, setData ] = useState( [] );
+	const [ isLoading, setIsLoading ] = useState( false );
 
-	useEffect( () => { 
-        if( !gapi.auth.getToken() ){
-            return
-        }
-        getData()
+	useEffect( () => {
+		if ( ! gapi?.auth?.getToken() || ! site ) {
+			return;
+		}
+		getData();
 	}, [ site, query ] );
- 
 
 	const getData = () => {
-		setIsLoading(true)
+		setIsLoading( true );
 
-		gapi.client.webmasters.searchanalytics.query(
-			{
-				'siteUrl': site,
-				'fields': 'rows',
-				'rowLimit': null,
-				'searchType': query.searchType,
-				'startDate': query.startDate,
-				'endDate': query.endDate,
-				'dimensions': [ query.dimension ],
-				'dimensionFilterGroups': [{
-					filters: query.filters
-				}],
-			}
-		)
-		.then((response) => {
-			setIsLoading(false)
-			if( ! response.result.rows ){
-				setData( [] )
-				return
-			}
-			if ( dimension === 'country' ) {
-				response.result.rows.map( (row) => {
-					row.keys[0] = Countries[row.keys[0]]
-				})
-			}
-			setData(response.result.rows)
-
-		})
-		.then(null, function(err) {
-			console.log(err);
-			setIsLoading(false)
-		});
-	}
+		gapi.client.webmasters.searchanalytics
+			.query( {
+				siteUrl: site,
+				fields: 'rows',
+				rowLimit: null,
+				searchType: query.searchType,
+				startDate: query.startDate,
+				endDate: query.endDate,
+				dimensions: [ query.dimension ],
+				dimensionFilterGroups: [
+					{
+						filters: query.filters,
+					},
+				],
+			} )
+			.then( ( response ) => {
+				setIsLoading( false );
+				if ( ! response.result.rows ) {
+					setData( [] );
+					return;
+				}
+				if ( dimension === 'country' ) {
+					response.result.rows.map( ( row ) => {
+						row.keys[ 0 ] = Countries[ row.keys[ 0 ] ];
+					} );
+				}
+				setData( response.result.rows );
+			} )
+			.then( null, function ( err ) {
+				console.log( err );
+				setIsLoading( false );
+			} );
+	};
 
 	const options = {
 		pageSize: 20,
-		pageSizeOptions: [ 5, 10, 20, 50, 100 ]
-	}
+		pageSizeOptions: [ 5, 10, 20, 50, 100 ],
+	};
 
 	const columns = React.useMemo(
 		() => [
@@ -104,16 +96,20 @@ export function MyTable ( props ) {
 			{
 				Header: __( 'CTR', 'search-console' ),
 				accessor: 'ctr',
-				Cell: ({value}) => { return ( value * 100 ).toFixed(1) +' %' }
+				Cell: ( { value } ) => {
+					return ( value * 100 ).toFixed( 1 ) + ' %';
+				},
 			},
 			{
 				Header: __( 'Position', 'search-console' ),
 				accessor: 'position',
-				Cell: ({value}) => { return value.toFixed(1) }
+				Cell: ( { value } ) => {
+					return value.toFixed( 1 );
+				},
 			},
 		],
 		[]
-	)
+	);
 
 	const {
 		getTableProps,
@@ -139,49 +135,58 @@ export function MyTable ( props ) {
 		},
 		useGlobalFilter,
 		useSortBy,
-		usePagination,
-	)
- 
-   return (
+		usePagination
+	);
+
+	return (
 		<div className="search-console-table-wrapper">
 			<TableBar
 				globalFilter={ globalFilter }
 				setGlobalFilter={ setGlobalFilter }
 			/>
 			{ isLoading ? <Spinner /> : null }
-			<table {...getTableProps()}>
+			<table { ...getTableProps() }>
 				<thead>
-					{headerGroups.map(headerGroup => (
-						<tr {...headerGroup.getHeaderGroupProps()}>
-							{headerGroup.headers.map(column => (
-								<th {...column.getHeaderProps(column.getSortByToggleProps())}>
-								{column.render('Header')}
+					{ headerGroups.map( ( headerGroup ) => (
+						<tr { ...headerGroup.getHeaderGroupProps() }>
+							{ headerGroup.headers.map( ( column ) => (
+								<th
+									{ ...column.getHeaderProps(
+										column.getSortByToggleProps()
+									) }
+								>
+									{ column.render( 'Header' ) }
 									<span>
-									{
-										column.isSorted
-										? column.isSortedDesc
-										? <Icon icon="arrow-down" />
-										: <Icon icon="arrow-up" />
-										: 
-										''
-									}
+										{ column.isSorted ? (
+											column.isSortedDesc ? (
+												<Icon icon="arrow-down" />
+											) : (
+												<Icon icon="arrow-up" />
+											)
+										) : (
+											''
+										) }
 									</span>
 								</th>
-							))}
+							) ) }
 						</tr>
-					))}
+					) ) }
 				</thead>
-				<tbody {...getTableBodyProps()}>
-					{page.map((row, i) => {
-						prepareRow(row)
+				<tbody { ...getTableBodyProps() }>
+					{ page.map( ( row, i ) => {
+						prepareRow( row );
 						return (
-							<tr {...row.getRowProps()}>
-							{ row.cells.map(cell => {
-								return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-							} )}
+							<tr { ...row.getRowProps() }>
+								{ row.cells.map( ( cell ) => {
+									return (
+										<td { ...cell.getCellProps() }>
+											{ cell.render( 'Cell' ) }
+										</td>
+									);
+								} ) }
 							</tr>
-						)
-					})}
+						);
+					} ) }
 				</tbody>
 			</table>
 			<Pagination
@@ -197,6 +202,5 @@ export function MyTable ( props ) {
 				previousPage={ previousPage }
 			/>
 		</div>
-   )
-
+	);
 }
