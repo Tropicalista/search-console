@@ -16,7 +16,7 @@ import {
 	useSortBy,
 	useGlobalFilter,
 } from 'react-table';
-import Countries from './countries';
+import Countries from './modals/countries';
 import { useSelect, select } from '@wordpress/data';
 
 import { Button, Spinner, SelectControl, Icon } from '@wordpress/components';
@@ -25,7 +25,7 @@ import Pagination from './table/pagination';
 import TableBar from './table/table-bar';
 
 export function MyTable( props ) {
-	const { token, searchType, dimension, site, filters, query } = props;
+	const { site, query } = props;
 
 	const [ data, setData ] = useState( [] );
 	const [ isLoading, setIsLoading ] = useState( false );
@@ -61,8 +61,9 @@ export function MyTable( props ) {
 					setData( [] );
 					return;
 				}
-				if ( dimension === 'country' ) {
+				if ( query.dimension === 'country' ) {
 					response.result.rows.map( ( row ) => {
+						console.log(row)
 						row.keys[ 0 ] = Countries[ row.keys[ 0 ] ];
 					} );
 				}

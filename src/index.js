@@ -16,13 +16,15 @@ import apiFetch from '@wordpress/api-fetch';
 import { gapi } from 'gapi-script';
 
 const App = () => {
+
 	const { settings, isReady } = useSelect( ( select ) => {
 		return {
 			settings: select( 'searchconsole' ).getSettings() ?? null,
 			isReady: select( 'searchconsole' ).isReady(),
 		};
 	}, [] );
-	const { setSettings } = useDispatch( 'searchconsole' );
+
+	const { setSettings, setSites } = useDispatch( 'searchconsole' );
 
 	const [ mounted, setMounted ] = useState( false );
 	const token = settings?.token ?? false;
@@ -36,6 +38,7 @@ const App = () => {
 			gapi.client.load( 'searchconsole', 'v1' ).then( () => {
 				gapi.auth.setToken( token );
 				setMounted( true );
+				getSites()
 			} );
 		} );
 	}, [ token ] );
@@ -59,6 +62,26 @@ const App = () => {
 			.finally( () => setMounted( true ) );
 	};
 
+	const getSites = () => {
+		const sites = [];
+
+		gapi.client?.webmasters.sites
+			.list()
+			.then( ( s ) => {
+				s.result.siteEntry.map( ( t ) => {
+					sites.push( { value: t.siteUrl, label: t.siteUrl } );
+				} );
+				sites.sort( function ( a, b ) {
+					if ( a.value < b.value ) {
+						return -1;
+					}
+					return 0;
+				} );
+				setSites( sites.sort() );
+			} )
+			.catch( () => refreshToken() );
+	};
+
 	if ( ! isReady ) {
 		return <LoadingSpinner text={ __( 'Loading…', 'search-console' ) } />;
 	}
@@ -75,6 +98,7 @@ const App = () => {
 								settings={ settings }
 								gapi={ gapi }
 								refreshToken={ refreshToken }
+								getSites={ getSites }
 							/>
 						}
 					/>
@@ -85,6 +109,7 @@ const App = () => {
 								settings={ settings }
 								gapi={ gapi }
 								refreshToken={ refreshToken }
+								getSites={ getSites }
 							/>
 						}
 					/>

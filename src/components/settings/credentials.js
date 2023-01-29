@@ -39,7 +39,7 @@ const Credentials = ( props ) => {
 					{ sprintf(
 						/* translators: Developer console url. */
 						__(
-							'<p>You need to create a <a href="%s">Google Developer Console</a> account before proceeding to authorization.</p>',
+							'<p>You need to create a <a target="_blank" href="%s">Google Developer Console</a> account before proceeding to authorization.</p>',
 							'formello'
 						),
 						`https://console.developers.google.com/`
@@ -50,7 +50,7 @@ const Credentials = ( props ) => {
 					{ sprintf(
 						/* translators: Google Site Kit url. */
 						__(
-							'<p>The simplest way to get your own credentials is to go to <a href="%s">Google Site Kit</a> site and follow step. Don\'t forget to add your site url as authorized Javascript origin.</p>',
+							'<p>The simplest way to get your own credentials is to go to <a target="_blank" href="%s">Google Site Kit</a> site and follow step. Don\'t forget to add your site url as authorized Javascript origin.</p>',
 							'formello'
 						),
 						authUrl

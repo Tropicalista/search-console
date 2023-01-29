@@ -78,6 +78,7 @@ export default function UpdateSettings( props ) {
 										'message',
 										animateClassName
 									) }
+									gap={ 1 }
 								>
 									<Icon icon={ cloud } />
 									{ __( 'Saving', 'block-visibility' ) }

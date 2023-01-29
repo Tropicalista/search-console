@@ -255,12 +255,15 @@ function search_console_add_meta() {
 function search_console_activate() {
 
 	$plugin_data = get_plugin_data( __FILE__ );
-	$plugin_version = $plugin_data['Version'];
+	$version = get_option( 'serach_console_version' );
+	$plugin_version = $version ? $version : $plugin_data['Version'];
 
-	if ( version_compare( $plugin_version, '2.4.0', '>' ) ) {
+	if ( version_compare( $plugin_version, '2.6.0', '<' ) ) {
 		delete_option( 'search_console' );
 		delete_option( 'search_console_token' );
 	}
+
+	update_option( 'serach_console_version', $plugin_version );
 
 	$administrator_role = get_role( 'administrator' );
 

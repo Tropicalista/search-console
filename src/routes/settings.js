@@ -1,12 +1,6 @@
 import { __ } from '@wordpress/i18n';
 
 import { useState, Fragment, useEffect } from '@wordpress/element';
-
-import {
-	GoogleLogin,
-	GoogleOAuthProvider,
-	useGoogleLogin,
-} from '@react-oauth/google';
 import GoogleOAuth from '../components/settings/google-oauth';
 import Credentials from '../components/settings/credentials';
 import SiteSelect from '../components/settings/site-select';
@@ -25,11 +19,7 @@ const Settings = ( props ) => {
 	return (
 		<div className={ 'search-console-settings' }>
 			<GoogleOAuth { ...props } />
-			<SiteSelect
-				gapi={ gapi }
-				refreshToken={ refreshToken }
-				{ ...props }
-			/>
+			<SiteSelect { ...props } />
 			<Credentials { ...props } />
 			<UpdateSettings { ...props } />
 		</div>

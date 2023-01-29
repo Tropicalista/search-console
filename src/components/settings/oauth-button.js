@@ -1,21 +1,18 @@
 import { Button, Notice } from '@wordpress/components';
 
 import { __ } from '@wordpress/i18n';
-import { Fragment, RawHTML, useEffect, useState } from '@wordpress/element';
-import classnames from 'classnames';
+import { Fragment, useState } from '@wordpress/element';
 
 import {
 	GoogleLogin,
-	GoogleOAuthProvider,
 	useGoogleLogin,
-	hasGrantedAllScopesGoogle,
 } from '@react-oauth/google';
 
-import { useSelect, useDispatch, dispatch, select } from '@wordpress/data';
+import { useDispatch } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
 
 const GoogleOauthButton = ( props ) => {
-	const { settings } = props;
+	const { settings, getSites } = props;
 
 	const [ message, setMessage ] = useState( false );
 	const { setSettings } = useDispatch( 'searchconsole' );
@@ -47,6 +44,7 @@ const GoogleOauthButton = ( props ) => {
 					status: 'success',
 					text: __( 'Logged in', 'search-console' ),
 				} );
+				getSites();
 			} )
 			.catch( ( error ) => {
 				console.log( error );
@@ -55,7 +53,7 @@ const GoogleOauthButton = ( props ) => {
 					text: error.message,
 				} );
 			} )
-			.finally( () => console.log( 233323 ) );
+			.finally( () => console.log( 'Success' ) );
 	};
 
 	return (
