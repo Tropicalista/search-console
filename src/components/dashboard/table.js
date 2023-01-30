@@ -25,7 +25,7 @@ import Pagination from './table/pagination';
 import TableBar from './table/table-bar';
 
 export function MyTable( props ) {
-	const { site, query } = props;
+	const { site, gapi, query, refreshToken } = props;
 
 	const [ data, setData ] = useState( [] );
 	const [ isLoading, setIsLoading ] = useState( false );
@@ -63,13 +63,11 @@ export function MyTable( props ) {
 				}
 				if ( query.dimension === 'country' ) {
 					response.result.rows.map( ( row ) => {
-						console.log(row)
 						row.keys[ 0 ] = Countries[ row.keys[ 0 ] ];
 					} );
 				}
 				setData( response.result.rows );
-			} )
-			.then( null, function ( err ) {
+			}, ( err ) => {
 				console.log( err );
 				setIsLoading( false );
 			} );

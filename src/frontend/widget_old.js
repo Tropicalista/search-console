@@ -1,36 +1,27 @@
 import { loadGoogleScript } from './loadGapi';
 import { chartOptions } from './chartOptions';
-import { dateI18n } from '@wordpress/date';
-import apiFetch from '@wordpress/api-fetch';
 
-const chart = '';
+let chart = '';
 let token = '';
 const chartQuery = {
 	siteUrl: '',
 	rowLimit: null,
 	searchType: 'web',
-    startDate: dateI18n( 'Y-m-d', new Date().setDate( new Date().getDate() - 29 ) ),
-    endDate: dateI18n( 'Y-m-d', new Date().setDate( new Date().getDate() - 1 ) ),
-	dimensions: [ 'page' ],
+	startDate: moment().subtract( 14, 'days' ).format( 'YYYY-MM-DD' ),
+	endDate: moment().format( 'YYYY-MM-DD' ),
+	dimensions: [ 'date' ],
 };
-
-const allUrls = [];
-
-jQuery( document ).ready( function () {
-	jQuery( '.gsc-url' ).each( function ( index ) {
-		console.log( jQuery( this ).data( 'url' ) );
-		allUrls.push( jQuery( this ).data( 'url' ) );
-	} );
-} );
 
 // callback on gapi loaded
 window.onGoogleScriptLoad = () => {
 	const _gapi = window.gapi; // set gapi globally
 
+	google.charts.load( 'current', { packages: [ 'corechart' ] } );
+
 	// get settings
-	apiFetch( { path: '/searchconsole/v1/settings/' } )
+	wp.apiRequest( { path: '/searchconsole/v1/settings/' } )
 		.then( ( result ) => {
-			token = result.token;
+			token = result.token.access_token;
 			chartQuery.siteUrl = result.site;
 			gapi.load( 'client', start );
 		} )
@@ -39,7 +30,7 @@ window.onGoogleScriptLoad = () => {
 
 function start() {
 	gapi.client.load( 'searchconsole', 'v1' ).then( () => {
-		gapi.auth.setToken( token );
+		gapi.auth.setToken( { access_token: token } );
 		getReport();
 	} );
 }
@@ -48,24 +39,16 @@ function getReport() {
 	gapi.client.webmasters.searchanalytics
 		.query( chartQuery )
 		.then( function ( response ) {
-			response.result.rows.forEach( function ( x ) {
-				if ( allUrls.indexOf( x.keys[ 0 ] ) > -1 ) {
-					jQuery( 'span[data-url="' + x.keys[ 0 ] + '"]' ).html(
-						'<b>Clicks:</b> ' +
-							x.clicks +
-							'<br>' +
-							'<b>Position:</b> ' +
-							Math.round( x.position * 100 ) / 100 +
-							'<br>' +
-							'<b>CTR:</b> ' +
-							Math.round( x.ctr * 10000 ) / 100 +
-							'%' +
-							'<br>' +
-							'<b>Impressions:</b> ' +
-							x.impressions
-					);
-				}
-			} );
+			const dataChart = formatData( response.result.rows );
+			chart = new google.visualization.LineChart(
+				document.getElementById( 'search-console-chart' )
+			);
+			chart.draw( dataChart, chartOptions );
+			google.visualization.events.addListener(
+				chart,
+				'select',
+				selectHandler
+			);
 		} )
 		.then( null, function ( err ) {
 			console.log( err );
@@ -97,6 +80,30 @@ function formatData( rows, isTable ) {
 	} );
 
 	return data;
+}
+
+function selectHandler() {
+	const col = chart.getSelection()[ 0 ].column;
+	if ( ! col ) {
+		return;
+	}
+
+	const selection = chart.getSelection();
+
+	// click and data index are one off
+	const i = selection[ 0 ].column - 1;
+	chartOptions.series[ i ].tooltip = ! chartOptions.series[ i ].tooltip;
+
+	// just simple reverse
+	if ( chartOptions.series[ i ].lineWidth == 0 ) {
+		chartOptions.series[ i ].lineWidth = 2;
+		chartOptions.series[ i ].areaOpacity = 0.3;
+	} else {
+		chartOptions.series[ i ].lineWidth = 0;
+		chartOptions.series[ i ].areaOpacity = 0.0;
+	}
+
+	chart.draw( dataChart, chartOptions );
 }
 
 loadGoogleScript();

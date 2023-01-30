@@ -25,21 +25,23 @@ export default {
 			count: 0,
 			minSpacing: 100,
 		},
-		minorGridlines: { count: 2 },
+		minorGridlines: { count: 1 },
 		showTextEvery: 2,
 	},
 	vAxes: {
-		//0: {direction: -1, maxValue:1, textPosition: 'none'},
-		0: { direction: -1, textPosition: 'none' },
-		1: { textPosition: 'none' },
-		2: { textPosition: 'none' },
-		3: { textPosition: 'none' },
+		0: { title: 'clicks' },
+		1: { title: 'impressions' },
+		2: {
+            format: "#%",
+		},
+		3: {
+            direction: -1
+		}
 	},
 	series: {
-		0: { type: 'line', targetAxisIndex: 1, tooltip: true },
-		1: { type: 'line', targetAxisIndex: 2, tooltip: true },
-		2: { type: 'line', targetAxisIndex: 3, tooltip: true },
-		3: { type: 'line', targetAxisIndex: 0, tooltip: true },
-		4: { type: 'line', targetAxisIndex: 0, tooltip: true },
+		0: { type: 'line', targetAxisIndex: 0, tooltip: true }, // Clicks
+		1: { type: 'line', targetAxisIndex: 1, tooltip: true }, // Impressions
+		2: { type: 'line', targetAxisIndex: 2, tooltip: true }, // CTR
+		3: { type: 'line', targetAxisIndex: 3, tooltip: true }, // Positions
 	},
 };

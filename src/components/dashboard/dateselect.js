@@ -42,7 +42,6 @@ export function DateSelect( props ) {
 							__nextRemoveHelpButton
 							currentDate={ query.startDate }
 							onChange={ ( val ) => {
-								console.log(val)
 								setStartDate( dateI18n( 'Y-m-d', val ) )
 							} }
 							isInvalidDate={ ( val ) => {
@@ -85,7 +84,8 @@ export function DateSelect( props ) {
 								setEndDate( dateI18n( 'Y-m-d', val ) )
 							}
 							isInvalidDate={ ( val ) =>
-								new Date( val ) < new Date( query.startDate )
+								new Date( val ) < new Date( query.startDate ) ||
+								new Date( val ) > new Date()
 							}
 						/>
 					) }

@@ -1,5 +1,6 @@
 import apiFetch from '@wordpress/api-fetch';
 import { createReduxStore, register } from '@wordpress/data';
+import { dateI18n } from '@wordpress/date';
 
 const DEFAULT_STATE = {
 	settings: false,
@@ -11,8 +12,8 @@ const DEFAULT_STATE = {
 	],
 	dimension: 'query',
 	searchType: 'web',
-	startDate: moment().subtract( 29, 'days' ).format( 'YYYY-MM-DD' ),
-	endDate: moment().subtract( 1, 'days' ).format( 'YYYY-MM-DD' ),
+    startDate: dateI18n( 'Y-m-d', new Date().setDate( new Date().getDate() - 29 ) ),
+    endDate: dateI18n( 'Y-m-d', new Date().setDate( new Date().getDate() - 1 ) ),
 	filters: [],
 };
 

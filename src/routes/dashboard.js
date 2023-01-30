@@ -27,7 +27,7 @@ const Dashboard = ( props ) => {
         );
     }
 
-	if ( ! token || ! settings?.site ) {
+	if ( ! token || ! settings?.site || ! settings?.credentials?.client_secret || ! settings?.credentials?.client_id ) {
 		return (
 			<Notice status="warning" isDismissible={ false }>
 				<RawHTML>

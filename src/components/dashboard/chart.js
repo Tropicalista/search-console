@@ -58,7 +58,10 @@ export function MyChart( props ) {
 					setTable( temp );
 				},
 				( err ) => {
-					refreshToken();
+					console.log(err)
+					if ( 401 === err.status ) {
+						refreshToken();
+					}
 				}
 			);
 	};
@@ -68,7 +71,7 @@ export function MyChart( props ) {
 			{ table.length ? (
 				<Chart
 					chartType="LineChart"
-					loading={ <Spinner /> }
+					loader={ <Spinner /> }
 					data={ table }
 					options={ Options }
 					legendToggle

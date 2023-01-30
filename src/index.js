@@ -4,6 +4,7 @@ import LoadingSpinner from './components/loading-spinner.js';
 
 import { useState, render, useEffect } from '@wordpress/element';
 import { useSelect, select, useDispatch } from '@wordpress/data';
+import { Modal } from '@wordpress/components';
 
 import menuFix from './utils/menuFix';
 import './style.scss';
@@ -26,7 +27,6 @@ const App = () => {
 
 	const { setSettings, setSites } = useDispatch( 'searchconsole' );
 
-	const [ mounted, setMounted ] = useState( false );
 	const token = settings?.token ?? false;
 
 	useEffect( () => {
@@ -37,7 +37,6 @@ const App = () => {
 		gapi.load( 'client:auth', () => {
 			gapi.client.load( 'searchconsole', 'v1' ).then( () => {
 				gapi.auth.setToken( token );
-				setMounted( true );
 				getSites()
 			} );
 		} );
@@ -59,7 +58,7 @@ const App = () => {
 			.catch( ( error ) => {
 				console.log( error );
 			} )
-			.finally( () => setMounted( true ) );
+			.finally( () => console.log( true ) );
 	};
 
 	const getSites = () => {
@@ -79,7 +78,11 @@ const App = () => {
 				} );
 				setSites( sites.sort() );
 			} )
-			.catch( () => refreshToken() );
+			.catch( (error) => {
+				if ( 401 === error.status ) {
+					refreshToken()
+				}
+			} );
 	};
 
 	if ( ! isReady ) {
