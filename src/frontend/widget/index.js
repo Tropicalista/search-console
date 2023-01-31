@@ -23,7 +23,7 @@ const Widget = (props) => {
 
 	const { settings, isReady, query } = useSelect( ( select ) => {
 		return {
-			settings: select( 'searchconsole' ).getSettings() ?? null,
+			settings: select( 'searchconsole' ).getSettings(),
 			isReady: select( 'searchconsole' ).isReady(),
 			query: select( 'searchconsole' ).getQuery(),
 		};
@@ -68,7 +68,7 @@ const Widget = (props) => {
 
 	const settingsUrl = addQueryArgs( 'admin.php', {
 		page: 'search-console',
-	} ) + '#/settings';
+	} );
 
     if ( token && ! gapi?.auth ) {
         return (
@@ -86,7 +86,7 @@ const Widget = (props) => {
 							'<p>You need to authenticate and set a site on <a href="%s">settings page</a>.</p>',
 							'formello'
 						),
-						settingsUrl
+						settingsUrl + '#/settings'
 					) }
 				</RawHTML>
 			</Notice>
@@ -102,6 +102,16 @@ const Widget = (props) => {
 				site={ settings.site }
 				refreshToken={ refreshToken }
 			/>
+			<RawHTML>
+				{ sprintf(
+					/* translators: Developer console url. */
+					__(
+						'<p>More data on <a href="%s">Search Console dashboard</a>.</p>',
+						'formello'
+					),
+					settingsUrl + '#/'
+				) }
+			</RawHTML>
 		</div>
 	)
 }

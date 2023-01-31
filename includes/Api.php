@@ -45,13 +45,6 @@ class Api {
 	private $option_key = 'search_console';
 
 	/**
-	 * Default client id.
-	 *
-	 * @var $token_key  string.
-	 */
-	private $token_key = 'search_console_token';
-
-	/**
 	 * Empty constructor.
 	 */
 	public function __construct() {
@@ -149,69 +142,6 @@ class Api {
 		}
 
 		return $token['access_token'];
-	}
-
-	/**
-	 * Exchange token
-	 */
-	public function exchange_token() {
-		session_start();
-
-		if ( ! empty( $_GET['error'] ) ) {
-
-			// Got an error, probably user denied access.
-			exit( 'Got error: ' . wp_kses_post( $_GET['error'] ) );
-		} elseif ( empty( $_GET['code'] ) ) {
-
-			// If we don't have an authorization code then get one.
-			$authUrl = $this->get_authurl();
-			wp_safe_redirect( $authUrl );
-			exit;
-		} else {
-			// phpcs:ignore
-			$token = $this->generate_access_key( sanitize_text_field( $_GET['code'] ) );
-
-			if ( is_wp_error( $token ) ) {
-				wp_die( esc_html__( 'Error on generating token.', 'search-console' ), 403 );
-			}
-
-			if ( ! is_wp_error( $token ) ) {
-				update_option( $this->token_key, $token );
-			}
-
-			?>
-				<html>
-				<head></head>
-				<body>
-					<script>
-						window.addEventListener("message", function (event) {
-							if (event.data.message === "requestResult") {
-								event.source.postMessage({
-									"message": "deliverResult", 
-									result: <?php echo wp_json_encode( $token ); ?>
-								}, "*");
-							}
-						});
-					</script>
-				</body>
-				</html>			
-			<?php
-
-		}
-	}
-
-	/**
-	 * Build auth url.
-	 */
-	public function get_authurl() {
-		$params = array(
-			'client_id' => $this->client_id,
-			'redirect_uri' => $this->redirect_uri,
-			'scope' => 'https://www.googleapis.com/auth/webmasters.readonly https://www.googleapis.com/auth/siteverification',
-			'response_type' => 'code',
-			'access_type' => 'offline',
-		);
-		return 'https://accounts.google.com/o/oauth2/auth?' . http_build_query( $params );
 	}
 
 	/**

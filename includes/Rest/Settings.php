@@ -38,7 +38,6 @@ class Settings {
 	 */
 	public function __construct() {
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
-		add_action( 'init', array( $this, 'oauth_callback' ) );
 	}
 
 	/**
@@ -143,17 +142,7 @@ class Settings {
 	 * @return WP_Error|bool
 	 */
 	public function permissions_check( $request ) {
-		return current_user_can( 'search_console' );
-	}
-
-	/**
-	 * Render the oauthcallback
-	 */
-	public function oauth_callback() {
-		if ( filter_input( INPUT_GET, 'sc-oauth2callback' ) ) {
-			$this->api->exchange_token();
-			wp_die();
-		}
+		return current_user_can( 'manage_options' );
 	}
 
 }

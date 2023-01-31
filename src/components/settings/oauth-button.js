@@ -4,7 +4,6 @@ import { __ } from '@wordpress/i18n';
 import { Fragment, useState } from '@wordpress/element';
 
 import {
-	GoogleLogin,
 	useGoogleLogin,
 } from '@react-oauth/google';
 
@@ -62,7 +61,7 @@ const GoogleOauthButton = ( props ) => {
 				{ __( 'Login with Google', 'search-console' ) }
 			</Button>
 			{ message && (
-				<Notice status={ message.status }>{ message.text }</Notice>
+				<Notice status={ message.status } isDismissible={ false }>{ message.text }</Notice>
 			) }
 		</Fragment>
 	);

@@ -7,7 +7,6 @@ import {
 
 import { __ } from '@wordpress/i18n';
 import { Fragment, RawHTML, useEffect } from '@wordpress/element';
-import classnames from 'classnames';
 
 import {
 	GoogleLogin,
@@ -16,8 +15,8 @@ import {
 	hasGrantedAllScopesGoogle,
 } from '@react-oauth/google';
 import Verification from './verification';
-import { useSelect, useDispatch, dispatch, select } from '@wordpress/data';
-import apiFetch from '@wordpress/api-fetch';
+import { useSelect, useDispatch } from '@wordpress/data';
+import { store as coreStore } from '@wordpress/core-data';
 
 const SiteSelect = ( props ) => {
 	const { gapi, settings, refreshToken, getSites } = props;

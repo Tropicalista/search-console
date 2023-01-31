@@ -5,7 +5,7 @@
  * Plugin Name:       Search Console
  * Plugin URI:        https://www.formello.net/
  * Description:       This plugin displays your Google Search Console Analytics data inside your WordPress.
- * Version:           2.6.1
+ * Version:           2.6.2
  * Author:            Tropicalista
  * Author URI:        https://www.formello.net
  * License:           GPL-2.0+
@@ -190,11 +190,12 @@ function search_console_posts_data( $column_name, $id ) {
 /**
  * Adds Search Console column to Posts/Pages list column
  *
- * @param array $defaults An array of column names.
+ * @param array $columns An array of column names.
+ * @return array $columns An array of column names.
  */
-function search_console_posts( $defaults ) {
-	$defaults['search-console'] = __( 'Search Console', 'search-console' );
-	return $defaults;
+function search_console_posts( $columns ) {
+	$columns['search-console'] = __( 'Search Console', 'search-console' );
+	return $columns;
 }
 
 add_filter( 'manage_posts_columns', 'search_console_posts' );

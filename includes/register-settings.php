@@ -11,6 +11,29 @@ namespace Search_Console;
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Recursive sanitation for an array
+ *
+ * @param mixed $array the array of data.
+ *
+ * @return mixed
+ */
+function recursive_sanitize_text_field( $array ) {
+	if ( ! is_array( $array ) ) {
+		return sanitize_text_field( $array );
+	}
+	foreach ( $array as $key => &$value ) {
+		if ( is_array( $value ) ) {
+			$value = recursive_sanitize_text_field( $value );
+		} else {
+			if ( ! is_bool( $value ) ) {
+				$value = sanitize_text_field( $value );
+			};
+		}
+	}
+	return $array;
+}
+
+/**
  * Register plugin settings.
  *
  * @since 1.0.0
@@ -100,7 +123,7 @@ function register_settings() {
 					'properties' => $settings,
 				),
 			),
-			//'sanitize_callback' => 'sanitize_text_field',
+			//'sanitize_callback' => __NAMESPACE__ . '\recursive_sanitize_text_field',
 			'default'      => $defaults,
 		)
 	);

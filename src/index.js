@@ -20,7 +20,7 @@ const App = () => {
 
 	const { settings, isReady } = useSelect( ( select ) => {
 		return {
-			settings: select( 'searchconsole' ).getSettings() ?? null,
+			settings: select( 'searchconsole' ).getSettings(),
 			isReady: select( 'searchconsole' ).isReady(),
 		};
 	}, [] );
@@ -58,11 +58,11 @@ const App = () => {
 			.catch( ( error ) => {
 				console.log( error );
 			} )
-			.finally( () => console.log( true ) );
+			.finally( () => console.log( 'refreshed' ) );
 	};
 
 	const getSites = () => {
-		const sites = [];
+		const sites = [{ value: '', label: __( 'Select a site', 'search-console' ) }];
 
 		gapi.client?.webmasters.sites
 			.list()

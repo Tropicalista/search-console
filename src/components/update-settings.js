@@ -24,11 +24,6 @@ export default function UpdateSettings( props ) {
 	const [ resetModalOpen, setResetModalOpen ] = useState( false );
 	const {
 		settings,
-		setSettings,
-		hasUpdates,
-		setHasUpdates,
-		tabSlug,
-		tabSettings,
 	} = props;
 
 	const updateButton =

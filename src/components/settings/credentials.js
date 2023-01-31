@@ -1,11 +1,8 @@
 import { TextControl, Card, CardBody, CardHeader } from '@wordpress/components';
 
 import { __ } from '@wordpress/i18n';
-import { useSelect, useDispatch, dispatch, select } from '@wordpress/data';
+import { useDispatch } from '@wordpress/data';
 import { RawHTML } from '@wordpress/element';
-
-import GoogleOauthButton from './oauth-button';
-import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
 
 const Credentials = ( props ) => {
 	const { settings } = props;

@@ -1,5 +1,4 @@
 import { loadGoogleScript } from './loadGapi';
-import { chartOptions } from './chartOptions';
 import { dateI18n } from '@wordpress/date';
 import apiFetch from '@wordpress/api-fetch';
 
@@ -70,33 +69,6 @@ function getReport() {
 		.then( null, function ( err ) {
 			console.log( err );
 		} );
-}
-
-function formatData( rows, isTable ) {
-	const data = new google.visualization.DataTable();
-	isTable
-		? data.addColumn( 'string', 'Keyword' )
-		: data.addColumn( 'date', 'Keys' );
-	data.addColumn( 'number', 'Clicks' );
-	data.addColumn( 'number', 'Impressions' );
-	data.addColumn( 'number', 'CTR' );
-	data.addColumn( 'number', 'Position' );
-
-	if ( ! isTable ) {
-		chartOptions.hAxis.format === 'MMM dd';
-	}
-
-	_.forEach( rows, function ( row ) {
-		data.addRow( [
-			isTable ? row.keys[ 0 ] : moment( row.keys[ 0 ] ).toDate(),
-			row.clicks,
-			row.impressions,
-			row.ctr * 100,
-			parseFloat( row.position ),
-		] );
-	} );
-
-	return data;
 }
 
 loadGoogleScript();
