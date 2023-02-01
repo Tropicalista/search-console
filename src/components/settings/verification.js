@@ -16,7 +16,7 @@ import { useState, Fragment, useEffect, RawHTML } from '@wordpress/element';
 import { useSelect, useDispatch, dispatch, select } from '@wordpress/data';
 
 const Verification = ( props ) => {
-	const { token, settings, gapi } = props;
+	const { token, settings, gapi, refreshToken } = props;
 	const { setSetting } = useDispatch( 'searchconsole' );
 
 	const getMeta = () => {
@@ -35,7 +35,15 @@ const Verification = ( props ) => {
 					} )
 					.then( ( r ) => {
 						setSetting( 'meta', r.result.token );
+					}, (error) => {
+
+					} )
+					.catch( (error) => {
+						if ( 401 === error.status ) {
+							refreshToken()
+						}
 					} );
+
 			} );
 		}
 	};
@@ -43,20 +51,23 @@ const Verification = ( props ) => {
 	return (
 		<div className="search-console-Advanced">
 			{ settings.site && (
-				<ToggleControl
-					label={ __(
-						'Add verification to site?',
-						'search-console'
-					) }
-					help={ __(
-						'Check this if you want output meta verification on frontend.',
-						'search-console'
-					) }
-					checked={ settings.siteVerification }
-					onChange={ ( val ) => {
-						setSetting( 'siteVerification', val );
-					} }
-				/>
+				<Fragment>
+					<p>{ __( 'Do you want to add meta tag verification on your site?', 'search-console' ) }</p>
+					<ToggleControl
+						label={ __(
+							'Add verification to site?',
+							'search-console'
+						) }
+						help={ __(
+							'Check this if you want output meta verification on frontend.',
+							'search-console'
+						) }
+						checked={ settings.siteVerification }
+						onChange={ ( val ) => {
+							setSetting( 'siteVerification', val );
+						} }
+					/>
+				</Fragment>
 			) }
 			{ settings.siteVerification && (
 				<BaseControl

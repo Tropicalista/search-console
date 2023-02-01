@@ -13,6 +13,7 @@ import './store';
 import Dashboard from './routes/dashboard';
 import Settings from './routes/settings';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import apiFetch from '@wordpress/api-fetch';
 import { gapi } from 'gapi-script';
 
@@ -117,6 +118,7 @@ const App = () => {
 						}
 					/>
 				</Routes>
+				<Footer />
 			</HashRouter>
 		</React.StrictMode>
 	);

@@ -16,7 +16,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 $search_console_option = get_option( 'search_console', false );
 
 if ( $search_console_option ) {
-	delete_option( 'serach_console_version' );
-	delete_option( 'serach_console_token' );
+	delete_option( 'search_console_version' );
+	delete_option( 'search_console_token' );
 	delete_option( 'search_console' );
 }

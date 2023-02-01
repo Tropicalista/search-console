@@ -2,6 +2,7 @@ import { loadGoogleScript } from './loadGapi';
 import { dateI18n } from '@wordpress/date';
 import apiFetch from '@wordpress/api-fetch';
 
+
 const chart = '';
 let token = '';
 const chartQuery = {
@@ -17,10 +18,23 @@ const allUrls = [];
 
 jQuery( document ).ready( function () {
 	jQuery( '.gsc-url' ).each( function ( index ) {
-		console.log( jQuery( this ).data( 'url' ) );
 		allUrls.push( jQuery( this ).data( 'url' ) );
 	} );
 } );
+
+function refreshToken() {
+	apiFetch( {
+		path: '/searchconsole/v1/refresh',
+		method: 'POST',
+	} )
+		.then( ( result ) => {
+			gapi.auth.setToken( result );
+		} )
+		.catch( ( error ) => {
+			console.log( error );
+		} )
+		.finally( () => console.log( 'refreshed' ) );
+};
 
 // callback on gapi loaded
 window.onGoogleScriptLoad = () => {
@@ -66,8 +80,10 @@ function getReport() {
 				}
 			} );
 		} )
-		.then( null, function ( err ) {
-			console.log( err );
+		.catch( (error) => {
+			if ( 401 === error.status ) {
+				refreshToken()
+			}
 		} );
 }
 

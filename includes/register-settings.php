@@ -46,6 +46,9 @@ function register_settings() {
 		'title' => array(
 			'type' => 'string',
 		),
+		'postTypes' => array(
+			'type' => 'array',
+		),
 		'site' => array(
 			'type' => 'string',
 		),
@@ -97,6 +100,7 @@ function register_settings() {
 	$defaults = array(
 		'wp_url' => get_site_url(),
 		'title' => get_bloginfo( 'name' ),
+		'postTypes' => array(),
 		'site' => '',
 		'siteVerification' => '',
 		'meta' => '',
@@ -104,7 +108,7 @@ function register_settings() {
 		'credentials' => array(
 			'client_id' => '',
 			'client_secret' => '',
-			'redirect_uri' => get_site_url() . '?sc-oauth2callback=1',
+			'redirect_uri' => 'postmessage',
 		),
 	);
 

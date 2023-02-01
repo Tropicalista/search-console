@@ -93,6 +93,10 @@ class Settings {
 
 		$settings = get_option( $this->option_key );
 
+		if ( ! $settings['postTypes'] ) {
+			$settings['postTypes'] = array();
+		}
+
 		return new \WP_REST_Response( $settings );
 
 	}

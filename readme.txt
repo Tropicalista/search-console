@@ -36,6 +36,10 @@ A nice full-width dashboard is provided out of the box.
  - Full report with all site errors
  - Superfast
 
+**CONTRIBUTE**
+
+Search Console is open source and you can [contribute here](https://github.com/Tropicalista/search-console).
+
 == WHAT’S NEXT ==
 
 If you like this plugin, then consider checking out our other projects:
@@ -62,6 +66,9 @@ There's two ways to install Search Console.
 In most cases, #1 will work fine and is way easier.
 
 == Changelog ==
+
+= 2.6.3 =
+* Fix option name mistyping
 
 = 2.6.2 =
 * Fix site selection

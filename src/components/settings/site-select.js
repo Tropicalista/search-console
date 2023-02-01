@@ -4,10 +4,8 @@ import {
 	CardHeader,
 	SelectControl,
 } from '@wordpress/components';
-
 import { __ } from '@wordpress/i18n';
 import { Fragment, RawHTML, useEffect } from '@wordpress/element';
-
 import {
 	GoogleLogin,
 	GoogleOAuthProvider,
@@ -15,8 +13,8 @@ import {
 	hasGrantedAllScopesGoogle,
 } from '@react-oauth/google';
 import Verification from './verification';
+import PostTypeSelection from './post-type-selection';
 import { useSelect, useDispatch } from '@wordpress/data';
-import { store as coreStore } from '@wordpress/core-data';
 
 const SiteSelect = ( props ) => {
 	const { gapi, settings, refreshToken, getSites } = props;
@@ -57,7 +55,10 @@ const SiteSelect = ( props ) => {
 					} }
 				/>
 
+				<PostTypeSelection { ...props } />
+				
 				<Verification { ...props } />
+				
 			</CardBody>
 		</Card>
 	);

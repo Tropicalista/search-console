@@ -142,6 +142,11 @@ $mobile: 426px;
 		padding: 10px 30px;
 		box-shadow: 0 0 0 1px #ccd0d4, 0 1px 1px 1px rgba(0,0,0,.04);
 		text-align: center;
+		margin-top: 2em;
+
+		.dashicons-star-filled {
+			color: #ffb900;
+		}
 
 		.inner-container {
 			margin: 0 auto;
