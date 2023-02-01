@@ -5,7 +5,7 @@ Tags: search console, google search console, search console widget, search conso
 Requires at least: 3.0.1
 Requires PHP: 5.2.4
 Tested up to: 6.1.1
-Stable tag: 2.6.2
+Stable tag: 2.6.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -69,6 +69,9 @@ In most cases, #1 will work fine and is way easier.
 
 = 2.6.3 =
 * Fix option name mistyping
+* Fix refresh token on table
+* Added option to choose where to display
+* Added footer
 
 = 2.6.2 =
 * Fix site selection
