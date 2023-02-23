@@ -22,7 +22,7 @@ const GoogleOauthButton = ( props ) => {
 			getToken( code );
 		},
 		scope:
-			'https://www.googleapis.com/auth/webmasters.readonly https://www.googleapis.com/auth/siteverification	',
+			'https://www.googleapis.com/auth/webmasters.readonly https://www.googleapis.com/auth/siteverification',
 	} );
 
 	const getToken = ( code ) => {

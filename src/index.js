@@ -35,9 +35,9 @@ const App = () => {
 			return;
 		}
 
-		gapi.load( 'client:auth2', () => {
-			gapi.client.load( 'searchconsole', 'v1' ).then( () => {
-				gapi.auth.setToken( token );
+		gapi?.load( 'client:auth2', async () => {
+			await gapi?.client?.load( 'searchconsole', 'v1' ).then( () => {
+				gapi?.auth?.setToken( token );
 				getSites()
 			} );
 		} );

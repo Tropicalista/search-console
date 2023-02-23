@@ -39,9 +39,9 @@ const Widget = (props) => {
 			return;
 		}
 
-		gapi.load( 'client:auth2', () => {
-			gapi.client.load( 'searchconsole', 'v1' ).then( () => {
-				gapi.auth.setToken( token );
+		gapi?.load( 'client:auth2', () => {
+			gapi?.client?.load( 'searchconsole', 'v1' ).then( () => {
+				gapi?.auth?.setToken( token );
 				setMounted( true );
 			} );
 		} );
