@@ -28,7 +28,7 @@ function refreshToken() {
 		method: 'POST',
 	} )
 		.then( ( result ) => {
-			gapi.auth.setToken( result );
+			gapi.client.setToken( result );
 		} )
 		.catch( ( error ) => {
 			console.log( error );
@@ -52,7 +52,7 @@ window.onGoogleScriptLoad = () => {
 
 function start() {
 	gapi.client.load( 'searchconsole', 'v1' ).then( () => {
-		gapi.auth.setToken( token );
+		gapi.client.setToken( token );
 		getReport();
 	} );
 }

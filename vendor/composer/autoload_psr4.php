@@ -6,4 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Appsero\\' => array($vendorDir . '/appsero/client/src'),
 );

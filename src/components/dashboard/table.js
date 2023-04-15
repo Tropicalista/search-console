@@ -31,7 +31,7 @@ export function MyTable( props ) {
 	const [ isLoading, setIsLoading ] = useState( false );
 
 	useEffect( () => {
-		if ( ! gapi?.auth?.getToken() || ! site ) {
+		if ( ! gapi?.client?.getToken() || ! site ) {
 			return;
 		}
 		getData();

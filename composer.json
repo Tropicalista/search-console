@@ -11,7 +11,8 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "php": ">=5.6"
+        "php": ">=5.6",
+        "appsero/client": "dev-develop"
     },
     "scripts": {
         "php": [

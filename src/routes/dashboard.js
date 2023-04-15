@@ -10,9 +10,10 @@ import { MyTable } from '../components/dashboard/table';
 import { Filters } from '../components/dashboard/filters';
 
 import { useSelect, useDispatch, dispatch, select } from '@wordpress/data';
+import { gapi } from 'gapi-script';
 
 const Dashboard = ( props ) => {
-	const { gapi, refreshToken, settings } = props;
+	const { refreshToken, settings } = props;
 	const token = settings?.token ?? false;
 
 	const { query } = useSelect( ( select ) => {
@@ -21,12 +22,12 @@ const Dashboard = ( props ) => {
 		};
 	}, [] );
 
-    if ( token && ! gapi?.auth ) {
+    if ( token && ! gapi?.client ) {
         return (
             <LoadingSpinner text={ __( 'Fetching data…', 'search-console' ) } />
         );
     }
-
+console.log(gapi)
 	if ( ! token || ! settings?.site || ! settings?.credentials?.client_secret || ! settings?.credentials?.client_id ) {
 		return (
 			<Notice status="warning" isDismissible={ false }>

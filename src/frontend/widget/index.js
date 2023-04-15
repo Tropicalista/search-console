@@ -39,12 +39,13 @@ const Widget = (props) => {
 			return;
 		}
 
-		gapi?.load( 'client:auth2', () => {
+		gapi?.load( 'client', () => {
 			gapi?.client?.load( 'searchconsole', 'v1' ).then( () => {
-				gapi?.auth?.setToken( token );
+				gapi?.client?.setToken( token );
 				setMounted( true );
 			} );
 		} );
+
 	}, [ token ] );
 
 	const refreshToken = () => {
@@ -58,7 +59,7 @@ const Widget = (props) => {
 					...settings,
 					token: result,
 				} );
-				gapi.auth.setToken( result );
+				gapi.client.setToken( result );
 			} )
 			.catch( ( error ) => {
 				console.log( error );

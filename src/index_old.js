@@ -19,8 +19,6 @@ import { gapi } from 'gapi-script';
 
 const App = () => {
 
-	const [ gapiLoaded, setGapiLoaded ] = useState( false );
-
 	const { settings, isReady } = useSelect( ( select ) => {
 		return {
 			settings: select( 'searchconsole' ).getSettings(),
@@ -33,28 +31,19 @@ const App = () => {
 	const token = settings?.token ?? false;
 
 	useEffect( () => {
-
 		if ( ! token ) {
 			return;
 		}
 
-		loadGapi();
-
-	}, [ token ] );
-
-	const loadGapi = () => {
-		if( gapi?.client ){
-			return
-		}
-		gapi?.load( 'client', async () => {
+		gapi.load( 'client', async () => {
+			console.log(gapi)
 			await gapi?.client?.load( 'searchconsole', 'v1' ).then( () => {
-				gapi.client.init({
-					token: token
-				})
+				gapi?.client?.setToken( token );
 				getSites()
 			} );
 		} );
-	}
+
+	}, [ token ] );
 
 	const refreshToken = () => {
 		apiFetch( {
@@ -67,7 +56,7 @@ const App = () => {
 					...settings,
 					token: result,
 				} );
-				gapi.client.setToken( result );
+				gapi.auth.setToken( result );
 			} )
 			.catch( ( error ) => {
 				console.log( error );
@@ -113,7 +102,7 @@ const App = () => {
 						element={
 							<Dashboard
 								settings={ settings }
-								//gapi={ gapi }
+								gapi={ gapi }
 								refreshToken={ refreshToken }
 								getSites={ getSites }
 							/>

@@ -10,4 +10,5 @@ return array(
     'Search_Console\\Api' => $baseDir . '/includes/Api.php',
     'Search_Console\\Encryption' => $baseDir . '/includes/Encryption.php',
     'Search_Console\\Rest\\Settings' => $baseDir . '/includes/Rest/Settings.php',
+    'Search_Console\\Rest\\Token' => $baseDir . '/includes/Rest/Token.php',
 );

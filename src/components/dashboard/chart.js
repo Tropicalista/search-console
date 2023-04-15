@@ -13,14 +13,14 @@ export function MyChart( props ) {
 	const [ table, setTable ] = useState( [] );
 
 	useEffect( () => {
-		if ( ! gapi?.auth?.getToken() || ! site ) {
+		if ( ! gapi?.client?.getToken() || ! site ) {
 			return;
 		}
 		getData();
 	}, [ site, query ] );
 
 	const getData = () => {
-		gapi.client.webmasters.searchanalytics
+		gapi?.client?.webmasters.searchanalytics
 			.query( {
 				siteUrl: site,
 				fields: 'rows',

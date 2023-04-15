@@ -15,6 +15,7 @@
  * @package           Search_Console
  */
 
+require __DIR__ . '/vendor/autoload.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/manage-plugin.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/register-settings.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/Api.php';
@@ -181,3 +182,19 @@ function search_console_activate() {
 
 }
 register_activation_hook( __FILE__, 'search_console_activate' );
+
+/**
+ * Initialize the plugin tracker
+ *
+ * @return void
+ */
+function search_console_init_tracker() {
+
+	$client = new Appsero\Client( '3db07d4b-1867-49ea-8338-be9adc5fa614', 'Search Console', __FILE__ );
+
+	// Active insights.
+	$client->insights()->init();
+
+}
+
+search_console_init_tracker();

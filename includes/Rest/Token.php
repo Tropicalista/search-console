@@ -140,9 +140,8 @@ class Token {
 		// It's expired so we have to re-issue again.
 		$refreshToken = $this->api->refresh_token( $token );
 
-		$newToken = array_merge( $token, $refreshToken );
-
 		if ( ! is_wp_error( $refreshToken ) ) {
+			$newToken = array_merge( $token, $refreshToken );
 			$this->save_token( $newToken );
 		}
 
