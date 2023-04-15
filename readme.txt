@@ -2,10 +2,10 @@
 Contributors: tropicalista
 Donate link: https://www.formello.net
 Tags: search console, google search console, search console widget, search console metatag
-Requires at least: 3.0.1
+Requires at least: 5.6
 Requires PHP: 5.2.4
-Tested up to: 6.1.1
-Stable tag: 2.6.5
+Tested up to: 6.2.0
+Stable tag: 2.6.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -75,6 +75,9 @@ There's two ways to install Search Console.
 In most cases, #1 will work fine and is way easier.
 
 == Changelog ==
+
+= 2.6.6 =
+* Added appsero
 
 = 2.6.5 =
 * Fix gapi load auth
