@@ -10,7 +10,13 @@ import LoadingSpinner from '../components/loading-spinner.js';
 const Settings = ( props ) => {
 	const { gapi, refreshToken, settings } = props;
 
-	if ( ! settings.credentials ) {
+    if ( ! gapi.client ) {
+        return (
+            <LoadingSpinner text={ __( 'Fetching data…', 'search-console' ) } />
+        );
+    }
+
+	if ( ! settings.credentials && ! gapi.client ) {
 		return (
 			<LoadingSpinner text={ __( 'Fetching data…', 'search-console' ) } />
 		);

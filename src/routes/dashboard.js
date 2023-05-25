@@ -8,6 +8,7 @@ import LoadingSpinner from '../components/loading-spinner.js';
 import { MyChart } from '../components/dashboard/chart';
 import { MyTable } from '../components/dashboard/table';
 import { Filters } from '../components/dashboard/filters';
+import Ads from '../components/ads/index';
 
 import { useSelect, useDispatch, dispatch, select } from '@wordpress/data';
 import { gapi } from 'gapi-script';
@@ -27,7 +28,7 @@ const Dashboard = ( props ) => {
             <LoadingSpinner text={ __( 'Fetching data…', 'search-console' ) } />
         );
     }
-console.log(gapi)
+
 	if ( ! token || ! settings?.site || ! settings?.credentials?.client_secret || ! settings?.credentials?.client_id ) {
 		return (
 			<Notice status="warning" isDismissible={ false }>
@@ -58,6 +59,7 @@ console.log(gapi)
 					/>
 				</CardBody>
 			</Card>
+			<Ads />
 			<Card>
 				<CardBody>
 					<Filters />

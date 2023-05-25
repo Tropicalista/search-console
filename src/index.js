@@ -62,7 +62,6 @@ const App = () => {
 			method: 'POST',
 		} )
 			.then( ( result ) => {
-				console.log( result );
 				setSettings( {
 					...settings,
 					token: result,
@@ -77,6 +76,8 @@ const App = () => {
 
 	const getSites = () => {
 		const sites = [{ value: '', label: __( 'Select a site', 'search-console' ) }];
+		
+		gapi.client.setToken( token );
 
 		gapi.client?.webmasters.sites
 			.list()

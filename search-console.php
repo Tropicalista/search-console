@@ -2,15 +2,15 @@
 /**
  * Plugin main file.
  *
- * Plugin Name:       Search Console
- * Plugin URI:        https://www.formello.net/
- * Description:       This plugin displays your Google Search Console Analytics data inside your WordPress.
- * Version:           2.6.6
- * Author:            Tropicalista
- * Author URI:        https://www.formello.net
- * License:           GPL-2.0+
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       search-console
+ * Plugin Name:    Search Console
+ * Plugin URI:     https://www.formello.net/
+ * Description:    This plugin displays your Google Search Console Analytics data inside your WordPress.
+ * Version:        2.6.7
+ * Author:         Tropicalista
+ * Author URI:     https://www.formello.net
+ * License:        GPL-2.0+
+ * License URI:    http://www.gnu.org/licenses/gpl-2.0.txt
+ * Text Domain:    search-console
  *
  * @package           Search_Console
  */
@@ -194,6 +194,8 @@ function search_console_init_tracker() {
 
 	// Active insights.
 	$client->insights()->init();
+
+	$twenty_twelve_license = $client->license();
 
 }
 
