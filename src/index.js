@@ -34,15 +34,12 @@ const App = () => {
 
 	useEffect( () => {
 
-		if ( ! token ) {
-			return;
-		}
-
 		loadGapi();
 
 	}, [ token ] );
 
 	const loadGapi = () => {
+
 		if( gapi?.client ){
 			return
 		}
