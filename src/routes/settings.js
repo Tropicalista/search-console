@@ -8,9 +8,9 @@ import UpdateSettings from '../components/update-settings';
 import LoadingSpinner from '../components/loading-spinner.js';
 
 const Settings = ( props ) => {
-	const { gapi, refreshToken, settings } = props;
+	const { refreshToken, settings } = props;
 
-    if ( ! gapi.client ) {
+    if ( ! window.gapi ) {
         return (
             <LoadingSpinner text={ __( 'Fetching data…', 'search-console' ) } />
         );

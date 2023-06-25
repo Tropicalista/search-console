@@ -7,11 +7,18 @@ import {
 	useGoogleLogin,
 } from '@react-oauth/google';
 
-import { useDispatch } from '@wordpress/data';
+import { useDispatch, useSelect } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
 
 const GoogleOauthButton = ( props ) => {
-	const { settings, getSites } = props;
+	const { getSites } = props;
+
+	const { settings, isReady } = useSelect( ( select ) => {
+		return {
+			settings: select( 'searchconsole' ).getSettings(),
+			isReady: select( 'searchconsole' ).isReady(),
+		};
+	}, [] );
 
 	const [ message, setMessage ] = useState( false );
 	const { setSettings } = useDispatch( 'searchconsole' );
@@ -43,7 +50,7 @@ const GoogleOauthButton = ( props ) => {
 					status: 'success',
 					text: __( 'Logged in', 'search-console' ),
 				} );
-				getSites();
+				//getSites();
 			} )
 			.catch( ( error ) => {
 				console.log( error );

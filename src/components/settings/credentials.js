@@ -1,15 +1,23 @@
 import { TextControl, Card, CardBody, CardHeader } from '@wordpress/components';
 
 import { __ } from '@wordpress/i18n';
-import { useDispatch } from '@wordpress/data';
+import { useDispatch, useSelect } from '@wordpress/data';
 import { RawHTML } from '@wordpress/element';
 
 const Credentials = ( props ) => {
-	const { settings } = props;
-	const credentials = settings?.credentials ?? {};
+
 	const { setSettings } = useDispatch( 'searchconsole' );
 
+	const { settings, isReady } = useSelect( ( select ) => {
+		return {
+			settings: select( 'searchconsole' ).getSettings(),
+			isReady: select( 'searchconsole' ).isReady(),
+		};
+	}, [] );
+
 	function setCredentials( key, val ) {
+		const credentials = Object.assign( {}, settings.credentials );
+
 		setSettings( {
 			...settings,
 			credentials: {
@@ -56,7 +64,7 @@ const Credentials = ( props ) => {
 
 				<TextControl
 					placeholder={ 'CLIENT ID' }
-					value={ credentials.client_id || '' }
+					value={ settings?.credentials?.client_id }
 					label={ __( 'Client ID', 'search-console' ) }
 					help={ __(
 						'Please go to Developer Console to obtain your credentials.',
@@ -68,7 +76,7 @@ const Credentials = ( props ) => {
 				/>
 				<TextControl
 					placeholder={ 'CLIENT SECRET' }
-					value={ credentials.client_secret || '' }
+					value={ settings?.credentials?.client_secret }
 					label={ __( 'Client secret', 'search-console' ) }
 					help={ __(
 						'Please go to Developer Console to obtain your credentials.',

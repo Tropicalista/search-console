@@ -53,7 +53,7 @@ export default function PostTypeSelection( props ) {
                     return <ToggleControl
                         key={ i }
                         label={ postType.label }
-                        checked={ settings.postTypes.includes( postType.value ) }
+                        checked={ settings.postTypes?.includes( postType.value ) }
                         onChange={ (val) => {
                             if (val) {
                                 addPostType( postType.value ) 

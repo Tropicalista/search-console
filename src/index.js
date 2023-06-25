@@ -30,13 +30,13 @@ const App = () => {
 
 	const { setSettings, setSites } = useDispatch( 'searchconsole' );
 
-	const token = settings?.token ?? false;
-
 	useEffect( () => {
+		
+		if( settings.token ){
+			loadGapi();
+		}
 
-		loadGapi();
-
-	}, [ token ] );
+	}, [ settings.token ] );
 
 	const loadGapi = () => {
 
@@ -46,7 +46,7 @@ const App = () => {
 		gapi?.load( 'client', async () => {
 			await gapi?.client?.load( 'searchconsole', 'v1' ).then( () => {
 				gapi.client.init({
-					token: token
+					token: settings.token
 				})
 				getSites()
 			} );
@@ -74,7 +74,7 @@ const App = () => {
 	const getSites = () => {
 		const sites = [{ value: '', label: __( 'Select a site', 'search-console' ) }];
 		
-		gapi.client.setToken( token );
+		window.gapi.client.setToken( settings.token );
 
 		gapi.client?.webmasters.sites
 			.list()
@@ -97,7 +97,7 @@ const App = () => {
 			} );
 	};
 
-	if ( ! isReady ) {
+	if ( ! settings ) {
 		return <LoadingSpinner text={ __( 'Loading…', 'search-console' ) } />;
 	}
 
