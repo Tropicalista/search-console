@@ -13,17 +13,22 @@ export default function DateDropdown( props ) {
 
 	const setDate = ( num, period ) => {
 		const date = moment()
-			.subtract( num + 2, period )
+			.subtract( num, period )
 			.format( 'YYYY-MM-DD' );
 		setRange( 'Last ' + num + ' ' + period );
 		setStartDate( date );
 	};
 
+	const setMonth = () => {
+		const start = moment().startOf('month')
+		console.log( start.subtract(1, 'month') )
+	}
+
 	return (
 		<Dropdown
 			className="my-container-class-name"
 			contentClassName="my-popover-content-classname"
-			position="bottom right"
+			placement="bottom right"
 			renderToggle={ ( { isOpen, onToggle } ) => (
 				<Button
 					isSecondary
@@ -49,6 +54,13 @@ export default function DateDropdown( props ) {
 							} }
 						>
 							{ __( 'Last 28 days', 'search-console' ) }
+						</MenuItem>
+						<MenuItem
+							onClick={ () => {
+								setDate( 1, 'months' ), onToggle();
+							} }
+						>
+							{ __( 'Last month', 'search-console' ) }
 						</MenuItem>
 						<MenuItem
 							onClick={ () => {

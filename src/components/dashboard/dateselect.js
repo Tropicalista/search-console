@@ -7,7 +7,7 @@ import {
 	DatePicker,
 	Dropdown,
 } from '@wordpress/components';
-import { dateI18n } from '@wordpress/date';
+import { dateI18n, format } from '@wordpress/date';
 import DateDropdown from './datedropdown';
 
 export function DateSelect( props ) {
@@ -30,7 +30,7 @@ export function DateSelect( props ) {
 							aria-expanded={ isOpen }
 						>
 							{ query.startDate
-								? dateI18n( 'F j, Y', query.startDate )
+								? format( 'F j, Y', query.startDate )
 								: __(
 										'Click here to set start date.',
 										'search-console'
@@ -70,7 +70,7 @@ export function DateSelect( props ) {
 							aria-expanded={ isOpen }
 						>
 							{ query.endDate
-								? dateI18n( 'F j, Y', query.endDate )
+								? format( 'F j, Y', query.endDate )
 								: __(
 										'Click here to set end date.',
 										'search-console'

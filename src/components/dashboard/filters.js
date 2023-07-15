@@ -46,7 +46,7 @@ export function Filters( props ) {
 					<Dropdown
 						className="my-container-class-name"
 						contentClassName="my-popover-content-classname"
-						position="bottom right"
+						placement="bottom right"
 						renderToggle={ ( { isOpen, onToggle } ) => (
 							<Button
 								variant="secondary"
