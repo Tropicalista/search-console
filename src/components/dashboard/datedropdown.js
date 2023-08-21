@@ -5,7 +5,8 @@ import { useSelect, select, useDispatch } from '@wordpress/data';
 import { dateI18n } from '@wordpress/date';
 
 export default function DateDropdown( props ) {
-	const { setStartDate } = useDispatch( 'searchconsole' );
+	const { setStartDate, setCustomDate } = useDispatch( 'searchconsole' );
+	const customDate = select( 'searchconsole' ).getCustomDate();
 
 	const [ range, setRange ] = useState(
 		__( 'Last 28 days', 'search-console' )
@@ -16,13 +17,9 @@ export default function DateDropdown( props ) {
 			.subtract( num, period )
 			.format( 'YYYY-MM-DD' );
 		setRange( 'Last ' + num + ' ' + period );
+		setCustomDate( false );
 		setStartDate( date );
 	};
-
-	const setMonth = () => {
-		const start = moment().startOf('month')
-		console.log( start.subtract(1, 'month') )
-	}
 
 	return (
 		<Dropdown
@@ -35,7 +32,7 @@ export default function DateDropdown( props ) {
 					onClick={ onToggle }
 					aria-expanded={ isOpen }
 				>
-					{ range }
+					{ customDate ? __( 'Custom date', 'search-console' ) : range }
 				</Button>
 			) }
 			renderContent={ ( { isOpen, onToggle } ) => (
@@ -89,6 +86,13 @@ export default function DateDropdown( props ) {
 							} }
 						>
 							{ __( 'Last 18 months', 'search-console' ) }
+						</MenuItem>
+						<MenuItem
+							onClick={ () => {
+								setCustomDate( ! customDate ), onToggle();
+							} }
+						>
+							{ __( 'Custom date', 'search-console' ) }
 						</MenuItem>
 					</MenuGroup>
 				</Fragment>

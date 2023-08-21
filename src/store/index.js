@@ -10,6 +10,7 @@ const DEFAULT_STATE = {
 			value: '',
 		},
 	],
+	customDate: false,
 	dimension: 'query',
 	searchType: 'web',
     startDate: dateI18n( 'Y-m-d', new Date().setDate( new Date().getDate() - 29 ) ),
@@ -58,6 +59,13 @@ const actions = {
 		return {
 			type: 'SET_DIMENSION',
 			dimension,
+		};
+	},
+
+	setCustomDate( val ) {
+		return {
+			type: 'SET_CUSTOMDATE',
+			val,
 		};
 	},
 
@@ -124,6 +132,12 @@ const store = createReduxStore( 'searchconsole', {
 				return {
 					...state,
 					dimension: action.dimension,
+				};
+
+			case 'SET_CUSTOMDATE':
+				return {
+					...state,
+					customDate: action.val,
 				};
 
 			case 'SET_STARTDATE':
@@ -222,6 +236,10 @@ const store = createReduxStore( 'searchconsole', {
 		getFilters( state ) {
 			const { filters } = state;
 			return filters;
+		},
+		getCustomDate( state ) {
+			const { customDate } = state;
+			return customDate;
 		},
 	},
 

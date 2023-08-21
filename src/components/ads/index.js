@@ -1,11 +1,37 @@
 import { __, sprintf } from '@wordpress/i18n';
-import { Card, CardBody } from '@wordpress/components';
-
+import { Card, CardBody, Button, __experimentalHStack as HStack } from '@wordpress/components';
+import { store as blockDirectoryStore } from '@wordpress/block-directory';
 import { useState, RawHTML, Fragment, useEffect } from '@wordpress/element';
+import { getBlockTypes } from '@wordpress/blocks';
 
 import { useSelect, useDispatch, dispatch, select } from '@wordpress/data';
 
 const Ads = ( props ) => {
+
+	const { installBlockType } = useDispatch( blockDirectoryStore );
+
+	const { isFormelloInstalled, isFormelloActive } = useSelect( ( select ) => {
+		const formello = select( 'core' ).getPlugin( 'formello/formello' );
+		return {
+			isFormelloInstalled: formello,
+			isFormelloActive: formello?.status === 'active',
+		};
+	} );
+
+	const { block } = useSelect( (select) => {
+		const { getDownloadableBlocks } = select( blockDirectoryStore );
+		const blocks = getDownloadableBlocks(
+						'block:formello/form'
+					).filter( ( { name } ) => 'formello/form' === name );
+		return {
+			block: blocks.length && blocks[ 0 ]
+		}
+	} );
+
+	const isInstallingBlock = useSelect(
+		( select ) => select( blockDirectoryStore ).isInstalling( block.id ),
+		[ block.id ]
+	);
 
 	const [shown, setShown] = useState(() => {
 		// getting stored value
@@ -14,23 +40,36 @@ const Ads = ( props ) => {
 		return initialValue || new Date().getTime();
 	});
 
+	if ( isFormelloInstalled && isFormelloActive ) {
+		return null;
+	}
+
 	return (
 		<Card>
 			<CardBody>
-				<RawHTML>
-					{ sprintf(
-						/* translators: Developer console url. */
-						__(
-							`<p>See exactly how your SEO campaigns are performing. 
-							The <a href="%s" target="_blank">Rank Tracker</a> tool monitors your site as it moves up 
-							or down the search engine results, giving you helpful alerts 
-							and visual overviews. Check our <a href="%s" target="_blank">SEO guide</a>.</p>`,
-							'search-console'
-						),
-						'https://www.ranktracker.com/?aid=11354',
-						'https://www.ranktracker.com/seo-guide/?aid=11354'
-					) }
-				</RawHTML>
+				<HStack alignment="left">
+					<RawHTML>
+						{ sprintf(
+							/* translators: Developer console url. */
+							__(
+								`<p>Do you need forms?. Check <a href="%s" target="_blank">Formello</a> to manage all your forms inside WordPress.`,
+								'search-console'
+							),
+							'https://formello.net',
+						) }
+					</RawHTML>
+					<Button
+						variant="primary" 
+						isSmall
+						onClick={ () => {
+							installBlockType( block )
+						} }
+						disabled={ isInstallingBlock }
+						isBusy={ isInstallingBlock }
+					>
+						{ __( 'Install Formello', 'search-console' ) }
+					</Button>
+				</HStack>
 			</CardBody>
 		</Card>
 	);
