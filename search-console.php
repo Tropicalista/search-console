@@ -12,7 +12,7 @@
  * License URI:    http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:    search-console
  *
- * @package           Search_Console
+ * @package        Search_Console
  */
 
 require __DIR__ . '/vendor/autoload.php';
@@ -33,14 +33,26 @@ function search_console_admin_menu() {
 
 	$capability = 'search_console';
 	$slug       = 'search-console';
-	$title = __( 'Search Console', 'search-console' );
+	$title      = __( 'Search Console', 'search-console' );
 
 	$hook = add_menu_page( $title, $title, $capability, 'search-console', 'search_console_load_admin_view', 'dashicons-chart-bar' );
 
-	if ( current_user_can( $capability ) ) {
-		$submenu[ $slug ][] = array( __( 'Dashboard' ), $capability, 'admin.php?page=' . $slug . '#/' );
-		$submenu[ $slug ][] = array( __( 'Settings' ), $capability, 'admin.php?page=' . $slug . '#/settings' );
-	}
+	add_submenu_page(
+		$slug,
+		'Dashboard',
+		'Dashboard',
+		'manage_options',
+		'search-console',
+		'search_console_load_admin_view'
+	);
+	add_submenu_page(
+		$slug,
+		'Settings',
+		'Settings',
+		'manage_options',
+		'search-console&subpage=settings',
+		'search_console_load_admin_view'
+	);
 
 	add_action( 'load-' . $hook, 'search_console_load_assets' );
 }
@@ -87,7 +99,6 @@ function search_console_load_assets() {
 		array( 'wp-components' ),
 		$script_asset['version']
 	);
-
 }
 
 /**
@@ -134,10 +145,9 @@ function search_console_dashboard_help() {
 /**
  * Rating stars
  *
- * @param string $hook The hook.
  * @throws \Error The error.
  */
-function search_console_add_table_scripts( $hook ) {
+function search_console_add_table_scripts() {
 
 	$script_asset_path = plugin_dir_path( __FILE__ ) . 'build/table.asset.php';
 	if ( ! file_exists( $script_asset_path ) ) {
@@ -155,7 +165,6 @@ function search_console_add_table_scripts( $hook ) {
 		array(),
 		true
 	);
-
 }
 add_action( 'admin_enqueue_scripts', 'search_console_add_table_scripts' );
 
@@ -164,8 +173,8 @@ add_action( 'admin_enqueue_scripts', 'search_console_add_table_scripts' );
  */
 function search_console_activate() {
 
-	$plugin_data = get_plugin_data( __FILE__ );
-	$version = get_option( 'serach_console_version', false );
+	$plugin_data    = get_plugin_data( __FILE__ );
+	$version        = get_option( 'serach_console_version', false );
 	$plugin_version = $version ? $version : $plugin_data['Version'];
 
 	if ( version_compare( $plugin_version, '2.6.0', '<' ) ) {
@@ -179,7 +188,6 @@ function search_console_activate() {
 
 	// Adding a new capability to role.
 	$administrator_role->add_cap( 'search_console' );
-
 }
 register_activation_hook( __FILE__, 'search_console_activate' );
 
@@ -196,7 +204,5 @@ function search_console_init_tracker() {
 	$client->insights()->init();
 
 	$twenty_twelve_license = $client->license();
-
 }
-
 search_console_init_tracker();
