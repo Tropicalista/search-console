@@ -9,7 +9,7 @@ export default function Query( props ) {
 	return (
 		<Fragment>
 			<SelectControl
-				selected={ filter.operator }
+				value={ filter?.operator }
 				options={ [
 					{
 						value: 'CONTAINS',
@@ -25,15 +25,15 @@ export default function Query( props ) {
 					},
 				] }
 				onChange={ ( option ) => {
-					handleChange( filter.expression, option );
+					handleChange( filter?.expression, option );
 				} }
 			/>
 			<TextControl
-				value={ filter.expression }
+				value={ filter?.expression || '' }
 				onChange={ ( option ) => {
 					handleChange(
 						option,
-						filter.operator ? filter.operator : 'CONTAINS'
+						filter?.operator ? filter?.operator : 'CONTAINS'
 					);
 				} }
 			/>

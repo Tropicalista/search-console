@@ -1,35 +1,40 @@
-import {
-	Button,
-	Dropdown,
-	DropdownMenu,
-	MenuItem,
-	MenuGroup,
-	Icon,
-	Flex,
-	ButtonGroup,
-} from '@wordpress/components';
+import { Button, Dropdown, MenuItem, MenuGroup } from '@wordpress/components';
 
 import { __ } from '@wordpress/i18n';
 
-import { useState, render, Fragment } from '@wordpress/element';
-import { withSelect, useDispatch, useSelect, select } from '@wordpress/data';
+import { useState, Fragment, useContext } from '@wordpress/element';
 
 import { MyModal } from './modals';
 import { DateSelect } from './dateselect';
+import { SettingsContext } from '../../context/settings-context';
 
-export function Filters( props ) {
+export function Filters() {
 	const [ showModal, setShowModal ] = useState( false );
+	const { query, updateQuery } = useContext( SettingsContext );
 
-	const { removeFilter } = useDispatch( 'searchconsole' );
-
-	const query = select( 'searchconsole' ).getQuery();
-
-	const onRequestClose = ( e ) => {
+	const onRequestClose = () => {
 		setShowModal( false );
 	};
 
 	const remove = ( filter ) => {
-		removeFilter( filter );
+		updateQuery( 'dimensionFiltersGroup', {
+			...query.dimensionFiltersGroup,
+			filters: query.dimensionFiltersGroup.filters.filter(
+				( prevItem ) => prevItem !== filter
+			),
+		} );
+	};
+
+	const getSign = ( filter ) => {
+		if ( ! filter.operator ) {
+			return '';
+		}
+		// eslint-disable-next-line no-nested-ternary
+		return 'EQUALS' === filter.operator
+			? ''
+			: 'CONTAINS' === filter.operator
+			? '+'
+			: '-';
 	};
 
 	return (
@@ -37,8 +42,8 @@ export function Filters( props ) {
 			<div className="search-console-filters">
 				<div className={ 'search-console-filters-options' }>
 					<Button
-						isPrimary={ true }
-						onClick={ () => setShowModal( 'SearchType' ) }
+						variant="primary"
+						onClick={ () => setShowModal( 'searchType' ) }
 					>
 						{ __( 'Search type: ', 'search-console' ) +
 							query.searchType }
@@ -57,32 +62,36 @@ export function Filters( props ) {
 								text={ __( 'New', 'search-console' ) }
 							/>
 						) }
-						renderContent={ ( { isOpen, onToggle } ) => (
+						renderContent={ ( { onToggle } ) => (
 							<MenuGroup>
 								<MenuItem
 									onClick={ () => {
-										setShowModal( 'Query' ), onToggle();
+										setShowModal( 'query' );
+										onToggle();
 									} }
 								>
 									{ __( 'Query', 'search-console' ) }
 								</MenuItem>
 								<MenuItem
 									onClick={ () => {
-										setShowModal( 'Page' ), onToggle();
+										setShowModal( 'page' );
+										onToggle();
 									} }
 								>
 									{ __( 'Page', 'search-console' ) }
 								</MenuItem>
 								<MenuItem
 									onClick={ () => {
-										setShowModal( 'Country' ), onToggle();
+										setShowModal( 'country' );
+										onToggle();
 									} }
 								>
 									{ __( 'Country', 'search-console' ) }
 								</MenuItem>
 								<MenuItem
 									onClick={ () => {
-										setShowModal( 'Device' ), onToggle();
+										setShowModal( 'device' );
+										onToggle();
 									} }
 								>
 									{ __( 'Device', 'search-console' ) }
@@ -90,25 +99,29 @@ export function Filters( props ) {
 							</MenuGroup>
 						) }
 					/>
-					{ query.filters.map( ( filter, i ) => (
-						<div className={ 'button-group' }>
-							<Button
-								isPrimary
-								key={ i }
-								onClick={ () =>
-									setShowModal( filter.dimension )
-								}
-							>
-								{ filter.dimension }: { filter.expression }
-							</Button>
-							<Button
-								isPrimary
-								onClick={ () => remove( filter ) }
-							>
-								x
-							</Button>
-						</div>
-					) ) }
+					{ query.dimensionFiltersGroup.filters.map(
+						( filter, i ) => (
+							<div className={ 'button-group' } key={ i }>
+								<Button
+									variant="primary"
+									onClick={ () =>
+										setShowModal( filter.dimension )
+									}
+								>
+									{ filter.dimension +
+										': ' +
+										getSign( filter ) +
+										filter.expression }
+								</Button>
+								<Button
+									variant="primary"
+									onClick={ () => remove( filter ) }
+								>
+									x
+								</Button>
+							</div>
+						)
+					) }
 				</div>
 				<div>
 					<DateSelect query={ query } />

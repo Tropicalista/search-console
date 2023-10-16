@@ -101,7 +101,7 @@ class Token {
 	 */
 	public function get_credentials( \WP_REST_Request $request ) {
 
-		$code = $request->get_param( 'code' );
+		$code  = $request->get_param( 'code' );
 		$token = $this->api->generate_access_key( $code );
 
 		if ( ! is_wp_error( $token ) ) {
@@ -146,7 +146,6 @@ class Token {
 		}
 
 		return $newToken;
-
 	}
 
 	/**
@@ -156,21 +155,20 @@ class Token {
 	 */
 	private function save_token( $token ) {
 
-		$options = get_option( $this->token_key );
+		$option = get_option( $this->token_key );
 
-		$options['token'] = $token;
+		$option['token'] = $token;
+		$option['token']['created_at'] = time();
 
-		update_option( $this->token_key, $options );
-
+		update_option( $this->token_key, $option );
 	}
 
 	/**
 	 * Check if a given request has access to get items
 	 *
-	 * @param WP_REST_Request $request Full data about the request.
 	 * @return WP_Error|bool
 	 */
-	public function permissions_check( $request ) {
+	public function permissions_check() {
 		return current_user_can( 'search_console' );
 	}
 
@@ -184,6 +182,5 @@ class Token {
 			wp_die();
 		}
 	}
-
 }
 \Search_Console\Rest\Token::get_instance();

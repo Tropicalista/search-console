@@ -1,4 +1,4 @@
-import { RadioControl, Button } from '@wordpress/components';
+import { RadioControl } from '@wordpress/components';
 import { Fragment } from '@wordpress/element';
 
 import { __ } from '@wordpress/i18n';
@@ -9,7 +9,7 @@ export default function Device( props ) {
 	return (
 		<Fragment>
 			<RadioControl
-				selected={ filter.expression }
+				selected={ filter?.expression }
 				options={ [
 					{
 						label: __( 'Desktop', 'search-console' ),

@@ -1,48 +1,37 @@
-import {
-	Notice,
-	Card,
-	CardBody,
-	CardHeader,
-	__experimentalInputControl as InputControl,
-} from '@wordpress/components';
+import { Notice, Card, CardBody, CardHeader } from '@wordpress/components';
 
 import { __ } from '@wordpress/i18n';
 
-import { useState, Fragment, useEffect, RawHTML } from '@wordpress/element';
+import { useContext } from '@wordpress/element';
+import { SettingsContext } from '../../context/settings-context';
 
 import GoogleOauthButton from './oauth-button';
-import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
-
-import { useSelect, useDispatch, dispatch, select } from '@wordpress/data';
-import apiFetch from '@wordpress/api-fetch';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const GoogleOAuth = ( props ) => {
-
-	const { settings, isReady } = useSelect( ( select ) => {
-		return {
-			settings: select( 'searchconsole' ).getSettings(),
-			isReady: select( 'searchconsole' ).isReady(),
-		};
-	}, [] );
+	const { settings } = useContext( SettingsContext );
 
 	return (
 		<Card>
 			<CardHeader>{ __( 'Google Oauth', 'formello' ) }</CardHeader>
 
 			<CardBody>
-				{ ( ! settings?.credentials?.client_id ||
-					! settings?.credentials?.client_secret ) && (
+				{ ( ! settings?.credentials?.client_id?.length ||
+					! settings?.credentials?.client_secret?.length ) && (
 					<Notice status="warning" isDismissible={ false }>
 						{ __(
 							'You must insert a Client Id and a Client secret to correctly request your authentication token.'
 						) }
 					</Notice>
 				) }
-				{ settings?.credentials?.client_id && settings?.credentials?.client_secret && (
-					<GoogleOAuthProvider clientId={ settings?.credentials?.client_id }>
-						<GoogleOauthButton { ...props } />
-					</GoogleOAuthProvider>
-				) }
+				{ settings?.credentials?.client_id &&
+					settings?.credentials?.client_secret && (
+						<GoogleOAuthProvider
+							clientId={ settings?.credentials?.client_id }
+						>
+							<GoogleOauthButton { ...props } />
+						</GoogleOAuthProvider>
+					) }
 			</CardBody>
 		</Card>
 	);

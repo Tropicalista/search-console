@@ -13,8 +13,14 @@ const DEFAULT_STATE = {
 	customDate: false,
 	dimension: 'query',
 	searchType: 'web',
-    startDate: dateI18n( 'Y-m-d', new Date().setDate( new Date().getDate() - 29 ) ),
-    endDate: dateI18n( 'Y-m-d', new Date().setDate( new Date().getDate() - 1 ) ),
+	startDate: dateI18n(
+		'Y-m-d',
+		new Date().setDate( new Date().getDate() - 29 )
+	),
+	endDate: dateI18n(
+		'Y-m-d',
+		new Date().setDate( new Date().getDate() - 1 )
+	),
 	filters: [],
 };
 
@@ -199,15 +205,8 @@ const store = createReduxStore( 'searchconsole', {
 			return settings.site;
 		},
 		getQuery( state ) {
-			const {
-				site,
-				searchType,
-				filters,
-				settings,
-				dimension,
-				startDate,
-				endDate,
-			} = state;
+			const { searchType, filters, dimension, startDate, endDate } =
+				state;
 			return {
 				dimension,
 				startDate,

@@ -32,11 +32,11 @@ export default {
 		0: { title: 'clicks' },
 		1: { title: 'impressions' },
 		2: {
-            format: "#%",
+			format: '#%',
 		},
 		3: {
-            direction: -1
-		}
+			direction: -1,
+		},
 	},
 	series: {
 		0: { type: 'line', targetAxisIndex: 0, tooltip: true }, // Clicks

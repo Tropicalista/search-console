@@ -1,21 +1,15 @@
-import {
-	RadioControl,
-	TextareaControl,
-	Button,
-	SelectControl,
-	Icon,
-} from '@wordpress/components';
-import { Fragment, RawHTML, useState, useEffect } from '@wordpress/element';
-import { useSelect, select, useDispatch } from '@wordpress/data';
+import { RadioControl } from '@wordpress/components';
+import { Fragment, useState, useContext } from '@wordpress/element';
+import { SettingsContext } from '../../../context/settings-context';
 
 import { __ } from '@wordpress/i18n';
 
 export default function SearchType( props ) {
-	const { onRequestClose, handleChange } = props;
+	const { handleChange } = props;
 
-	const searchType = select( 'searchconsole' ).getSearchType();
+	const { query } = useContext( SettingsContext );
 
-	const [ type, setType ] = useState( searchType );
+	const [ type, setType ] = useState( query.searchType );
 
 	return (
 		<Fragment>

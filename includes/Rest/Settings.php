@@ -72,6 +72,17 @@ class Settings {
 				'callback'            => array( $this, 'save_settings' ),
 			)
 		);
+
+		register_rest_route(
+			$this->namespace,
+			'save/token',
+			array(
+				'methods'             => \WP_REST_Server::CREATABLE,
+				'permission_callback' => array( $this, 'permissions_check' ),
+				'callback'            => array( $this, 'save_token' ),
+			)
+		);
+
 		register_rest_route(
 			$this->namespace,
 			'settings',
@@ -81,7 +92,6 @@ class Settings {
 				'callback'            => array( $this, 'get_settings' ),
 			)
 		);
-
 	}
 
 	/**
@@ -98,7 +108,6 @@ class Settings {
 		}
 
 		return new \WP_REST_Response( $settings );
-
 	}
 
 	/**
@@ -113,7 +122,36 @@ class Settings {
 
 		$res = update_option( $this->option_key, $req['settings'] );
 
-		return new \WP_REST_Response( $res );
+		return new \WP_REST_Response(
+			array(
+				'status'        => 200,
+				'response'      => __( 'Settings saved!', 'search-console' ),
+			)
+		);
+	}
+
+	/**
+	 * Save token.
+	 *
+	 * @param \WP_REST_Request $request Full data about the request.
+	 * @return $token.
+	 */
+	public function save_token( \WP_REST_Request $request ) {
+
+		$req = $request->get_params();
+
+		$option = get_option( $this->option_key );
+		$option['token'] = $req['token'];
+		$option['token']['created_at'] = time();
+
+		$res = update_option( $this->option_key, $option );
+
+		return new \WP_REST_Response(
+			array(
+				'status'        => 200,
+				'response'      => __( 'Token saved!', 'search-console' ),
+			)
+		);
 	}
 
 	/**
@@ -125,29 +163,26 @@ class Settings {
 	public function parse_defaults( $data ) {
 
 		$defaults = array(
-			'wp_url' => get_site_url(),
-			'title' => get_bloginfo( 'name' ),
-			'site' => '',
-			'siteVerification' => '',
-			'meta' => '',
+			'wp_url'             => get_site_url(),
+			'title'              => get_bloginfo( 'name' ),
+			'site'               => '',
+			'siteVerification'   => '',
+			'meta'               => '',
 			'custom_credentials' => true,
-			'client_id' => '',
-			'client_secret' => '',
-			'redirect_uri' => get_site_url() . '?sc-oauth2callback=1',
+			'client_id'          => '',
+			'client_secret'      => '',
+			'redirect_uri'       => get_site_url() . '?sc-oauth2callback=1',
 		);
 		return wp_parse_args( $data, $defaults );
-
 	}
 
 	/**
 	 * Check if a given request has access to get items
 	 *
-	 * @param WP_REST_Request $request Full data about the request.
 	 * @return WP_Error|bool
 	 */
-	public function permissions_check( $request ) {
+	public function permissions_check() {
 		return current_user_can( 'manage_options' );
 	}
-
 }
 \Search_Console\Rest\Settings::get_instance();

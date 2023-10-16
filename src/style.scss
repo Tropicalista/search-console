@@ -9,7 +9,7 @@ $mobile: 426px;
 }
 
 /* Hide WP notices on the settings page */
-.toplevel_page_search-console {
+.toplevel_page_search-console, .search-console_page_search-console-settings {
 	.notice {
 		display: none;
 	}	
@@ -59,7 +59,6 @@ $mobile: 426px;
 	.masthead {
 		background-color: #fff;
 		padding: 15px 20px;
-		margin-bottom: 1rem;
 		box-shadow: rgb(0 0 0 / 10%) 0px 0px 0px 1px;
 
 		.masthead__branding {
@@ -174,7 +173,7 @@ $mobile: 426px;
 	.search-console-settings {
 
 		max-width: 1024px;
-		margin: 0 auto;
+		margin: 1em auto;
 
 		.setting-controls__save-settings {
 			display: flex;
@@ -216,7 +215,7 @@ $mobile: 426px;
 	}
 
 	.search-console-dashboard {
-
+		margin-top: 1em;
 		padding: 0 1rem;
 
 		.search-console-modal-container {
@@ -309,6 +308,10 @@ $mobile: 426px;
 		.message {
 			margin: 1rem 0;
 		}
+	}
+
+	.components-notice {
+		margin: 1em 0;
 	}
 
 }

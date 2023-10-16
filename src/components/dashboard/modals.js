@@ -1,42 +1,33 @@
 /**
  * WordPress dependencies
  */
-import { Fragment, RawHTML, useState } from '@wordpress/element';
-
-import { __, sprintf } from '@wordpress/i18n';
-
-import { useSelect, select, useDispatch } from '@wordpress/data';
-
-import {
-	Button,
-	ButtonGroup,
-	Spinner,
-	SelectControl,
-	Modal,
-	Flex,
-} from '@wordpress/components';
-
+import { Fragment, useState, useContext } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
+import { Button, Modal, Flex } from '@wordpress/components';
 import SearchType from './modals/searchtype';
 import Device from './modals/device';
 import Country from './modals/country';
 import Page from './modals/page';
 import Query from './modals/query';
+import { SettingsContext } from '../../context/settings-context';
 
 export function MyModal( props ) {
 	const { onRequestClose, modal, title } = props;
+	const { query, updateQuery } = useContext( SettingsContext );
 
-	const remote = select( 'searchconsole' ).getFilterByDimension( modal );
-	const searchType = select( 'searchconsole' ).getSearchType();
+	const [ filter, setFilter ] = useState(
+		query.dimensionFiltersGroup.filters.find(
+			( f ) => f.dimension === modal
+		)
+	);
 
-	const [ localFilter, setLocalFilter ] = useState( remote );
-
-	const { setSearchType, setFilter } = useDispatch( 'searchconsole' );
+	const [ searchType, setSearchType ] = useState( query.searchType );
 
 	const handleChange = ( expression, operator ) => {
 		if ( 'searchType' === modal ) {
-			setLocalFilter( expression );
+			setSearchType( expression );
 		} else {
-			setLocalFilter( {
+			setFilter( {
 				dimension: modal,
 				expression,
 				operator,
@@ -46,45 +37,58 @@ export function MyModal( props ) {
 
 	const saveChange = () => {
 		if ( 'searchType' === modal ) {
-			setSearchType( localFilter );
+			updateQuery( 'searchType', searchType );
 		} else {
-			setFilter( localFilter );
+			const newFilters = [
+				filter,
+				...query.dimensionFiltersGroup.filters.filter(
+					( item ) => item.dimension !== modal
+				),
+			];
+			updateQuery( 'dimensionFiltersGroup', {
+				...query.dimensionFiltersGroup,
+				filters: newFilters,
+			} );
 		}
 		onRequestClose();
 	};
 
 	const modals = {
-		SearchType,
-		Device,
-		Country,
-		Page,
-		Query,
+		searchType: SearchType,
+		device: Device,
+		country: Country,
+		page: Page,
+		query: Query,
 	};
 
-	const MyModal = modals[ modal ];
+	const ModalFilter = modals[ modal ];
 
 	return (
 		<Modal title={ title } onRequestClose={ onRequestClose }>
 			<Fragment>
 				<div className={ 'search-console-modal-container' }>
-					<MyModal
+					<ModalFilter
 						handleChange={ handleChange }
 						searchType={ searchType }
-						filter={ localFilter }
+						filter={ filter }
 					/>
 				</div>
 
 				<Flex>
 					<Button isDestructive={ true } onClick={ onRequestClose }>
-						Cancel
+						{ __( 'Cancel', 'search-console' ) }
 					</Button>
 
 					<Button
-						isPrimary={ true }
+						variant="primary"
 						onClick={ saveChange }
-						disabled={ ! localFilter }
+						disabled={
+							'searchType' === modal
+								? false
+								: ! filter?.expression
+						}
 					>
-						Save
+						{ __( 'Save', 'search-console' ) }
 					</Button>
 				</Flex>
 			</Fragment>

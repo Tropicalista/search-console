@@ -12,12 +12,15 @@ import {
 
 import { __ } from '@wordpress/i18n';
 
-import { useState, Fragment, useEffect, RawHTML } from '@wordpress/element';
+import { useState, Fragment, useContext, RawHTML } from '@wordpress/element';
 import { useSelect, useDispatch, dispatch, select } from '@wordpress/data';
+import { gapi } from 'gapi-script';
+import { SettingsContext } from '../../context/settings-context';
 
 const Verification = ( props ) => {
-	const { token, settings, gapi, refreshToken } = props;
+	const { token, refreshToken } = props;
 	const { setSetting } = useDispatch( 'searchconsole' );
+	const { settings, updateSetting } = useContext( SettingsContext );
 
 	const getMeta = () => {
 		if ( settings.siteVerification && settings.site ) {

@@ -1,7 +1,9 @@
 import { useState, createContext, useEffect } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
-
+// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
+import { __experimentalUseNavigator as useNavigator } from '@wordpress/components';
 import { dateI18n } from '@wordpress/date';
+import { getQueryArg } from '@wordpress/url';
 
 export const SettingsContext = createContext();
 
@@ -39,11 +41,11 @@ function SettingsContextProvider( props ) {
 	const [ ready, setReady ] = useState( false );
 
 	const getSettings = () => {
-		apiFetch( { path: '/searchconsole/v1/settings/' } )
-			.then( ( options ) => {
+		apiFetch( { path: '/searchconsole/v1/settings/' } ).then(
+			( options ) => {
 				setSettings( options );
-			} )
-			.then( () => setReady( true ) );
+			}
+		);
 	};
 
 	const saveSettings = () => {
@@ -61,6 +63,28 @@ function SettingsContextProvider( props ) {
 			method: 'POST',
 			data: { token },
 		} ).then( () => setLoading( false ) );
+	};
+
+	const refreshToken = () => {
+		setLoading( true );
+		apiFetch( {
+			path: '/searchconsole/v1/refresh',
+			method: 'POST',
+		} )
+			.then( ( result ) => {
+				setSettings( {
+					...settings,
+					token: result,
+				} );
+				saveToken( result );
+				window.gapi.client.setToken( result );
+			} )
+			.catch( ( error ) => {
+				// eslint-disable-next-line no-console
+				console.log( error );
+			} )
+			// eslint-disable-next-line no-console
+			.finally( () => setLoading( false ) );
 	};
 
 	const updateSetting = ( key, value ) => {
@@ -84,6 +108,7 @@ function SettingsContextProvider( props ) {
 				window.gapi.client.init( {
 					token: settings.token,
 				} );
+				setReady( true );
 			} );
 			// eslint-disable-next-line no-console
 			console.log( 'Google loaded' );
@@ -103,6 +128,32 @@ function SettingsContextProvider( props ) {
 		};
 	}, [] );
 
+	const navigator = useNavigator();
+
+	const handleChange = ( e ) => {
+		const slug = getQueryArg( e.detail, 'page' );
+		const url = new URL( window.location );
+		url.searchParams.set( 'page', slug );
+		window.history.pushState( null, '', url.toString() );
+
+		navigator.goTo( '/' + slug );
+	};
+
+	const handlePopstate = ( e ) => {
+		const slug = getQueryArg( e.target.location, 'page' );
+		navigator.goTo( '/' + slug );
+	};
+
+	useEffect( () => {
+		window.addEventListener( 'changePage', handleChange );
+		window.addEventListener( 'popstate', handlePopstate );
+
+		return () => {
+			window.removeEventListener( 'changePage', handleChange );
+			window.removeEventListener( 'popstate', handlePopstate );
+		};
+	}, [] );
+
 	return (
 		<SettingsContext.Provider
 			value={ {
@@ -117,6 +168,7 @@ function SettingsContextProvider( props ) {
 				saveSettings,
 				loading,
 				ready,
+				refreshToken,
 			} }
 		>
 			{ props.children }

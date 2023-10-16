@@ -9,18 +9,15 @@ import {
 } from '@wordpress/components';
 import { dateI18n, format } from '@wordpress/date';
 import DateDropdown from './datedropdown';
-import { Fragment } from '@wordpress/element';
+import { Fragment, useContext } from '@wordpress/element';
+import { SettingsContext } from '../../context/settings-context';
 
-export function DateSelect( props ) {
-	const { query } = props;
-
-	const { setStartDate, setEndDate } = useDispatch( 'searchconsole' );
-	const customDate = select( 'searchconsole' ).getCustomDate();
+export function DateSelect() {
+	const { query, updateQuery, settings } = useContext( SettingsContext );
 
 	return (
 		<Flex>
-			{
-				customDate && 
+			{ settings.customDate && (
 				<Fragment>
 					<FlexItem>
 						<b>From:</b>
@@ -47,8 +44,11 @@ export function DateSelect( props ) {
 									__nextRemoveHelpButton
 									currentDate={ query.startDate }
 									onChange={ ( val ) => {
-										console.log(val)
-										setStartDate( dateI18n( 'Y-m-d', val ) )
+										console.log( val );
+										updateQuery(
+											'startDate',
+											dateI18n( 'Y-m-d', val )
+										);
 									} }
 									isInvalidDate={ ( val ) => {
 										if ( query.endDate ) {
@@ -87,10 +87,14 @@ export function DateSelect( props ) {
 									__nextRemoveHelpButton
 									currentDate={ query.endDate }
 									onChange={ ( val ) =>
-										setEndDate( dateI18n( 'Y-m-d', val ) )
+										updateQuery(
+											'endDate',
+											dateI18n( 'Y-m-d', val )
+										)
 									}
 									isInvalidDate={ ( val ) =>
-										new Date( val ) < new Date( query.startDate ) ||
+										new Date( val ) <
+											new Date( query.startDate ) ||
 										new Date( val ) > new Date()
 									}
 								/>
@@ -98,7 +102,7 @@ export function DateSelect( props ) {
 						/>
 					</FlexItem>
 				</Fragment>
-			}
+			) }
 			<FlexItem>
 				<DateDropdown />
 			</FlexItem>

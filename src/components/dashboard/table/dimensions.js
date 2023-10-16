@@ -1,12 +1,12 @@
 import { __ } from '@wordpress/i18n';
-import { useState } from '@wordpress/element';
-import { useDispatch } from '@wordpress/data';
+import { useState, useContext } from '@wordpress/element';
+import { SettingsContext } from '../../../context/settings-context';
 
-export default function Dimensions( props ) {
-	const { setDimension } = useDispatch( 'searchconsole' );
+export default function Dimensions() {
+	const { updateQuery } = useContext( SettingsContext );
 
 	const onSelect = ( dimension ) => {
-		setDimension( dimension );
+		updateQuery( 'dimension', dimension );
 		setSelected( dimension );
 	};
 

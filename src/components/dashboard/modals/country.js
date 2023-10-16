@@ -2,7 +2,6 @@ import { RadioControl } from '@wordpress/components';
 import { Fragment } from '@wordpress/element';
 
 import countries from './countries';
-import { __ } from '@wordpress/i18n';
 
 export default function Country( props ) {
 	const { filter, handleChange } = props;
@@ -18,7 +17,7 @@ export default function Country( props ) {
 	return (
 		<Fragment>
 			<RadioControl
-				selected={ filter.expression }
+				selected={ filter?.expression }
 				options={ options() }
 				onChange={ ( option ) => {
 					handleChange( option );

@@ -1,22 +1,16 @@
 import { __ } from '@wordpress/i18n';
-
-import { useState, Fragment, useEffect } from '@wordpress/element';
 import GoogleOAuth from '../components/settings/google-oauth';
 import Credentials from '../components/settings/credentials';
 import SiteSelect from '../components/settings/site-select';
-import UpdateSettings from '../components/update-settings';
+import SaveButton from '../components/settings/save-button';
 import LoadingSpinner from '../components/loading-spinner.js';
+import { SettingsContext } from '../context/settings-context';
+import { useContext } from '@wordpress/element';
 
-const Settings = ( props ) => {
-	const { refreshToken, settings } = props;
+const Settings = () => {
+	const { ready } = useContext( SettingsContext );
 
-    if ( ! window.gapi ) {
-        return (
-            <LoadingSpinner text={ __( 'Fetching data…', 'search-console' ) } />
-        );
-    }
-
-	if ( ! settings.credentials && ! gapi.client ) {
+	if ( ! ready ) {
 		return (
 			<LoadingSpinner text={ __( 'Fetching data…', 'search-console' ) } />
 		);
@@ -24,10 +18,10 @@ const Settings = ( props ) => {
 
 	return (
 		<div className={ 'search-console-settings' }>
-			<GoogleOAuth { ...props } />
-			<SiteSelect { ...props } />
-			<Credentials { ...props } />
-			<UpdateSettings { ...props } />
+			<GoogleOAuth />
+			<SiteSelect />
+			<Credentials />
+			<SaveButton />
 		</div>
 	);
 };

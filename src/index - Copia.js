@@ -1,0 +1,143 @@
+import { __ } from '@wordpress/i18n';
+import { HashRouter, Routes, Route } from 'react-router-dom';
+import LoadingSpinner from './components/loading-spinner.js';
+
+import { useState, render, createRoot, useEffect } from '@wordpress/element';
+import { useSelect, select, useDispatch } from '@wordpress/data';
+import { Modal } from '@wordpress/components';
+
+import menuFix from './utils/menuFix';
+import './style.scss';
+import './store';
+
+import Dashboard from './routes/dashboard';
+import Settings from './routes/settings';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import apiFetch from '@wordpress/api-fetch';
+import { gapi } from 'gapi-script';
+
+const App = () => {
+	const [ gapiLoaded, setGapiLoaded ] = useState( false );
+
+	const { settings, isReady } = useSelect( ( select ) => {
+		return {
+			settings: select( 'searchconsole' ).getSettings(),
+			isReady: select( 'searchconsole' ).isReady(),
+		};
+	}, [] );
+
+	const { setSettings, setSites } = useDispatch( 'searchconsole' );
+
+	useEffect( () => {
+		if ( settings.token ) {
+			loadGapi();
+		}
+	}, [ settings.token ] );
+
+	const loadGapi = () => {
+		if ( gapi?.client ) {
+			return;
+		}
+		gapi?.load( 'client', async () => {
+			await gapi?.client?.load( 'searchconsole', 'v1' ).then( () => {
+				gapi.client.init( {
+					token: settings.token,
+				} );
+				getSites();
+			} );
+		} );
+	};
+
+	const refreshToken = () => {
+		apiFetch( {
+			path: '/searchconsole/v1/refresh',
+			method: 'POST',
+		} )
+			.then( ( result ) => {
+				setSettings( {
+					...settings,
+					token: result,
+				} );
+				gapi.client.setToken( result );
+			} )
+			.catch( ( error ) => {
+				console.log( error );
+			} )
+			.finally( () => console.log( 'refreshed' ) );
+	};
+
+	const getSites = () => {
+		const sites = [
+			{ value: '', label: __( 'Select a site', 'search-console' ) },
+		];
+
+		window.gapi.client.setToken( settings.token );
+
+		gapi.client?.webmasters.sites
+			.list()
+			.then( ( s ) => {
+				s.result.siteEntry.map( ( t ) => {
+					sites.push( { value: t.siteUrl, label: t.siteUrl } );
+				} );
+				sites.sort( function ( a, b ) {
+					if ( a.value < b.value ) {
+						return -1;
+					}
+					return 0;
+				} );
+				setSites( sites.sort() );
+			} )
+			.catch( ( error ) => {
+				if ( 401 === error.status ) {
+					refreshToken();
+				}
+			} );
+	};
+
+	if ( ! settings ) {
+		return <LoadingSpinner text={ __( 'Loading…', 'search-console' ) } />;
+	}
+
+	return (
+		<React.StrictMode>
+			<HashRouter basename="/">
+				<Header title={ 'Search Console' } />
+				<Routes>
+					<Route
+						path="/"
+						element={
+							<Dashboard
+								settings={ settings }
+								//gapi={ gapi }
+								refreshToken={ refreshToken }
+								getSites={ getSites }
+							/>
+						}
+					/>
+					<Route
+						path="/settings"
+						element={
+							<Settings
+								settings={ settings }
+								//gapi={ gapi }
+								refreshToken={ refreshToken }
+								getSites={ getSites }
+							/>
+						}
+					/>
+				</Routes>
+				<Footer />
+			</HashRouter>
+		</React.StrictMode>
+	);
+};
+
+window.addEventListener( 'DOMContentLoaded', () => {
+	const domNode = document.getElementById( 'search-console-wrapper' );
+	const root = createRoot( domNode );
+	root.render( <App /> );
+} );
+
+// fix the admin menu for the slug "search-console"
+menuFix( 'search-console' );

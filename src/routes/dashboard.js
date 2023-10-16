@@ -1,47 +1,70 @@
 import { __ } from '@wordpress/i18n';
-import { Card, CardBody, Notice } from '@wordpress/components';
-
-import { useState, RawHTML, Fragment, useEffect } from '@wordpress/element';
-
+import {
+	Card,
+	CardBody,
+	Notice,
+	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
+	__experimentalUseNavigator as useNavigator,
+	Button,
+} from '@wordpress/components';
+import { useContext, createInterpolateElement } from '@wordpress/element';
 import LoadingSpinner from '../components/loading-spinner.js';
-
-import { MyChart } from '../components/dashboard/chart';
+import { MyChart } from '../components/dashboard/chart/index.js';
 import { MyTable } from '../components/dashboard/table';
 import { Filters } from '../components/dashboard/filters';
 import Ads from '../components/ads/index';
+import { SettingsContext } from '../context/settings-context';
 
-import { useSelect, useDispatch, dispatch, select } from '@wordpress/data';
-import { gapi } from 'gapi-script';
+const Dashboard = () => {
+	const navigator = useNavigator();
+	const { settings, ready } = useContext( SettingsContext );
 
-const Dashboard = ( props ) => {
-	const { refreshToken, settings } = props;
-	const token = settings?.token ?? false;
+	if ( ! ready ) {
+		return (
+			<LoadingSpinner text={ __( 'Fetching data…', 'search-console' ) } />
+		);
+	}
 
-	const { query } = useSelect( ( select ) => {
-		return {
-			query: select( 'searchconsole' ).getQuery(),
-		};
-	}, [] );
+	const noticeString = ( text ) =>
+		createInterpolateElement( text, {
+			a: (
+				<Button
+					text={ __( 'settings page', 'search-console' ) }
+					onClick={ () =>
+						navigator.goTo( '/search-console-settings' )
+					}
+					variant="link"
+				/>
+			),
+		} );
 
-    if ( token && ! gapi?.client ) {
-        return (
-            <LoadingSpinner text={ __( 'Fetching data…', 'search-console' ) } />
-        );
-    }
-
-	if ( ! token || ! settings?.site || ! settings?.credentials?.client_secret || ! settings?.credentials?.client_id ) {
+	if (
+		! settings.token ||
+		! settings.credentials?.client_secret ||
+		! settings.credentials?.client_id
+	) {
 		return (
 			<Notice status="warning" isDismissible={ false }>
-				<RawHTML>
-					{ sprintf(
-						/* translators: Developer console url. */
+				<p>
+					{ noticeString(
 						__(
-							'<p>You need to authenticate and set a site on <a href="%s">settings page</a>.</p>',
-							'formello'
-						),
-						`#/settings`
+							'Please provide an API key on <a />.',
+							'tropical-juice'
+						)
 					) }
-				</RawHTML>
+				</p>
+			</Notice>
+		);
+	}
+
+	if ( ! settings.site ) {
+		return (
+			<Notice status="warning" isDismissible={ false }>
+				<p>
+					{ noticeString(
+						__( 'Please select a site on <a />.', 'tropical-juice' )
+					) }
+				</p>
 			</Notice>
 		);
 	}
@@ -50,13 +73,7 @@ const Dashboard = ( props ) => {
 		<div className={ 'search-console-dashboard' }>
 			<Card>
 				<CardBody>
-					<MyChart
-						gapi={ gapi }
-						token={ token }
-						query={ query }
-						site={ settings.site }
-						refreshToken={ refreshToken }
-					/>
+					<MyChart />
 				</CardBody>
 			</Card>
 			<Ads />
@@ -67,13 +84,7 @@ const Dashboard = ( props ) => {
 			</Card>
 			<Card>
 				<CardBody>
-					<MyTable
-						gapi={ gapi }
-						token={ token }
-						query={ query }
-						site={ settings.site }
-						refreshToken={ refreshToken }
-					/>
+					<MyTable />
 				</CardBody>
 			</Card>
 		</div>

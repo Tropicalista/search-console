@@ -37,7 +37,7 @@ function search_console_admin_menu() {
 
 	$hook = add_menu_page( $title, $title, $capability, 'search-console', 'search_console_load_admin_view', 'dashicons-chart-bar' );
 
-	add_submenu_page(
+	$dashboard_hook =add_submenu_page(
 		$slug,
 		'Dashboard',
 		'Dashboard',
@@ -45,16 +45,18 @@ function search_console_admin_menu() {
 		'search-console',
 		'search_console_load_admin_view'
 	);
-	add_submenu_page(
+	$settings_hook = add_submenu_page(
 		$slug,
 		'Settings',
 		'Settings',
 		'manage_options',
-		'search-console&subpage=settings',
+		'search-console-settings',
 		'search_console_load_admin_view'
 	);
 
 	add_action( 'load-' . $hook, 'search_console_load_assets' );
+	add_action( 'load-' . $dashboard_hook, 'search_console_load_assets' );
+	add_action( 'load-' . $settings_hook, 'search_console_load_assets' );
 }
 add_action( 'admin_menu', 'search_console_admin_menu' );
 

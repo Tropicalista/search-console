@@ -1,15 +1,9 @@
 /**
  * WordPress dependencies
  */
-import {
-	Fragment,
-	RawHTML,
-	useState,
-	useMemo,
-	useEffect,
-} from '@wordpress/element';
+import { useState, useContext, useEffect, useMemo } from '@wordpress/element';
 
-import { __, sprintf } from '@wordpress/i18n';
+import { __ } from '@wordpress/i18n';
 import {
 	useTable,
 	usePagination,
@@ -17,43 +11,55 @@ import {
 	useGlobalFilter,
 } from 'react-table';
 import Countries from './modals/countries';
-import { useSelect, select } from '@wordpress/data';
 
-import { Button, Spinner, SelectControl, Icon } from '@wordpress/components';
+import { Spinner, Icon } from '@wordpress/components';
 
 import Pagination from './table/pagination';
 import TableBar from './table/table-bar';
+import { SettingsContext } from '../../context/settings-context';
+import { gapi } from 'gapi-script';
 
-export function MyTable( props ) {
-	const { site, gapi, query, refreshToken } = props;
+export function MyTable() {
+	const { settings, query, refreshToken } = useContext( SettingsContext );
 
 	const [ data, setData ] = useState( [] );
 	const [ isLoading, setIsLoading ] = useState( false );
 
 	useEffect( () => {
-		if ( ! gapi?.client?.getToken() || ! site ) {
-			return;
-		}
 		getData();
-	}, [ site, query ] );
+	}, [ query ] );
+
+	useEffect( () => {
+		if ( settings.token ) {
+			loadGapi();
+		}
+	}, [ settings.token, query ] );
+
+	const loadGapi = () => {
+		gapi?.load( 'client', async () => {
+			await gapi?.client?.load( 'searchconsole', 'v1' ).then( () => {
+				gapi.client.init( {
+					token: settings.token,
+				} );
+				getData();
+			} );
+		} );
+	};
 
 	const getData = () => {
 		setIsLoading( true );
+		window.gapi.client.setToken( settings.token );
 
-		gapi.client.webmasters.searchanalytics
+		window.gapi?.client?.webmasters.searchanalytics
 			.query( {
-				siteUrl: site,
+				siteUrl: settings.site,
 				fields: 'rows',
 				rowLimit: null,
 				searchType: query.searchType,
 				startDate: query.startDate,
 				endDate: query.endDate,
 				dimensions: [ query.dimension ],
-				dimensionFilterGroups: [
-					{
-						filters: query.filters,
-					},
-				],
+				dimensionFilterGroups: query.dimensionFiltersGroup,
 			} )
 			.then( ( response ) => {
 				setIsLoading( false );
@@ -67,18 +73,15 @@ export function MyTable( props ) {
 					} );
 				}
 				setData( response.result.rows );
-			}, ( err ) => {
-				console.log( err );
-				setIsLoading( false );
-			} );
+			} )
+			.catch( ( error ) => {
+				// eslint-disable-next-line no-console
+				console.log( error );
+				refreshToken();
+			} )
 	};
 
-	const options = {
-		pageSize: 20,
-		pageSizeOptions: [ 5, 10, 20, 50, 100 ],
-	};
-
-	const columns = React.useMemo(
+	const columns = useMemo(
 		() => [
 			{
 				Header: '',
@@ -146,13 +149,14 @@ export function MyTable( props ) {
 			{ isLoading ? <Spinner /> : null }
 			<table { ...getTableProps() }>
 				<thead>
-					{ headerGroups.map( ( headerGroup ) => (
-						<tr { ...headerGroup.getHeaderGroupProps() }>
-							{ headerGroup.headers.map( ( column ) => (
+					{ headerGroups.map( ( headerGroup, i ) => (
+						<tr { ...headerGroup.getHeaderGroupProps() } key={ i }>
+							{ headerGroup.headers.map( ( column, idx ) => (
 								<th
 									{ ...column.getHeaderProps(
 										column.getSortByToggleProps()
 									) }
+									key={ idx }
 								>
 									{ column.render( 'Header' ) }
 									<span>
@@ -172,13 +176,16 @@ export function MyTable( props ) {
 					) ) }
 				</thead>
 				<tbody { ...getTableBodyProps() }>
-					{ page.map( ( row, i ) => {
+					{ page.map( ( row, idx ) => {
 						prepareRow( row );
 						return (
-							<tr { ...row.getRowProps() }>
-								{ row.cells.map( ( cell ) => {
+							<tr { ...row.getRowProps() } key={ idx }>
+								{ row.cells.map( ( cell, i ) => {
 									return (
-										<td { ...cell.getCellProps() }>
+										<td
+											{ ...cell.getCellProps() }
+											key={ i }
+										>
 											{ cell.render( 'Cell' ) }
 										</td>
 									);

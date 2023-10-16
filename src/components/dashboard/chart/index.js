@@ -1,46 +1,43 @@
 import { Chart } from 'react-google-charts';
 import Options from './chart-options';
-import { useState, useEffect } from '@wordpress/element';
+import { useState, useEffect, useContext } from '@wordpress/element';
 import { Spinner } from '@wordpress/components';
-
 import { __ } from '@wordpress/i18n';
+import { SettingsContext } from '../../../context/settings-context';
+import { gapi } from 'gapi-script';
+import apiFetch from '@wordpress/api-fetch';
 
-import LoadingSpinner from '../loading-spinner.js';
+import LoadingSpinner from '../../loading-spinner.js';
 
-export function MyChart( props ) {
-	const { site, gapi, query, refreshToken } = props;
+export function MyChart() {
+	const { settings, query, updateSetting } = useContext( SettingsContext );
 
 	const [ table, setTable ] = useState( [] );
 
 	useEffect( () => {
-		if ( ! gapi?.client?.getToken() || ! site ) {
-			return;
-		}
 		getData();
-	}, [ site, query ] );
+	}, [ query ] );
 
 	const getData = () => {
-		gapi?.client?.webmasters.searchanalytics
+		window.gapi.client.setToken( settings.token );
+
+		window.gapi.client.webmasters.searchanalytics
 			.query( {
-				siteUrl: site,
+				siteUrl: settings.site,
 				fields: 'rows',
 				rowLimit: null,
 				searchType: query.searchType,
 				startDate: query.startDate,
 				endDate: query.endDate,
 				dimensions: [ 'date' ],
-				dimensionFilterGroups: [
-					{
-						filters: query.filters,
-					},
-				],
+				dimensionFilterGroups: query.dimensionFiltersGroup,
 			} )
 			.then(
 				( response ) => {
 					const data = response.result.rows;
 					const temp = [];
 					temp.push( [
-						'Keys',
+						__( 'Keys', 'search-console' ),
 						__( 'Clicks', 'search-console' ),
 						__( 'Impressions', 'search-console' ),
 						'CTR',
@@ -58,12 +55,27 @@ export function MyChart( props ) {
 					setTable( temp );
 				},
 				( err ) => {
-					console.log(err)
-					if ( 401 === err.status ) {
-						refreshToken();
-					}
+					// eslint-disable-next-line no-console
+					console.log( err );
+					refreshToken();
 				}
 			);
+	};
+
+	const refreshToken = () => {
+		apiFetch( {
+			path: '/searchconsole/v1/refresh',
+			method: 'POST',
+		} )
+			.then( ( result ) => {
+				updateSetting( 'token', result );
+				saveToken( result );
+				window.gapi.client.setToken( result );
+			} )
+			.catch( ( error ) => {
+				// eslint-disable-next-line no-console
+				console.log( error );
+			} );
 	};
 
 	return (

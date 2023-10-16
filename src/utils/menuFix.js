@@ -13,8 +13,13 @@ function menuFix( slug ) {
 	const currentUrl = window.location.href;
 	const currentPath = currentUrl.substr( currentUrl.indexOf( 'admin.php' ) );
 
-	menuRoot.on( 'click', 'a', function () {
+	menuRoot.on( 'click', 'a', function ( e ) {
+		e.preventDefault();
 		const self = $( this );
+
+		window.dispatchEvent(
+			new CustomEvent( 'changePage', { detail: e.target.href } )
+		);
 
 		$( 'ul.wp-submenu li', menuRoot ).removeClass( 'current' );
 
@@ -33,3 +38,25 @@ function menuFix( slug ) {
 }
 
 export default menuFix;
+
+( () => {
+	const oldPushState = history.pushState;
+	history.pushState = function pushState() {
+		const ret = oldPushState.apply( this, arguments );
+		window.dispatchEvent( new Event( 'pushstate' ) );
+		window.dispatchEvent( new Event( 'locationchange' ) );
+		return ret;
+	};
+
+	const oldReplaceState = history.replaceState;
+	history.replaceState = function replaceState() {
+		const ret = oldReplaceState.apply( this, arguments );
+		window.dispatchEvent( new Event( 'replacestate' ) );
+		window.dispatchEvent( new Event( 'locationchange' ) );
+		return ret;
+	};
+
+	window.addEventListener( 'popstate', () => {
+		window.dispatchEvent( new Event( 'locationchange' ) );
+	} );
+} )();
