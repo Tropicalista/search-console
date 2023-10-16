@@ -1,6 +1,7 @@
 /.wordpress-org
 /.git
 /.github
+/.vscode
 /src
 
 .distignore
@@ -12,6 +13,7 @@
 .gitignore
 .sublime-project
 .sublime-workspace
+.code-workspace
 package-lock.json
 package.json
 composer.json
