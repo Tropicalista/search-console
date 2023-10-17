@@ -1,31 +1,23 @@
 import {
-	BaseControl,
 	Button,
-	ExternalLink,
-	Placeholder,
-	Spinner,
-	TextControl,
 	ToggleControl,
+	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
 	__experimentalInputControl as InputControl,
-	TabPanel,
 } from '@wordpress/components';
 
 import { __ } from '@wordpress/i18n';
 
-import { useState, Fragment, useContext, RawHTML } from '@wordpress/element';
-import { useSelect, useDispatch, dispatch, select } from '@wordpress/data';
-import { gapi } from 'gapi-script';
+import { Fragment, useContext } from '@wordpress/element';
 import { SettingsContext } from '../../context/settings-context';
 
-const Verification = ( props ) => {
-	const { token, refreshToken } = props;
-	const { setSetting } = useDispatch( 'searchconsole' );
-	const { settings, updateSetting } = useContext( SettingsContext );
+const Verification = () => {
+	const { settings, updateSetting, refreshToken } =
+		useContext( SettingsContext );
 
 	const getMeta = () => {
 		if ( settings.siteVerification && settings.site ) {
-			gapi.client.load( 'siteVerification', 'v1' ).then( ( r ) => {
-				gapi.client.siteVerification.webResource
+			window.gapi.client.load( 'siteVerification', 'v1' ).then( () => {
+				window.gapi.client.siteVerification.webResource
 					.getToken( {
 						verificationMethod: 'META',
 						site: {
@@ -37,16 +29,13 @@ const Verification = ( props ) => {
 						},
 					} )
 					.then( ( r ) => {
-						setSetting( 'meta', r.result.token );
-					}, (error) => {
-
+						updateSetting( 'meta', r.result.token );
 					} )
-					.catch( (error) => {
+					.catch( ( error ) => {
 						if ( 401 === error.status ) {
-							refreshToken()
+							refreshToken();
 						}
 					} );
-
 			} );
 		}
 	};
@@ -55,7 +44,12 @@ const Verification = ( props ) => {
 		<div className="search-console-Advanced">
 			{ settings.site && (
 				<Fragment>
-					<p>{ __( 'Do you want to add meta tag verification on your site?', 'search-console' ) }</p>
+					<p>
+						{ __(
+							'Do you want to add meta tag verification on your site?',
+							'search-console'
+						) }
+					</p>
 					<ToggleControl
 						label={ __(
 							'Add verification to site?',
@@ -67,13 +61,13 @@ const Verification = ( props ) => {
 						) }
 						checked={ settings.siteVerification }
 						onChange={ ( val ) => {
-							setSetting( 'siteVerification', val );
+							updateSetting( 'siteVerification', val );
 						} }
 					/>
 				</Fragment>
 			) }
 			{ settings.siteVerification && (
-				<BaseControl
+				<InputControl
 					help={ __(
 						'Please click on icon to generate your meta verification tag.',
 						'search-console'
@@ -82,17 +76,12 @@ const Verification = ( props ) => {
 						'Your meta verification tag',
 						'search-console'
 					) }
-				>
-					<InputControl
-						value={ settings.meta }
-						onChange={ ( val ) => {
-							setSetting( 'meta', val );
-						} }
-						suffix={
-							<Button onClick={ getMeta } icon={ 'update' } />
-						}
-					/>
-				</BaseControl>
+					value={ settings.meta }
+					onChange={ ( val ) => {
+						updateSetting( 'meta', val );
+					} }
+					suffix={ <Button onClick={ getMeta } icon={ 'update' } /> }
+				/>
 			) }
 		</div>
 	);

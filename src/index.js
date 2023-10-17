@@ -23,23 +23,8 @@ const App = () => {
 
 	const navigator = useNavigator();
 
-	/*const handleChange = () => {
-		const path = getQueryArg( window.location.href, 'subpage' );
-		navigator.goTo( path ? '/' + path : '/' );
-		console.log( path ? '/' + path : '/' );
-	};
-
-	useEffect( () => {
-		window.addEventListener( 'locationchange', handleChange );
-
-		return () =>
-			window.removeEventListener( 'locationchange', handleChange );
-	}, [] );*/
-
 	return (
-		<NavigatorProvider
-			initialPath={ '/' + initialPath }
-		>
+		<NavigatorProvider initialPath={ '/' + initialPath }>
 			<Header title={ 'Search Console' } />
 			<SettingsContextProvider>
 				<NavigatorScreen path="/search-console">

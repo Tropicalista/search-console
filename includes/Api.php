@@ -159,4 +159,22 @@ class Api {
 
 		return $this->make_request( 'https://accounts.google.com/o/oauth2/token', $args, 'POST' );
 	}
+
+	/**
+	 * Refresh access token.
+	 *
+	 * @param mixed $token the secret token.
+	 */
+	public function revoke_token( $token ) {
+		return $this->make_request( 'https://accounts.google.com/o/oauth2/revoke?token=' . $token, 'POST' );
+	}
+
+	/**
+	 * Refresh access token.
+	 *
+	 * @param mixed $token the secret token.
+	 */
+	public function token_info( $token ) {
+		return $this->make_request( 'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=' . $token, 'GET' );
+	}
 }

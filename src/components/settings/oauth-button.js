@@ -1,27 +1,24 @@
 import { Button, Notice } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { Fragment, useState, useContext } from '@wordpress/element';
-import { useGoogleLogin } from '@react-oauth/google';
 import apiFetch from '@wordpress/api-fetch';
 import { SettingsContext } from '../../context/settings-context';
-import { hasGrantedAnyScopeGoogle } from '@react-oauth/google';
+import {
+	googleLogout,
+	useGoogleLogin,
+} from '@react-oauth/google';
 
 const GoogleOauthButton = () => {
-	const { updateSetting, settings } = useContext( SettingsContext );
+	const { updateSetting, email, settings, revokeToken } = useContext( SettingsContext );
 
 	const [ message, setMessage ] = useState( false );
-
-	const hasAccess = hasGrantedAnyScopeGoogle(
-		settings.token,
-		'https://www.googleapis.com/auth/webmasters.readonly'
-	);
 
 	const googleLogin = useGoogleLogin( {
 		flow: 'auth-code',
 		onSuccess: async ( { code } ) => {
 			getToken( code );
 		},
-		scope: 'https://www.googleapis.com/auth/webmasters.readonly https://www.googleapis.com/auth/siteverification',
+		scope: 'https://www.googleapis.com/auth/webmasters.readonly https://www.googleapis.com/auth/siteverification email',
 	} );
 
 	const getToken = ( code ) => {
@@ -36,7 +33,7 @@ const GoogleOauthButton = () => {
 				updateSetting( 'token', result );
 				setMessage( {
 					status: 'success',
-					text: __( 'Logged in', 'search-console' ),
+					text: __( "You're logged in", 'search-console' ),
 				} );
 			} )
 			.catch( ( error ) => {
@@ -55,12 +52,17 @@ const GoogleOauthButton = () => {
 				onClick={ () => googleLogin() }
 				icon={ 'google' }
 			>
-				{ __( 'Login with Google', 'search-console' ) }
+				{ email || __( 'Login with Google', 'search-console' ) }
 			</Button>
-			{ hasAccess && (
-				<Notice status="success" isDismissible={ false }>
-					{ __( "You're logged in", 'search-console' ) }
-				</Notice>
+			{ email && settings.token && (
+				<p>
+					<Button
+						text={ __( 'Revoke token', 'search-console' ) }
+						onClick={ () => revokeToken() }
+						isDestructive
+						isSmall
+					/>
+				</p>
 			) }
 			{ message && (
 				<Notice status={ message.status } isDismissible={ false }>

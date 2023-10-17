@@ -38,8 +38,22 @@ const Dashboard = () => {
 			),
 		} );
 
+	if ( ! settings.token || ! settings.token?.refresh_token ) {
+		return (
+			<Notice status="warning" isDismissible={ false }>
+				<p>
+					{ noticeString(
+						__(
+							'Please provide an API key on <a />.',
+							'tropical-juice'
+						)
+					) }
+				</p>
+			</Notice>
+		);
+	}
+
 	if (
-		! settings.token ||
 		! settings.credentials?.client_secret ||
 		! settings.credentials?.client_id
 	) {

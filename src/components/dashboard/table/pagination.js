@@ -1,8 +1,5 @@
-import { Button, Card, CardBody, CardHeader } from '@wordpress/components';
-
+import { Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { useSelect, useDispatch, dispatch, select } from '@wordpress/data';
-import { RawHTML } from '@wordpress/element';
 
 const Pagination = ( props ) => {
 	const {
@@ -27,9 +24,9 @@ const Pagination = ( props ) => {
 						setPageSize( Number( e.target.value ) );
 					} }
 				>
-					{ [ 10, 20, 30, 40, 50 ].map( ( pageSize ) => (
-						<option key={ pageSize } value={ pageSize }>
-							Show { pageSize }
+					{ [ 10, 20, 30, 40, 50 ].map( ( size ) => (
+						<option key={ size } value={ size }>
+							Show { size }
 						</option>
 					) ) }
 				</select>

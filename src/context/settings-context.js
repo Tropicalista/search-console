@@ -39,11 +39,13 @@ function SettingsContextProvider( props ) {
 	const [ query, setQuery ] = useState( defaultQuery );
 	const [ loading, setLoading ] = useState( false );
 	const [ ready, setReady ] = useState( false );
+	const [ email, setEmail ] = useState( false );
 
 	const getSettings = () => {
 		apiFetch( { path: '/searchconsole/v1/settings/' } ).then(
 			( options ) => {
 				setSettings( options );
+				isAuthenticated( options.token );
 			}
 		);
 	};
@@ -78,13 +80,29 @@ function SettingsContextProvider( props ) {
 				} );
 				saveToken( result );
 				window.gapi.client.setToken( result );
+				loadSearchConsole();
 			} )
 			.catch( ( error ) => {
 				// eslint-disable-next-line no-console
 				console.log( error );
+				loadSearchConsole();
 			} )
 			// eslint-disable-next-line no-console
 			.finally( () => setLoading( false ) );
+	};
+
+	const revokeToken = () => {
+		apiFetch( {
+			path: '/searchconsole/v1/revoke',
+			method: 'POST',
+			data: {
+				token: settings.token.refresh_token,
+			},
+		} ).then( () => {
+			updateSetting( 'token', false );
+			updateSetting( 'site', false );
+			setEmail( false );
+		} );
 	};
 
 	const updateSetting = ( key, value ) => {
@@ -96,23 +114,8 @@ function SettingsContextProvider( props ) {
 	};
 
 	useEffect( () => {
-		getSettings();
-	}, [] );
-
-	useEffect( () => {
 		const handleClientLoad = async () =>
-			await window.gapi.load( 'client', initClient );
-
-		const initClient = () => {
-			window.gapi.client.load( 'searchconsole', 'v1' ).then( () => {
-				window.gapi.client.init( {
-					token: settings.token,
-				} );
-				setReady( true );
-			} );
-			// eslint-disable-next-line no-console
-			console.log( 'Google loaded' );
-		};
+			await window.gapi.load( 'client', getSettings );
 
 		const script = document.createElement( 'script' );
 
@@ -127,6 +130,35 @@ function SettingsContextProvider( props ) {
 			document.body.removeChild( script );
 		};
 	}, [] );
+
+	const isAuthenticated = ( token ) => {
+		if ( ! token ) {
+			loadSearchConsole();
+			return false;
+		}
+		apiFetch( {
+			path: '/searchconsole/v1/tokeninfo/',
+			method: 'POST',
+			data: {
+				token,
+			},
+		} )
+			.then( ( res ) => {
+				if ( res.email ) {
+					loadSearchConsole();
+					setEmail( res.email );
+				} else {
+					refreshToken();
+				}
+			} )
+			.catch( () => refreshToken() );
+	};
+
+	const loadSearchConsole = () => {
+		window.gapi.client.load( 'searchconsole', 'v1' ).then( () => {
+			setReady( true );
+		} );
+	};
 
 	const navigator = useNavigator();
 
@@ -169,6 +201,8 @@ function SettingsContextProvider( props ) {
 				loading,
 				ready,
 				refreshToken,
+				revokeToken,
+				email,
 			} }
 		>
 			{ props.children }

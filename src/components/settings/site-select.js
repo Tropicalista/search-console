@@ -13,29 +13,13 @@ import { gapi } from 'gapi-script';
 import apiFetch from '@wordpress/api-fetch';
 
 const SiteSelect = ( props ) => {
-	const { settings, updateSetting, saveToken } =
+	const { settings, updateSetting, saveToken, refreshToken } =
 		useContext( SettingsContext );
 	const [ sites, setSites ] = useState( null );
 
 	useEffect( () => {
-		getSites();
+		if ( settings.token ) getSites();
 	}, [ settings.token ] );
-
-	const refreshToken = () => {
-		apiFetch( {
-			path: '/searchconsole/v1/refresh',
-			method: 'POST',
-		} )
-			.then( ( result ) => {
-				updateSetting( 'token', result );
-				saveToken( result );
-				window.gapi.client.setToken( result );
-			} )
-			.catch( ( error ) => {
-				// eslint-disable-next-line no-console
-				console.log( error );
-			} );
-	};
 
 	const getSites = () => {
 		const options = [

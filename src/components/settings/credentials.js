@@ -34,10 +34,11 @@ const Credentials = () => {
 							'<p>You need to create a <a target="_blank" href="%s">Google Developer Console</a> account before proceeding to authorization.</p>' +
 								'<p>Create a project from Google Developers Console if none exists.</p>' +
 								'<p>Go to Credentials tab, then create credential for OAuth client.</p>' +
-								'Application type will be Web Application. Add <code>YOUR_DOMAIN</code> in Authorized redirect URIs. This will give you Client ID and Client Secret key.<p>',
+								'Application type will be Web Application. Add <code>%s</code> in Authorized redirect URIs. This will give you Client ID and Client Secret key.<p>',
 							'formello'
 						),
-						`https://console.developers.google.com/`
+						`https://console.developers.google.com/`,
+						settings.wp_url
 					) }
 				</RawHTML>
 

@@ -245,7 +245,7 @@ $mobile: 426px;
 				padding: 0;
 				display: flex;
 				flex: 1;
-				a {
+				button {
 					padding: 1rem;
 					cursor: pointer;
 					font-weight: bold;
@@ -253,6 +253,9 @@ $mobile: 426px;
 				}
 				.is-selected {
 					border-bottom: 2px solid #135e96;
+				}
+				.components-button:focus:not(:disabled) {
+					box-shadow: none;
 				}
 			}
 

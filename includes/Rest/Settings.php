@@ -142,7 +142,6 @@ class Settings {
 
 		$option = get_option( $this->option_key );
 		$option['token'] = $req['token'];
-		$option['token']['created_at'] = time();
 
 		$res = update_option( $this->option_key, $option );
 

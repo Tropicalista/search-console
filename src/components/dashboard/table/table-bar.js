@@ -1,13 +1,6 @@
-import {
-	SearchControl,
-	Card,
-	CardBody,
-	CardHeader,
-} from '@wordpress/components';
+import { SearchControl } from '@wordpress/components';
 
 import { __ } from '@wordpress/i18n';
-import { useSelect, useDispatch, dispatch, select } from '@wordpress/data';
-import { RawHTML } from '@wordpress/element';
 import Dimensions from './dimensions';
 
 const TableBar = ( props ) => {

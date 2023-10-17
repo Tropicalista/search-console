@@ -10,13 +10,13 @@ import apiFetch from '@wordpress/api-fetch';
 import LoadingSpinner from '../../loading-spinner.js';
 
 export function MyChart() {
-	const { settings, query, updateSetting } = useContext( SettingsContext );
+	const { settings, query, refreshToken } = useContext( SettingsContext );
 
 	const [ table, setTable ] = useState( [] );
 
 	useEffect( () => {
 		getData();
-	}, [ query ] );
+	}, [ query, settings.token ] );
 
 	const getData = () => {
 		window.gapi.client.setToken( settings.token );
@@ -60,22 +60,6 @@ export function MyChart() {
 					refreshToken();
 				}
 			);
-	};
-
-	const refreshToken = () => {
-		apiFetch( {
-			path: '/searchconsole/v1/refresh',
-			method: 'POST',
-		} )
-			.then( ( result ) => {
-				updateSetting( 'token', result );
-				saveToken( result );
-				window.gapi.client.setToken( result );
-			} )
-			.catch( ( error ) => {
-				// eslint-disable-next-line no-console
-				console.log( error );
-			} );
 	};
 
 	return (

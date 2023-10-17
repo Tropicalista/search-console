@@ -91,6 +91,15 @@ class Token {
 				'callback'            => array( $this, 'get_credentials' ),
 			)
 		);
+		register_rest_route(
+			$this->namespace,
+			'tokeninfo',
+			array(
+				'methods'             => \WP_REST_Server::CREATABLE,
+				'permission_callback' => array( $this, 'permissions_check' ),
+				'callback'            => array( $this, 'get_tokeninfo' ),
+			)
+		);
 	}
 
 	/**
@@ -119,11 +128,15 @@ class Token {
 	 */
 	public function revoke_token( \WP_REST_Request $request ) {
 
-		$req = $request->get_params();
+		$token = $request->get_param( 'token' );
 
-		delete_option( $this->token_key );
+		$option = get_option( $this->token_key );
+		$option['token'] = false;
 
-		return new \WP_REST_Response( $req );
+		$revoke = $this->api->revoke_token( $token );
+		update_option( $this->token_key, $option );
+
+		return new \WP_REST_Response( $revoke );
 	}
 
 	/**
@@ -158,9 +171,21 @@ class Token {
 		$option = get_option( $this->token_key );
 
 		$option['token'] = $token;
-		$option['token']['created_at'] = time();
 
 		update_option( $this->token_key, $option );
+	}
+
+
+	/**
+	 * Store token in DB.
+	 *
+	 * @param \WP_REST_Request $request Full data about the request.
+	 */
+	public function get_tokeninfo( $request ) {
+
+		$token = $request->get_param( 'token' );
+
+		return $this->api->token_info( $token['access_token'] );
 	}
 
 	/**

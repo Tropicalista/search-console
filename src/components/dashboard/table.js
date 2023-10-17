@@ -27,24 +27,7 @@ export function MyTable() {
 
 	useEffect( () => {
 		getData();
-	}, [ query ] );
-
-	useEffect( () => {
-		if ( settings.token ) {
-			loadGapi();
-		}
-	}, [ settings.token, query ] );
-
-	const loadGapi = () => {
-		gapi?.load( 'client', async () => {
-			await gapi?.client?.load( 'searchconsole', 'v1' ).then( () => {
-				gapi.client.init( {
-					token: settings.token,
-				} );
-				getData();
-			} );
-		} );
-	};
+	}, [ query, settings.token ] );
 
 	const getData = () => {
 		setIsLoading( true );
