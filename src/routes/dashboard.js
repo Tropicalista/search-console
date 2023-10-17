@@ -44,7 +44,7 @@ const Dashboard = () => {
 				<p>
 					{ noticeString(
 						__(
-							'Please provide an API key on <a />.',
+							'Please authenticate on <a />.',
 							'tropical-juice'
 						)
 					) }
@@ -62,7 +62,7 @@ const Dashboard = () => {
 				<p>
 					{ noticeString(
 						__(
-							'Please provide an API key on <a />.',
+							'Please provide a Client Secret and a Client ID on <a />.',
 							'tropical-juice'
 						)
 					) }

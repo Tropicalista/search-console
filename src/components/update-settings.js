@@ -21,10 +21,8 @@ import apiFetch from '@wordpress/api-fetch';
  */
 export default function UpdateSettings( props ) {
 	const [ status, setStatus ] = useState( 'saved' );
-	const [ resetModalOpen, setResetModalOpen ] = useState( false );
-	const {
-		settings,
-	} = props;
+
+	const { settings } = props;
 
 	const updateButton =
 		status === 'saving'
@@ -40,13 +38,11 @@ export default function UpdateSettings( props ) {
 				settings,
 			},
 		} )
-			.then( ( result ) => {
+			.then( () => {
 				setStatus( 'saved' );
-				console.log( result );
 			} )
-			.catch( ( error ) => {
+			.catch( () => {
 				setStatus( 'error' );
-				console.log( error );
 			} )
 			.finally( () => console.log( 'saved' ) );
 	};
