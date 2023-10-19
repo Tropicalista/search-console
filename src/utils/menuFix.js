@@ -17,6 +17,10 @@ function menuFix( slug ) {
 		e.preventDefault();
 		const self = $( this );
 
+		if ( ! e.target.href ) {
+			e.target.href = 'admin.php?page=search-console';
+		}
+
 		window.dispatchEvent(
 			new CustomEvent( 'changePage', { detail: e.target.href } )
 		);
