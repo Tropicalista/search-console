@@ -194,7 +194,7 @@ class Token {
 	 * @return WP_Error|bool
 	 */
 	public function permissions_check() {
-		return current_user_can( 'search_console' );
+		return current_user_can( 'manage_options' );
 	}
 
 	/**
