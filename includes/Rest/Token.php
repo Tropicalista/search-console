@@ -156,9 +156,10 @@ class Token {
 		if ( ! is_wp_error( $refreshToken ) ) {
 			$newToken = array_merge( $token, $refreshToken );
 			$this->save_token( $newToken );
+			return $newToken;
 		}
 
-		return $newToken;
+		return $token;
 	}
 
 	/**

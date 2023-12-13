@@ -4,19 +4,12 @@ import apiFetch from '@wordpress/api-fetch';
 import { __experimentalUseNavigator as useNavigator } from '@wordpress/components';
 import { dateI18n } from '@wordpress/date';
 import { getQueryArg } from '@wordpress/url';
+import { store as coreStore, useEntityProp } from '@wordpress/core-data';
+import { useDispatch, useSelect } from '@wordpress/data';
 
 export const SettingsContext = createContext();
 
 function SettingsContextProvider( props ) {
-	const defaultSettings = {
-		credentials: {},
-		token: false,
-		site: '',
-		siteVerification: '',
-		postTypes: [],
-		meta: '',
-	};
-
 	const defaultQuery = {
 		customDate: false,
 		dimension: 'query',
@@ -34,30 +27,34 @@ function SettingsContextProvider( props ) {
 		},
 	};
 
-	const [ settingsSaved, setSettingsSaved ] = useState( false );
-	const [ settings, setSettings ] = useState( defaultSettings );
+	const [ ready, setReady ] = useState( false );
 	const [ query, setQuery ] = useState( defaultQuery );
 	const [ loading, setLoading ] = useState( false );
-	const [ ready, setReady ] = useState( false );
 	const [ email, setEmail ] = useState( false );
 
-	const getSettings = () => {
-		apiFetch( { path: '/searchconsole/v1/settings/' } ).then(
-			( options ) => {
-				setSettings( options );
-				isAuthenticated( options.token );
-			}
-		);
-	};
+	const [ settings, setSettings ] = useEntityProp(
+		'root',
+		'site',
+		'search_console'
+	);
+
+	const { saveEntityRecord } = useDispatch( coreStore );
 
 	const saveSettings = () => {
-		setLoading( true );
-		apiFetch( {
-			path: '/searchconsole/v1/settings/',
-			method: 'POST',
-			data: { settings },
-		} ).then( () => setLoading( false ) );
+		return saveEntityRecord( 'root', 'site', {
+			search_console: settings,
+		} );
 	};
+
+	const { isSaving } = useSelect(
+		( select ) => ( {
+			isSaving: select( coreStore ).isSavingEntityRecord(
+				'root',
+				'site'
+			),
+		} ),
+		[]
+	);
 
 	const saveToken = ( token ) => {
 		apiFetch( {
@@ -115,7 +112,7 @@ function SettingsContextProvider( props ) {
 
 	useEffect( () => {
 		const handleClientLoad = async () =>
-			await window.gapi.load( 'client', getSettings );
+			await window.gapi.load( 'client', loadSearchConsole );
 
 		const script = document.createElement( 'script' );
 
@@ -130,29 +127,6 @@ function SettingsContextProvider( props ) {
 			document.body.removeChild( script );
 		};
 	}, [] );
-
-	const isAuthenticated = ( token ) => {
-		if ( ! token ) {
-			loadSearchConsole();
-			return false;
-		}
-		apiFetch( {
-			path: '/searchconsole/v1/tokeninfo/',
-			method: 'POST',
-			data: {
-				token,
-			},
-		} )
-			.then( ( res ) => {
-				if ( res.email ) {
-					loadSearchConsole();
-					setEmail( res.email );
-				} else {
-					refreshToken();
-				}
-			} )
-			.catch( () => refreshToken() );
-	};
 
 	const loadSearchConsole = () => {
 		window.gapi.client.load( 'searchconsole', 'v1' ).then( () => {
@@ -193,12 +167,10 @@ function SettingsContextProvider( props ) {
 				updateQuery,
 				saveToken,
 				settings,
-				settingsSaved,
-				setSettingsSaved,
 				updateSetting,
 				setSettings,
 				saveSettings,
-				loading,
+				isSaving,
 				ready,
 				refreshToken,
 				revokeToken,

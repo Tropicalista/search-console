@@ -9,11 +9,9 @@ import { useContext, useEffect, useState } from '@wordpress/element';
 import Verification from './verification';
 import PostTypeSelection from './post-type-selection';
 import { SettingsContext } from '../../context/settings-context';
-import { gapi } from 'gapi-script';
-import apiFetch from '@wordpress/api-fetch';
 
 const SiteSelect = ( props ) => {
-	const { settings, updateSetting, saveToken, refreshToken } =
+	const { settings, updateSetting, refreshToken } =
 		useContext( SettingsContext );
 	const [ sites, setSites ] = useState( null );
 
@@ -26,13 +24,16 @@ const SiteSelect = ( props ) => {
 			{ value: '', label: __( 'Select a site', 'search-console' ) },
 		];
 
-		window.gapi.client.setToken( settings.token );
+		window.gapi?.client?.setToken( settings.token );
 
-		gapi.client?.webmasters.sites
+		window.gapi?.client?.webmasters?.sites
 			.list()
 			.then( ( s ) => {
-				s.result.siteEntry.map( ( t ) => {
-					options.push( { value: t.siteUrl, label: t.siteUrl } );
+				s.result.siteEntry.forEach( ( site ) => {
+					options.push( {
+						value: site.siteUrl,
+						label: site.siteUrl,
+					} );
 				} );
 				options.sort( function ( a, b ) {
 					if ( a.value < b.value ) {

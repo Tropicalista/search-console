@@ -52,7 +52,7 @@ class Api {
 		if ( is_array( $options ) ) {
 			$this->client_id = $options['credentials']['client_id'];
 			$this->client_secret = $options['credentials']['client_secret'];
-			$this->redirect_uri = $options['credentials']['redirect_uri'];
+			$this->redirect_uri = get_site_url();
 		}
 	}
 
@@ -129,7 +129,7 @@ class Api {
 
 		if ( ( $token['created_at'] + $token['expires_in'] - 30 ) < time() ) {
 			// It's expired so we have to re-issue again.
-			$refreshToken = $this->refreshToken( $token );
+			$refreshToken = $this->refresh_token( $token );
 
 			if ( ! is_wp_error( $refreshToken ) ) {
 				$token['access_token'] = $refreshToken['access_token'];

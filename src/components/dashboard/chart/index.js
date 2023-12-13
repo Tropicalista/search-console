@@ -4,8 +4,6 @@ import { useState, useEffect, useContext } from '@wordpress/element';
 import { Spinner } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { SettingsContext } from '../../../context/settings-context';
-import { gapi } from 'gapi-script';
-import apiFetch from '@wordpress/api-fetch';
 
 import LoadingSpinner from '../../loading-spinner.js';
 
@@ -19,9 +17,9 @@ export function MyChart() {
 	}, [ query, settings.token ] );
 
 	const getData = () => {
-		window.gapi.client.setToken( settings.token );
+		window.gapi?.client?.setToken( settings.token );
 
-		window.gapi.client.webmasters.searchanalytics
+		window.gapi?.client?.webmasters?.searchanalytics
 			.query( {
 				siteUrl: settings.site,
 				fields: 'rows',

@@ -17,7 +17,6 @@ import { Spinner, Icon } from '@wordpress/components';
 import Pagination from './table/pagination';
 import TableBar from './table/table-bar';
 import { SettingsContext } from '../../context/settings-context';
-import { gapi } from 'gapi-script';
 
 export function MyTable() {
 	const { settings, query, refreshToken } = useContext( SettingsContext );
@@ -61,7 +60,7 @@ export function MyTable() {
 				// eslint-disable-next-line no-console
 				console.log( error );
 				refreshToken();
-			} )
+			} );
 	};
 
 	const columns = useMemo(

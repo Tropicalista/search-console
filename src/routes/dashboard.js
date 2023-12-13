@@ -43,10 +43,7 @@ const Dashboard = () => {
 			<Notice status="warning" isDismissible={ false }>
 				<p>
 					{ noticeString(
-						__(
-							'Please authenticate on <a />.',
-							'tropical-juice'
-						)
+						__( 'Please authenticate on <a />.', 'tropical-juice' )
 					) }
 				</p>
 			</Notice>

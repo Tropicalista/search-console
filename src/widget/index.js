@@ -1,30 +1,19 @@
-import { useState, render, hydrate } from '@wordpress/element';
-import { useSelect, select, useDispatch } from '@wordpress/data';
-import { __ } from '@wordpress/i18n';
-
+import { useState, createRoot, useEffect } from '@wordpress/element';
 import Widget from './widget';
 import LoadingSpinner from '../components/loading-spinner.js';
+import SettingsContextProvider from '../context/settings-context';
+import { MyChart } from '../components/dashboard/chart';
 
-const App = (props) => {
-
-	const { settings, isReady, query } = useSelect( ( select ) => {
-		return {
-			settings: select( 'searchconsole' ).getSettings(),
-			isReady: select( 'searchconsole' ).isReady(),
-			query: select( 'searchconsole' ).getQuery(),
-		};
-	}, [] );
-
-    if ( !isReady ) {
-        return (
-            <LoadingSpinner text={ __( 'Fetching data…', 'search-console' ) } />
-        );
-    }
-
-	return <Widget />
-
-}
+const App = () => {
+	return (
+		<SettingsContextProvider>
+			<Widget />
+		</SettingsContextProvider>
+	);
+};
 
 window.addEventListener( 'DOMContentLoaded', () => {
-	render( <App />, document.getElementById('search-console-widget') );
+	const domNode = document.getElementById( 'search-console-widget' );
+	const root = createRoot( domNode );
+	root.render( <App /> );
 } );

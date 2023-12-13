@@ -13,15 +13,15 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Recursive sanitation for an array
  *
- * @param mixed $array the array of data.
+ * @param mixed $data the array of data.
  *
  * @return mixed
  */
-function recursive_sanitize_text_field( $array ) {
-	if ( ! is_array( $array ) ) {
-		return sanitize_text_field( $array );
+function recursive_sanitize_text_field( $data ) {
+	if ( ! is_array( $data ) ) {
+		return sanitize_text_field( $data );
 	}
-	foreach ( $array as $key => &$value ) {
+	foreach ( $data as $key => &$value ) {
 		if ( is_array( $value ) ) {
 			$value = recursive_sanitize_text_field( $value );
 		} else {
@@ -30,7 +30,7 @@ function recursive_sanitize_text_field( $array ) {
 			};
 		}
 	}
-	return $array;
+	return $data;
 }
 
 /**
@@ -53,7 +53,7 @@ function register_settings() {
 			'type' => 'string',
 		),
 		'siteVerification' => array(
-			'type' => 'string',
+			'type' => 'boolean',
 		),
 		'meta' => array(
 			'type' => 'string',
@@ -102,7 +102,7 @@ function register_settings() {
 		'title' => get_bloginfo( 'name' ),
 		'postTypes' => array(),
 		'site' => '',
-		'siteVerification' => '',
+		'siteVerification' => false,
 		'meta' => '',
 		'token' => false,
 		'credentials' => array(

@@ -5,7 +5,7 @@
  * Plugin Name:    Search Console
  * Plugin URI:     https://www.formello.net/
  * Description:    This plugin displays your Google Search Console Analytics data inside your WordPress.
- * Version:        2.8.2
+ * Version:        2.8.3
  * Author:         Tropicalista
  * Author URI:     https://www.formello.net
  * License:        GPL-2.0+
@@ -64,6 +64,12 @@ add_action( 'admin_menu', 'search_console_admin_menu' );
  * Load view
  */
 function search_console_load_admin_view() {
+	$option = get_option( 'search_console' );
+	if ( is_string( $option['siteVerification'] ) ) {
+		$option['siteVerification'] = false;
+		update_option( 'search_console', $option );
+	}
+
 	echo '<div id="search-console-wrapper"></div>';
 }
 
@@ -182,6 +188,7 @@ function search_console_activate() {
 	if ( version_compare( $plugin_version, '2.6.0', '<' ) ) {
 		delete_option( 'search_console' );
 		delete_option( 'search_console_token' );
+		delete_option( 'searchconsole_token' );
 	}
 
 	update_option( 'search_console_version', $plugin_version );

@@ -1,83 +1,33 @@
 /**
  * WordPress dependencies
  */
-import {
-	Fragment,
-	RawHTML,
-	useState,
-	useMemo,
-	useEffect
-} from '@wordpress/element';
-import { useSelect, select, useDispatch } from '@wordpress/data';
-import apiFetch from '@wordpress/api-fetch';
-import { __ } from '@wordpress/i18n';
+import { RawHTML, useContext } from '@wordpress/element';
+import { __, sprintf } from '@wordpress/i18n';
 import { Notice } from '@wordpress/components';
 import { addQueryArgs } from '@wordpress/url';
 
 import { MyChart } from '../components/dashboard/chart';
 import LoadingSpinner from '../components/loading-spinner.js';
-import { gapi } from 'gapi-script';
+import { SettingsContext } from '../context/settings-context';
 import '../store';
 
-const Widget = (props) => {
-
-	const { settings, isReady, query } = useSelect( ( select ) => {
-		return {
-			settings: select( 'searchconsole' ).getSettings(),
-			isReady: select( 'searchconsole' ).isReady(),
-			query: select( 'searchconsole' ).getQuery(),
-		};
-	}, [] );
-
-	const { setSettings, setSites } = useDispatch( 'searchconsole' );
-
-	const [ mounted, setMounted ] = useState( false );
-	const token = settings?.token ?? false;
-
-	useEffect( () => {
-		if ( ! token ) {
-			return;
-		}
-
-		gapi?.load( 'client', () => {
-			gapi?.client?.load( 'searchconsole', 'v1' ).then( () => {
-				gapi?.client?.setToken( token );
-				setMounted( true );
-			} );
-		} );
-
-	}, [ token ] );
-
-	const refreshToken = () => {
-		apiFetch( {
-			path: '/searchconsole/v1/refresh',
-			method: 'POST',
-		} )
-			.then( ( result ) => {
-				console.log( result );
-				setSettings( {
-					...settings,
-					token: result,
-				} );
-				gapi.client.setToken( result );
-			} )
-			.catch( ( error ) => {
-				console.log( error );
-			} )
-			.finally( () => setMounted( true ) );
-	};
-
+const Widget = () => {
+	const { settings, ready } = useContext( SettingsContext );
 	const settingsUrl = addQueryArgs( 'admin.php', {
 		page: 'search-console',
 	} );
 
-    if ( token && ! gapi?.auth ) {
-        return (
-            <LoadingSpinner text={ __( 'Fetching data…', 'search-console' ) } />
-        );
-    }
+	if ( ! ready ) {
+		return (
+			<LoadingSpinner text={ __( 'Fetching data…', 'search-console' ) } />
+		);
+	}
 
-	if ( ! token || ! settings?.site || ! settings?.credentials?.client_secret || ! settings?.credentials?.client_id ) {
+	if (
+		! settings?.site ||
+		! settings?.credentials?.client_secret ||
+		! settings?.credentials?.client_id
+	) {
 		return (
 			<Notice status="warning" isDismissible={ false }>
 				<RawHTML>
@@ -94,15 +44,9 @@ const Widget = (props) => {
 		);
 	}
 
-	return	(
+	return (
 		<div>
-			<MyChart
-				gapi={ gapi }
-				token={ token }
-				query={ query }
-				site={ settings.site }
-				refreshToken={ refreshToken }
-			/>
+			<MyChart />
 			<RawHTML>
 				{ sprintf(
 					/* translators: Developer console url. */
@@ -114,7 +58,7 @@ const Widget = (props) => {
 				) }
 			</RawHTML>
 		</div>
-	)
-}
+	);
+};
 
 export default Widget;

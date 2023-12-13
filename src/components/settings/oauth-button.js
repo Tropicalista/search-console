@@ -54,7 +54,7 @@ const GoogleOauthButton = () => {
 			>
 				{ email || __( 'Login with Google', 'search-console' ) }
 			</Button>
-			{ email && settings.token && (
+			{ settings.token.refresh_token.length && (
 				<p>
 					<Button
 						text={ __( 'Revoke token', 'search-console' ) }

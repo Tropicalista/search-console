@@ -1,10 +1,7 @@
-import { __ } from '@wordpress/i18n';
-
-import { createRoot, useEffect, useState } from '@wordpress/element';
+import { createRoot } from '@wordpress/element';
 import {
 	__experimentalNavigatorProvider as NavigatorProvider,
 	__experimentalNavigatorScreen as NavigatorScreen,
-	__experimentalUseNavigator as useNavigator,
 } from '@wordpress/components';
 
 import menuFix from './utils/menuFix';
@@ -20,8 +17,6 @@ import SettingsContextProvider from './context/settings-context';
 
 const App = () => {
 	const initialPath = getQueryArg( window.location.href, 'page' );
-
-	const navigator = useNavigator();
 
 	return (
 		<NavigatorProvider initialPath={ '/' + initialPath }>

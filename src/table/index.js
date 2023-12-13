@@ -2,15 +2,20 @@ import { loadGoogleScript } from './loadGapi';
 import { dateI18n } from '@wordpress/date';
 import apiFetch from '@wordpress/api-fetch';
 
-
 const chart = '';
 let token = '';
 const chartQuery = {
 	siteUrl: '',
 	rowLimit: null,
 	searchType: 'web',
-    startDate: dateI18n( 'Y-m-d', new Date().setDate( new Date().getDate() - 29 ) ),
-    endDate: dateI18n( 'Y-m-d', new Date().setDate( new Date().getDate() - 1 ) ),
+	startDate: dateI18n(
+		'Y-m-d',
+		new Date().setDate( new Date().getDate() - 29 )
+	),
+	endDate: dateI18n(
+		'Y-m-d',
+		new Date().setDate( new Date().getDate() - 1 )
+	),
 	dimensions: [ 'page' ],
 };
 
@@ -34,7 +39,7 @@ function refreshToken() {
 			console.log( error );
 		} )
 		.finally( () => console.log( 'refreshed' ) );
-};
+}
 
 // callback on gapi loaded
 window.onGoogleScriptLoad = () => {
@@ -80,51 +85,57 @@ function getReport() {
 				}
 			} );
 		} )
-		.catch( (error) => {
+		.catch( ( error ) => {
 			if ( 401 === error.status ) {
-				refreshToken()
+				refreshToken();
 			}
 		} );
 
-
 	const t = {
-      requestBody: {
-		siteUrl: 'https://www.calcolorataprestito.com',
-        startDate: dateI18n( 'Y-m-d', new Date().setDate( new Date().getDate() - 29 ) ),
-        endDate: dateI18n( 'Y-m-d', new Date().setDate( new Date().getDate() - 1 ) ),
-        dimensions: ["page"],
-        dimensionFilterGroups: [
-          {
-            groupType: "and",
-            filters: [
-              {
-                dimension: "page",
-                operator: "equals",
-                expression: 'https://www.calcolorataprestito.com/index.php',
-              },
-              {
-                dimension: "page",
-                operator: "equals",
-                expression: 'https://www.calcolorataprestito.com/prestiti-inpdap.php',
-              },
-            ],
-          },
-        ],
-        aggregationType: "byPage",
-        startRow: 0,
-        rowLimit: null,
-      },
-    } 
-console.log(t)
+		requestBody: {
+			siteUrl: 'https://www.calcolorataprestito.com',
+			startDate: dateI18n(
+				'Y-m-d',
+				new Date().setDate( new Date().getDate() - 29 )
+			),
+			endDate: dateI18n(
+				'Y-m-d',
+				new Date().setDate( new Date().getDate() - 1 )
+			),
+			dimensions: [ 'page' ],
+			dimensionFilterGroups: [
+				{
+					groupType: 'and',
+					filters: [
+						{
+							dimension: 'page',
+							operator: 'equals',
+							expression:
+								'https://www.calcolorataprestito.com/index.php',
+						},
+						{
+							dimension: 'page',
+							operator: 'equals',
+							expression:
+								'https://www.calcolorataprestito.com/prestiti-inpdap.php',
+						},
+					],
+				},
+			],
+			aggregationType: 'byPage',
+			startRow: 0,
+			rowLimit: null,
+		},
+	};
+	console.log( t );
 	gapi.client.webmasters.searchanalytics
 		.query( t.requestBody )
 		.then( function ( response ) {
-			console.log(response)
-		})
-		.catch( (error) => {
-			console.log(error)
+			console.log( response );
+		} )
+		.catch( ( error ) => {
+			console.log( error );
 		} );
-
 }
 
 loadGoogleScript();

@@ -12,17 +12,10 @@ import { useState, useContext } from '@wordpress/element';
 import { cloud, Icon } from '@wordpress/icons';
 import { SettingsContext } from '../../context/settings-context';
 
-/**
- * Renders the update settings buttons and animation
- *
- * @since 2.1.0
- * @param {Object} props All the props passed to this function
- * @return {string}		 Return the rendered JSX
- */
-export default function SaveButton( props ) {
-	const [ status, setStatus ] = useState( 'saved' );
+export default function SaveButton() {
+	const [ status ] = useState( 'saved' );
 
-	const { loading, saveSettings } = useContext( SettingsContext );
+	const { isSaving, saveSettings } = useContext( SettingsContext );
 
 	return (
 		<>
@@ -30,14 +23,14 @@ export default function SaveButton( props ) {
 				<Button
 					className={ 'save-settings__save-button' }
 					onClick={ () => saveSettings() }
-					disabled={ loading }
-					isBusy={ loading }
+					disabled={ isSaving }
+					isBusy={ isSaving }
 					variant="primary"
 				>
 					{ __( 'Save', 'search-console' ) }
 				</Button>
 				{ [
-					loading && (
+					isSaving && (
 						<Animate type="loading" key="saving">
 							{ ( { className: animateClassName } ) => (
 								<Flex
