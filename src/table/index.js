@@ -2,7 +2,6 @@ import { loadGoogleScript } from './loadGapi';
 import { dateI18n } from '@wordpress/date';
 import apiFetch from '@wordpress/api-fetch';
 
-const chart = '';
 let token = '';
 const chartQuery = {
 	siteUrl: '',
@@ -21,9 +20,9 @@ const chartQuery = {
 
 const allUrls = [];
 
-jQuery( document ).ready( function () {
-	jQuery( '.gsc-url' ).each( function ( index ) {
-		allUrls.push( jQuery( this ).data( 'url' ) );
+window.jQuery( document ).ready( function () {
+	window.jQuery( '.gsc-url' ).each( ( index ) => {
+		allUrls.push( window.jQuery( this ).data( 'url' ) );
 	} );
 } );
 
@@ -31,57 +30,37 @@ function refreshToken() {
 	apiFetch( {
 		path: '/searchconsole/v1/refresh',
 		method: 'POST',
-	} )
-		.then( ( result ) => {
-			gapi.client.setToken( result );
-		} )
-		.catch( ( error ) => {
-			console.log( error );
-		} )
-		.finally( () => console.log( 'refreshed' ) );
+	} ).then( ( result ) => {
+		window.gapi.client.setToken( result );
+	} );
 }
 
 // callback on gapi loaded
 window.onGoogleScriptLoad = () => {
-	const _gapi = window.gapi; // set gapi globally
-
 	// get settings
-	apiFetch( { path: '/searchconsole/v1/settings/' } )
-		.then( ( result ) => {
-			token = result.token;
-			chartQuery.siteUrl = result.site;
-			gapi.load( 'client', start );
-		} )
-		.catch( ( error ) => console.log( error.responseText ) );
+	apiFetch( { path: '/searchconsole/v1/settings/' } ).then( ( result ) => {
+		token = result.token;
+		chartQuery.siteUrl = result.site;
+		window.gapi.load( 'client', start );
+	} );
 };
 
 function start() {
-	gapi.client.load( 'searchconsole', 'v1' ).then( () => {
-		gapi.client.setToken( token );
+	window.gapi.client.load( 'searchconsole', 'v1' ).then( () => {
+		window.gapi.client.setToken( token );
 		getReport();
 	} );
 }
 
 function getReport() {
-	gapi.client.webmasters.searchanalytics
+	window.gapi.client.webmasters.searchanalytics
 		.query( chartQuery )
 		.then( function ( response ) {
 			response.result.rows.forEach( function ( x ) {
 				if ( allUrls.indexOf( x.keys[ 0 ] ) > -1 ) {
-					jQuery( 'span[data-url="' + x.keys[ 0 ] + '"]' ).html(
-						'<b>Clicks:</b> ' +
-							x.clicks +
-							'<br>' +
-							'<b>Position:</b> ' +
-							Math.round( x.position * 100 ) / 100 +
-							'<br>' +
-							'<b>CTR:</b> ' +
-							Math.round( x.ctr * 10000 ) / 100 +
-							'%' +
-							'<br>' +
-							'<b>Impressions:</b> ' +
-							x.impressions
-					);
+					window
+						.jQuery( 'span[data-url="' + x.keys[ 0 ] + '"]' )
+						.html( createReportHtml( x ) );
 				}
 			} );
 		} )
@@ -90,52 +69,12 @@ function getReport() {
 				refreshToken();
 			}
 		} );
-
-	const t = {
-		requestBody: {
-			siteUrl: 'https://www.calcolorataprestito.com',
-			startDate: dateI18n(
-				'Y-m-d',
-				new Date().setDate( new Date().getDate() - 29 )
-			),
-			endDate: dateI18n(
-				'Y-m-d',
-				new Date().setDate( new Date().getDate() - 1 )
-			),
-			dimensions: [ 'page' ],
-			dimensionFilterGroups: [
-				{
-					groupType: 'and',
-					filters: [
-						{
-							dimension: 'page',
-							operator: 'equals',
-							expression:
-								'https://www.calcolorataprestito.com/index.php',
-						},
-						{
-							dimension: 'page',
-							operator: 'equals',
-							expression:
-								'https://www.calcolorataprestito.com/prestiti-inpdap.php',
-						},
-					],
-				},
-			],
-			aggregationType: 'byPage',
-			startRow: 0,
-			rowLimit: null,
-		},
-	};
-	console.log( t );
-	gapi.client.webmasters.searchanalytics
-		.query( t.requestBody )
-		.then( function ( response ) {
-			console.log( response );
-		} )
-		.catch( ( error ) => {
-			console.log( error );
-		} );
 }
+
+const createReportHtml = ( { clicks, position, impressions, ctr } ) => `
+	<b>Clicks:</b> ${ clicks }<br />
+	<b>Position:</b> ${ Math.round( position * 100 ) / 100 }<br />
+	<b>CTR:</b> ${ Math.round( ctr * 10000 ) / 100 }%<br />
+	<b>Impressions:</b> ${ impressions }<br />`;
 
 loadGoogleScript();
