@@ -31,7 +31,6 @@ function column_posts( $columns, $post_type ) {
 	}
 
 	return $columns;
-
 }
 
 /**
@@ -52,7 +51,6 @@ function column_pages( $columns ) {
 	}
 
 	return $columns;
-
 }
 
 /**
@@ -101,7 +99,7 @@ function search_console_encrypt_option( $settings ) {
 function search_console_add_meta() {
 	$options = get_option( 'search_console' );
 
-	if ( $options ) {
+	if ( $options && $options['siteVerification'] ) {
 		$args = array(
 			'meta'     => array(
 				'content' => array(),
@@ -111,7 +109,6 @@ function search_console_add_meta() {
 
 		echo wp_kses( $options['meta'], $args );
 	}
-
 }
 
 add_filter( 'manage_posts_columns', __NAMESPACE__ . '\column_posts', 10, 2 );

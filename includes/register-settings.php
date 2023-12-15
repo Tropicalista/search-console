@@ -104,7 +104,14 @@ function register_settings() {
 		'site' => '',
 		'siteVerification' => false,
 		'meta' => '',
-		'token' => false,
+		'token' => array(
+			'access_token'  => '',
+			'expires_in'    => 3600,
+			'id_token'      => '',
+			'refresh_token' => '',
+			'scope'         => '',
+			'token_type'    => '',
+		),
 		'credentials' => array(
 			'client_id' => '',
 			'client_secret' => '',
@@ -131,9 +138,6 @@ function register_settings() {
 			'default'      => $defaults,
 		)
 	);
-
-	register_setting( 'options', 'searchconsole_token', array( 'show_in_rest' => true ) );
-
 }
 add_action( 'rest_api_init', __NAMESPACE__ . '\register_settings' );
-add_action( 'admin_init', __NAMESPACE__ . '\register_settings' );
+add_action( 'init', __NAMESPACE__ . '\register_settings' );
