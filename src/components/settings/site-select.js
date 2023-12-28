@@ -52,7 +52,7 @@ const SiteSelect = ( props ) => {
 
 	return (
 		<Card>
-			<CardHeader>{ __( 'Options', 'formello' ) }</CardHeader>
+			<CardHeader>{ __( 'Options', 'search-console' ) }</CardHeader>
 
 			<CardBody>
 				<SelectControl

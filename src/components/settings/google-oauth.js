@@ -13,14 +13,15 @@ const GoogleOAuth = ( props ) => {
 
 	return (
 		<Card>
-			<CardHeader>{ __( 'Google Oauth', 'formello' ) }</CardHeader>
+			<CardHeader>{ __( 'Google Oauth', 'search-console' ) }</CardHeader>
 
 			<CardBody>
 				{ ( ! settings?.credentials?.client_id?.length ||
 					! settings?.credentials?.client_secret?.length ) && (
 					<Notice status="warning" isDismissible={ false }>
 						{ __(
-							'You must insert a Client Id and a Client secret to correctly request your authentication token.'
+							'You must insert a Client Id and a Client secret to correctly request your authentication token.',
+							'search-console'
 						) }
 					</Notice>
 				) }

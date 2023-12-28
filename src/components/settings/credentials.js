@@ -35,7 +35,7 @@ const Credentials = () => {
 								'<p>Create a project from Google Developers Console if none exists.</p>' +
 								'<p>Go to Credentials tab, then create credential for OAuth client.</p>' +
 								'Application type will be Web Application. Add <code>%2$s</code> in Authorized redirect URIs. This will give you Client ID and Client Secret key.<p>',
-							'formello'
+							'search-console'
 						),
 						`https://console.developers.google.com/`,
 						settings.wp_url
@@ -47,7 +47,7 @@ const Credentials = () => {
 						/* translators: Google Site Kit url. */
 						__(
 							'<p><b>Tip</b>: the simplest way to get your own credentials is to go to <a target="_blank" href="%s">Google Site Kit</a> site and follow step. Don\'t forget to add your site url as authorized Javascript origin.</p>',
-							'formello'
+							'search-console'
 						),
 						authUrl
 					) }

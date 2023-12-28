@@ -3,13 +3,11 @@ import { __ } from '@wordpress/i18n';
 import { Fragment, useState, useContext } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 import { SettingsContext } from '../../context/settings-context';
-import {
-	googleLogout,
-	useGoogleLogin,
-} from '@react-oauth/google';
+import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 
 const GoogleOauthButton = () => {
-	const { updateSetting, email, settings, revokeToken } = useContext( SettingsContext );
+	const { updateSetting, email, settings, revokeToken } =
+		useContext( SettingsContext );
 
 	const [ message, setMessage ] = useState( false );
 
@@ -54,7 +52,7 @@ const GoogleOauthButton = () => {
 			>
 				{ email || __( 'Login with Google', 'search-console' ) }
 			</Button>
-			{ settings.token.refresh_token.length && (
+			{ settings.token.refresh_token && (
 				<p>
 					<Button
 						text={ __( 'Revoke token', 'search-console' ) }

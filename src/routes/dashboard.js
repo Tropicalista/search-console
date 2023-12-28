@@ -43,7 +43,7 @@ const Dashboard = () => {
 			<Notice status="warning" isDismissible={ false }>
 				<p>
 					{ noticeString(
-						__( 'Please authenticate on <a />.', 'tropical-juice' )
+						__( 'Please authenticate on <a />.', 'search-console' )
 					) }
 				</p>
 			</Notice>
@@ -60,7 +60,7 @@ const Dashboard = () => {
 					{ noticeString(
 						__(
 							'Please provide a Client Secret and a Client ID on <a />.',
-							'tropical-juice'
+							'search-console'
 						)
 					) }
 				</p>
@@ -73,7 +73,7 @@ const Dashboard = () => {
 			<Notice status="warning" isDismissible={ false }>
 				<p>
 					{ noticeString(
-						__( 'Please select a site on <a />.', 'tropical-juice' )
+						__( 'Please select a site on <a />.', 'search-console' )
 					) }
 				</p>
 			</Notice>
