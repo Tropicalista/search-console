@@ -19,7 +19,7 @@ const Dashboard = () => {
 	const navigator = useNavigator();
 	const { settings, ready } = useContext( SettingsContext );
 
-	if ( ! ready ) {
+	if ( ! ready || ! settings ) {
 		return (
 			<LoadingSpinner text={ __( 'Fetching data…', 'search-console' ) } />
 		);
@@ -38,7 +38,7 @@ const Dashboard = () => {
 			),
 		} );
 
-	if ( ! settings.token || ! settings.token?.refresh_token ) {
+	if ( ! settings?.token || ! settings?.token?.refresh_token ) {
 		return (
 			<Notice status="warning" isDismissible={ false }>
 				<p>
@@ -51,8 +51,8 @@ const Dashboard = () => {
 	}
 
 	if (
-		! settings.credentials?.client_secret ||
-		! settings.credentials?.client_id
+		! settings?.credentials?.client_secret ||
+		! settings?.credentials?.client_id
 	) {
 		return (
 			<Notice status="warning" isDismissible={ false }>

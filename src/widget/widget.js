@@ -17,7 +17,7 @@ const Widget = () => {
 		page: 'search-console',
 	} );
 
-	if ( ! ready ) {
+	if ( ! ready || ! settings ) {
 		return (
 			<LoadingSpinner text={ __( 'Fetching data…', 'search-console' ) } />
 		);
@@ -32,12 +32,12 @@ const Widget = () => {
 			<Notice status="warning" isDismissible={ false }>
 				<RawHTML>
 					{ sprintf(
-						/* translators: Developer console url. */
+						/* translators: Search console settings url. */
 						__(
 							'<p>You need to authenticate and set a site on <a href="%s">settings page</a>.</p>',
 							'formello'
 						),
-						settingsUrl + '#/settings'
+						settingsUrl
 					) }
 				</RawHTML>
 			</Notice>

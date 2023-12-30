@@ -8,9 +8,9 @@ import { SettingsContext } from '../context/settings-context';
 import { useContext } from '@wordpress/element';
 
 const Settings = () => {
-	const { ready } = useContext( SettingsContext );
+	const { ready, settings } = useContext( SettingsContext );
 
-	if ( ! ready ) {
+	if ( ! ready || ! settings ) {
 		return (
 			<LoadingSpinner text={ __( 'Fetching data…', 'search-console' ) } />
 		);
