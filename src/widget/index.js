@@ -1,8 +1,6 @@
-import { useState, createRoot, useEffect } from '@wordpress/element';
+import { createRoot } from '@wordpress/element';
 import Widget from './widget';
-import LoadingSpinner from '../components/loading-spinner.js';
 import SettingsContextProvider from '../context/settings-context';
-import { MyChart } from '../components/dashboard/chart';
 
 const App = () => {
 	return (

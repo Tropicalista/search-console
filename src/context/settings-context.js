@@ -1,9 +1,6 @@
 import { useState, createContext, useEffect } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
-// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
-import { __experimentalUseNavigator as useNavigator } from '@wordpress/components';
 import { dateI18n } from '@wordpress/date';
-import { getQueryArg } from '@wordpress/url';
 import { store as coreStore, useEntityProp } from '@wordpress/core-data';
 import { useDispatch, useSelect } from '@wordpress/data';
 
@@ -75,7 +72,6 @@ function SettingsContextProvider( props ) {
 					...settings,
 					token: result,
 				} );
-				saveToken( result );
 				window.gapi.client.setToken( result );
 				loadSearchConsole();
 			} )
@@ -133,32 +129,6 @@ function SettingsContextProvider( props ) {
 			setReady( true );
 		} );
 	};
-
-	const navigator = useNavigator();
-
-	const handleChange = ( e ) => {
-		const slug = getQueryArg( e.detail, 'page' );
-		const url = new URL( window.location );
-		url.searchParams.set( 'page', slug );
-		window.history.pushState( null, '', url.toString() );
-
-		navigator.goTo( '/' + slug );
-	};
-
-	const handlePopstate = ( e ) => {
-		const slug = getQueryArg( e.target.location, 'page' );
-		navigator.goTo( '/' + slug );
-	};
-
-	useEffect( () => {
-		window.addEventListener( 'changePage', handleChange );
-		window.addEventListener( 'popstate', handlePopstate );
-
-		return () => {
-			window.removeEventListener( 'changePage', handleChange );
-			window.removeEventListener( 'popstate', handlePopstate );
-		};
-	}, [] );
 
 	return (
 		<SettingsContext.Provider

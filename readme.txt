@@ -4,14 +4,13 @@ Donate link: https://www.formello.net
 Tags: search console, google search console, search console widget, search console metatag
 Requires at least: 5.6
 Requires PHP: 5.2.4
-Tested up to: 6.4.2
-Stable tag: 2.8.7
+Tested up to: 6.4.3
+Stable tag: 2.8.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 
 == Description ==
-
 
 This plugin display your Search Console analytics data in the WordPress dashboard and adds the verification code of **Google Search Console**, to your site. You can see **Clicks**, **Posistions**, **CTR** and **Impressions**.
 
@@ -75,6 +74,9 @@ There's two ways to install Search Console.
 In most cases, #1 will work fine and is way easier.
 
 == Changelog ==
+
+= 2.8.8 =
+* Fix token not refreshing
 
 = 2.8.7 =
 * Fix settings not always loaded

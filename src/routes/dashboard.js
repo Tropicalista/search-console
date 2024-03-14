@@ -1,12 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import {
-	Card,
-	CardBody,
-	Notice,
-	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
-	__experimentalUseNavigator as useNavigator,
-	Button,
-} from '@wordpress/components';
+import { Card, CardBody, Notice, Button } from '@wordpress/components';
 import { useContext, createInterpolateElement } from '@wordpress/element';
 import LoadingSpinner from '../components/loading-spinner.js';
 import { MyChart } from '../components/dashboard/chart/index.js';
@@ -14,9 +7,10 @@ import { MyTable } from '../components/dashboard/table';
 import { Filters } from '../components/dashboard/filters';
 import Ads from '../components/ads/index';
 import { SettingsContext } from '../context/settings-context';
+import { useHistory } from '../router';
 
 const Dashboard = () => {
-	const navigator = useNavigator();
+	const history = useHistory();
 	const { settings, ready } = useContext( SettingsContext );
 
 	if ( ! ready || ! settings ) {
@@ -31,7 +25,7 @@ const Dashboard = () => {
 				<Button
 					text={ __( 'settings page', 'search-console' ) }
 					onClick={ () =>
-						navigator.goTo( '/search-console-settings' )
+						history.push( { page: 'search-console-settings' } )
 					}
 					variant="link"
 				/>
