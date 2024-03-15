@@ -75,6 +75,9 @@ In most cases, #1 will work fine and is way easier.
 
 == Changelog ==
 
+= 2.8.9 =
+* fix API
+
 = 2.8.8 =
 * Fix token not refreshing
 
