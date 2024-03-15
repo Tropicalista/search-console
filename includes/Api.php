@@ -67,7 +67,7 @@ class Api {
 	public function make_request( $url, $bodyArgs, $type = 'GET', $headers = false ) {
 		if ( ! $headers ) {
 			$headers = array(
-				'Content-Type' => 'application/x-www-form-urlencoded',
+				'Content-Typte' => 'application/x-www-form-urlencoded',
 			);
 		}
 
@@ -87,16 +87,6 @@ class Api {
 		}
 
 		$body = json_decode( wp_remote_retrieve_body( $request ), true );
-
-		if ( ! empty( $body['error'] ) ) {
-			$error = 'Unknown Error';
-			if ( isset( $body['error_description'] ) ) {
-				$error = $body['error_description'];
-			} elseif ( ! empty( $body['error']['message'] ) ) {
-				$error = $body['error']['message'];
-			}
-			return new \WP_Error( 423, $error );
-		}
 
 		return $body;
 	}

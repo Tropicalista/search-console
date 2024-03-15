@@ -151,15 +151,16 @@ class Token {
 		$token = $options['token'];
 
 		// It's expired so we have to re-issue again.
-		$refreshToken = $this->api->refresh_token( $token );
+		$response = $this->api->refresh_token( $token );
 
-		if ( ! is_wp_error( $refreshToken ) ) {
-			$newToken = array_merge( $token, $refreshToken );
-			$this->save_token( $newToken );
-			return $newToken;
+		if ( ! empty( $response['error'] ) ) {
+			return new \WP_Error( 423, $response );
 		}
 
-		return $token;
+		$newToken = array_merge( $token, $response );
+		$this->save_token( $newToken );
+
+		return $newToken;
 	}
 
 	/**

@@ -1,5 +1,3 @@
-//import { ReactComponent as Logo } from '../../../assets/icons/logo.svg';
-
 export default function Header( { title } ) {
 	return (
 		<div className="masthead">

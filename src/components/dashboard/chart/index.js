@@ -17,7 +17,7 @@ export function MyChart() {
 	}, [ query, settings.token ] );
 
 	const getData = () => {
-		window.gapi?.client?.setToken( settings.token );
+		//window.gapi?.client?.setToken( settings.token );
 
 		window.gapi?.client?.webmasters?.searchanalytics
 			.query( {
