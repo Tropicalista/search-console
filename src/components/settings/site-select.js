@@ -16,7 +16,7 @@ const SiteSelect = ( props ) => {
 	const [ sites, setSites ] = useState( null );
 
 	useEffect( () => {
-		if ( settings.token ) getSites();
+		if ( settings.token.access_token ) getSites();
 	}, [ settings.token ] );
 
 	const getSites = () => {

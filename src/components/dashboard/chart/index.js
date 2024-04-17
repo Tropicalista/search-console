@@ -13,11 +13,11 @@ export function MyChart() {
 	const [ table, setTable ] = useState( [] );
 
 	useEffect( () => {
-		getData();
+		if ( settings.token.access_token ) getData();
 	}, [ query, settings.token ] );
 
 	const getData = () => {
-		//window.gapi?.client?.setToken( settings.token );
+		window.gapi?.client?.setToken( settings.token );
 
 		window.gapi?.client?.webmasters?.searchanalytics
 			.query( {
@@ -43,7 +43,9 @@ export function MyChart() {
 					] );
 					data.forEach( ( row ) => {
 						temp.push( [
-							moment( row.keys[ 0 ], 'YYYY-MM-DD' ).toDate(),
+							window
+								.moment( row.keys[ 0 ], 'YYYY-MM-DD' )
+								.toDate(),
 							row.clicks,
 							row.impressions,
 							row.ctr * 100,

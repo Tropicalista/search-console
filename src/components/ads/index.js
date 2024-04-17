@@ -57,10 +57,10 @@ const Ads = () => {
 						{ sprintf(
 							/* translators: Formello url. */
 							__(
-								`<p>Do you need forms? Check <a href="%s" target="_blank">Formello</a> to manage all your forms inside WordPress.`,
+								`<p>Do you need a FREE seo tool? Check <a href="%s" target="_blank">SeoJuice.it</a> to manage all your SEO tasks.`,
 								'search-console'
 							),
-							'https://formello.net'
+							'https://seojuice.it/?refid=299'
 						) }
 					</RawHTML>
 					<Button

@@ -53,14 +53,6 @@ function SettingsContextProvider( props ) {
 		[]
 	);
 
-	const saveToken = ( token ) => {
-		apiFetch( {
-			path: '/searchconsole/v1/save/token/',
-			method: 'POST',
-			data: { token },
-		} ).then( () => setLoading( false ) );
-	};
-
 	const refreshToken = () => {
 		setLoading( true );
 		apiFetch( {
@@ -92,8 +84,14 @@ function SettingsContextProvider( props ) {
 				token: settings.token.refresh_token,
 			},
 		} ).then( () => {
-			updateSetting( 'token', false );
-			updateSetting( 'site', false );
+			updateSetting( 'token', {
+				access_token: '',
+				expires_in: 3600,
+				id_token: '',
+				refresh_token: '',
+				scope: '',
+				token_type: '',
+			} );
 			setEmail( false );
 		} );
 	};
@@ -135,7 +133,6 @@ function SettingsContextProvider( props ) {
 			value={ {
 				query,
 				updateQuery,
-				saveToken,
 				settings,
 				updateSetting,
 				setSettings,

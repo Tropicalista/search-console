@@ -67,7 +67,7 @@ class Api {
 	public function make_request( $url, $bodyArgs, $type = 'GET', $headers = false ) {
 		if ( ! $headers ) {
 			$headers = array(
-				'Content-Typte' => 'application/x-www-form-urlencoded',
+				'Content-Type' => 'application/x-www-form-urlencoded',
 			);
 		}
 
@@ -79,6 +79,7 @@ class Api {
 		}
 
 		$args['method'] = $type;
+
 		$request = wp_remote_request( $url, $args );
 
 		if ( is_wp_error( $request ) ) {
