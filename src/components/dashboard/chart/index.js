@@ -8,9 +8,9 @@ import { SettingsContext } from '../../../context/settings-context';
 import LoadingSpinner from '../../loading-spinner.js';
 
 export function MyChart() {
-	const { settings, query, refreshToken } = useContext( SettingsContext );
+	const { settings, query, showError } = useContext( SettingsContext );
 
-	const [ table, setTable ] = useState( [] );
+	const [ table, setTable ] = useState( false );
 
 	useEffect( () => {
 		if ( settings.token.access_token ) getData();
@@ -21,62 +21,52 @@ export function MyChart() {
 
 		window.gapi?.client?.webmasters?.searchanalytics
 			.query( {
+				...query,
 				siteUrl: settings.site,
-				fields: 'rows',
-				rowLimit: null,
-				searchType: query.searchType,
-				startDate: query.startDate,
-				endDate: query.endDate,
 				dimensions: [ 'date' ],
-				dimensionFilterGroups: query.dimensionFiltersGroup,
+				fields: 'rows',
 			} )
-			.then(
-				( response ) => {
-					const data = response.result.rows;
-					const temp = [];
+			.then( ( response ) => {
+				const data = response.result.rows;
+				const temp = [];
+				temp.push( [
+					__( 'Keys', 'search-console' ),
+					__( 'Clicks', 'search-console' ),
+					__( 'Impressions', 'search-console' ),
+					'CTR',
+					__( 'Position', 'search-console' ),
+				] );
+				data.forEach( ( row ) => {
 					temp.push( [
-						__( 'Keys', 'search-console' ),
-						__( 'Clicks', 'search-console' ),
-						__( 'Impressions', 'search-console' ),
-						'CTR',
-						__( 'Position', 'search-console' ),
+						window.moment( row.keys[ 0 ], 'YYYY-MM-DD' ).toDate(),
+						row.clicks,
+						row.impressions,
+						row.ctr * 100,
+						parseFloat( row.position ),
 					] );
-					data.forEach( ( row ) => {
-						temp.push( [
-							window
-								.moment( row.keys[ 0 ], 'YYYY-MM-DD' )
-								.toDate(),
-							row.clicks,
-							row.impressions,
-							row.ctr * 100,
-							parseFloat( row.position ),
-						] );
-					} );
-					setTable( temp );
-				},
-				( err ) => {
-					// eslint-disable-next-line no-console
-					console.log( err );
-					refreshToken();
-				}
-			);
+				} );
+				setTable( temp );
+			} )
+			.catch( ( error ) => {
+				showError( error );
+			} );
 	};
+
+	if ( ! table ) {
+		return (
+			<LoadingSpinner text={ __( 'Fetching data…', 'search-console' ) } />
+		);
+	}
 
 	return (
 		<div className="search-console-chart">
-			{ table.length ? (
-				<Chart
-					chartType="LineChart"
-					loader={ <Spinner /> }
-					data={ table }
-					options={ Options }
-					legendToggle
-				/>
-			) : (
-				<LoadingSpinner
-					text={ __( 'Fetching data…', 'search-console' ) }
-				/>
-			) }
+			<Chart
+				chartType="LineChart"
+				loader={ <Spinner /> }
+				data={ table }
+				options={ Options }
+				legendToggle
+			/>
 		</div>
 	);
 }

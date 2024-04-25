@@ -1,4 +1,4 @@
-import { SelectControl, TextControl } from '@wordpress/components';
+import { SelectControl, TextControl, __experimentalVStack as VStack } from '@wordpress/components';
 import { Fragment } from '@wordpress/element';
 
 import { __ } from '@wordpress/i18n';
@@ -7,7 +7,7 @@ export default function Query( props ) {
 	const { filter, handleChange } = props;
 
 	return (
-		<Fragment>
+		<VStack>
 			<SelectControl
 				value={ filter?.operator }
 				options={ [
@@ -37,6 +37,6 @@ export default function Query( props ) {
 					);
 				} }
 			/>
-		</Fragment>
+		</VStack>
 	);
 }

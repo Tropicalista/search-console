@@ -1,16 +1,17 @@
 import { useState, createContext, useEffect } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 import { dateI18n } from '@wordpress/date';
+import { __ } from '@wordpress/i18n';
 import { store as coreStore, useEntityProp } from '@wordpress/core-data';
 import { useDispatch, useSelect } from '@wordpress/data';
+import { store as noticesStore } from '@wordpress/notices';
 
 export const SettingsContext = createContext();
 
 function SettingsContextProvider( props ) {
 	const defaultQuery = {
 		customDate: false,
-		dimension: 'query',
-		searchType: 'web',
+		type: 'web',
 		startDate: dateI18n(
 			'Y-m-d',
 			new Date().setDate( new Date().getDate() - 29 )
@@ -19,7 +20,9 @@ function SettingsContextProvider( props ) {
 			'Y-m-d',
 			new Date().setDate( new Date().getDate() - 1 )
 		),
-		dimensionFiltersGroup: {
+		dimensions: [ 'QUERY' ],
+		fields: 'rows',
+		dimensionFilterGroups: {
 			filters: [],
 		},
 	};
@@ -35,19 +38,51 @@ function SettingsContextProvider( props ) {
 		'search_console'
 	);
 
-	const { saveEntityRecord } = useDispatch( coreStore );
+	const { saveEditedEntityRecord } = useDispatch( coreStore );
+	const { createNotice } = useDispatch( noticesStore );
 
-	const saveSettings = () => {
-		return saveEntityRecord( 'root', 'site', {
-			search_console: settings,
-		} );
+	const saveSettings = async () => {
+		return saveEditedEntityRecord( 'root', 'site' )
+			.then( () => {
+				createNotice(
+					'info',
+					'🎯 ' + __( 'Settings saved.', 'formello' ),
+					{
+						type: 'snackbar',
+					}
+				);
+			} )
+			.catch( ( error ) => {
+				createNotice( 'error', '⚠️ ' + error.message, {
+					type: 'snackbar',
+					explicitDismiss: true,
+				} );
+			} );
 	};
 
-	const { isSaving } = useSelect(
+	const showError = ( error ) => {
+		if ( 401 !== error.status ) {
+			createNotice( 'error', '⚠️ ' + error.result.error.message, {
+				type: 'snackbar',
+				explicitDismiss: true,
+			} );
+		}
+		if ( 401 === error.status ) {
+			refreshToken();
+		}
+	};
+
+	const { isSaving, hasEdits } = useSelect(
 		( select ) => ( {
 			isSaving: select( coreStore ).isSavingEntityRecord(
 				'root',
 				'site'
+			),
+			hasEdits: select( coreStore ).hasEditsForEntityRecord(
+				'root',
+				'site',
+				undefined,
+				'search_console'
 			),
 		} ),
 		[]
@@ -72,7 +107,6 @@ function SettingsContextProvider( props ) {
 				console.log( error );
 				loadSearchConsole();
 			} )
-			// eslint-disable-next-line no-console
 			.finally( () => setLoading( false ) );
 	};
 
@@ -123,9 +157,14 @@ function SettingsContextProvider( props ) {
 	}, [] );
 
 	const loadSearchConsole = () => {
+		window.gapi.client.setToken( window.search_console.token );
 		window.gapi.client.load( 'searchconsole', 'v1' ).then( () => {
-			setReady( true );
+			check();
 		} );
+	};
+
+	const check = () => {
+		setReady( true );
 	};
 
 	return (
@@ -142,6 +181,8 @@ function SettingsContextProvider( props ) {
 				refreshToken,
 				revokeToken,
 				email,
+				hasEdits,
+				showError,
 			} }
 		>
 			{ props.children }

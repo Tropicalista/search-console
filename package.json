@@ -16,13 +16,13 @@
 	},
 	"dependencies": {
 		"@react-oauth/google": "^0.6.1",
+		"@wordpress/dataviews": "^1.0.0",
 		"history": "^5.3.0",
-		"react-google-charts": "4.0.0",
-		"react-table": "^7.7.0"
+		"react-google-charts": "4.0.0"
 	},
 	"devDependencies": {
-		"@wordpress/icons": "^9.16.0",
-		"@wordpress/scripts": "^25.2.0",
+		"@wordpress/icons": "^9.47.0",
+		"@wordpress/scripts": "^27.7.0",
 		"classnames": "^2.3.1"
 	}
 }

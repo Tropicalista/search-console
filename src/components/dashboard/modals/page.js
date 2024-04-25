@@ -1,4 +1,4 @@
-import { SelectControl, TextControl } from '@wordpress/components';
+import { SelectControl, TextControl, __experimentalVStack as VStack } from '@wordpress/components';
 import { Fragment } from '@wordpress/element';
 
 import { __ } from '@wordpress/i18n';
@@ -7,7 +7,7 @@ export default function Page( props ) {
 	const { filter, handleChange } = props;
 
 	return (
-		<Fragment>
+		<VStack>
 			<SelectControl
 				selected={ filter?.operator }
 				options={ [
@@ -38,6 +38,6 @@ export default function Page( props ) {
 					);
 				} }
 			/>
-		</Fragment>
+		</VStack>
 	);
 }

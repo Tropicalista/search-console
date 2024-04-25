@@ -3,16 +3,16 @@
  * Plugin main file.
  *
  * Plugin Name:    Search Console
- * Plugin URI:     https://www.formello.net/
+ * Plugin URI:     https://www.francescopepe.com/
  * Description:    This plugin displays your Google Search Console Analytics data inside your WordPress.
- * Version:        2.9.0
+ * Version:        2.9.1
  * Author:         Tropicalista
- * Author URI:     https://www.formello.net
+ * Author URI:     https://www.francescopepe.com
  * License:        GPL-2.0+
  * License URI:    http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:    search-console
  *
- * @package        Search_Console
+ * @package        search-console
  */
 
 require __DIR__ . '/vendor/autoload.php';
@@ -99,6 +99,14 @@ function search_console_load_assets() {
 
 	wp_enqueue_script( 'search-console' );
 	wp_set_script_translations( 'search-console', 'search-console', plugin_dir_path( __FILE__ ) . 'languages' );
+
+	wp_localize_script(
+		'search-console',
+		'search_console',
+		array(
+			'token' => get_option( 'search_console' )['token'],
+		)
+	);
 
 	wp_enqueue_style(
 		'search-console-bundle-styles',
@@ -198,6 +206,27 @@ function search_console_activate() {
 	$administrator_role->add_cap( 'search_console' );
 }
 register_activation_hook( __FILE__, 'search_console_activate' );
+
+/**
+ * Fires after tracking permission allowed (optin)
+ *
+ * @param array $data The Appsero data.
+ *
+ * @return void
+ */
+function search_console_tracker_optin( $data ) {
+	$data['project'] = 'search_console';
+	$response = wp_remote_post(
+		'https://hook.eu1.make.com/dplrdfggemll51whv3b21yjabuk8po0b',
+		array(
+			'headers'     => array( 'Content-Type' => 'application/json; charset=utf-8' ),
+			'body'        => wp_json_encode( $data ),
+			'method'      => 'POST',
+			'data_format' => 'body',
+		)
+	);
+}
+add_action( 'search_console_tracker_optin', 'search_console_tracker_optin', 10 );
 
 /**
  * Initialize the plugin tracker

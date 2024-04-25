@@ -23,7 +23,7 @@ const Credentials = () => {
 	return (
 		<Card>
 			<CardHeader>
-				{ __( 'Google Credentials', 'search-console' ) }
+				<b>{ __( 'Google Credentials', 'search-console' ) }</b>
 			</CardHeader>
 
 			<CardBody>

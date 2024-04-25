@@ -13,7 +13,9 @@ const GoogleOAuth = ( props ) => {
 
 	return (
 		<Card>
-			<CardHeader>{ __( 'Google Oauth', 'search-console' ) }</CardHeader>
+			<CardHeader>
+				<b>{ __( 'Google Oauth', 'search-console' ) }</b>
+			</CardHeader>
 
 			<CardBody>
 				{ ( ! settings?.credentials?.client_id?.length ||

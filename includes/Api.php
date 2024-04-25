@@ -161,7 +161,7 @@ class Api {
 	}
 
 	/**
-	 * Refresh access token.
+	 * Get token info.
 	 *
 	 * @param mixed $token the secret token.
 	 */

@@ -1,5 +1,3 @@
-import { useDispatch, select } from '@wordpress/data';
-
 import {
 	Button,
 	Flex,
@@ -10,7 +8,8 @@ import {
 import { dateI18n, format } from '@wordpress/date';
 import DateDropdown from './datedropdown';
 import { Fragment, useContext } from '@wordpress/element';
-import { SettingsContext } from '../../context/settings-context';
+import { __ } from '@wordpress/i18n';
+import { SettingsContext } from '../../../context/settings-context';
 
 export function DateSelect() {
 	const { query, updateQuery, settings } = useContext( SettingsContext );
@@ -44,7 +43,6 @@ export function DateSelect() {
 									__nextRemoveHelpButton
 									currentDate={ query.startDate }
 									onChange={ ( val ) => {
-										console.log( val );
 										updateQuery(
 											'startDate',
 											dateI18n( 'Y-m-d', val )

@@ -11,7 +11,7 @@ import { Fragment, useContext } from '@wordpress/element';
 import { SettingsContext } from '../../context/settings-context';
 
 const Verification = () => {
-	const { settings, updateSetting, refreshToken } =
+	const { settings, updateSetting, refreshToken, saveSettings } =
 		useContext( SettingsContext );
 
 	const getMeta = () => {
@@ -30,6 +30,7 @@ const Verification = () => {
 					} )
 					.then( ( r ) => {
 						updateSetting( 'meta', r.result.token );
+						saveSettings();
 					} )
 					.catch( ( error ) => {
 						if ( 401 === error.status ) {
@@ -62,6 +63,7 @@ const Verification = () => {
 						checked={ settings.siteVerification }
 						onChange={ ( val ) => {
 							updateSetting( 'siteVerification', val );
+							saveSettings();
 						} }
 					/>
 				</Fragment>

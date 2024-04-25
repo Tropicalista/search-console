@@ -2,10 +2,10 @@ import { Button, Dropdown, MenuGroup, MenuItem } from '@wordpress/components';
 import { Fragment, useState, useContext } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { dateI18n } from '@wordpress/date';
-import { SettingsContext } from '../../context/settings-context';
+import { SettingsContext } from '../../../context/settings-context';
 
 export default function DateDropdown() {
-	const { customDate, updateQuery, updateSetting, settings } =
+	const { updateQuery, updateSetting, settings } =
 		useContext( SettingsContext );
 
 	const [ range, setRange ] = useState(
@@ -33,7 +33,7 @@ export default function DateDropdown() {
 					onClick={ onToggle }
 					aria-expanded={ isOpen }
 				>
-					{ customDate
+					{ settings.customDate
 						? __( 'Custom date', 'search-console' )
 						: range }
 				</Button>

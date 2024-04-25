@@ -9,13 +9,14 @@ import classnames from 'classnames';
 import { __ } from '@wordpress/i18n';
 import { Animate, Button, Flex } from '@wordpress/components';
 import { useState, useContext } from '@wordpress/element';
+
 import { cloud, Icon } from '@wordpress/icons';
 import { SettingsContext } from '../../context/settings-context';
 
 export default function SaveButton() {
 	const [ status ] = useState( 'saved' );
 
-	const { isSaving, saveSettings } = useContext( SettingsContext );
+	const { isSaving, saveSettings, hasEdits } = useContext( SettingsContext );
 
 	return (
 		<>
@@ -23,7 +24,7 @@ export default function SaveButton() {
 				<Button
 					className={ 'save-settings__save-button' }
 					onClick={ () => saveSettings() }
-					disabled={ isSaving }
+					disabled={ isSaving || ! hasEdits }
 					isBusy={ isSaving }
 					variant="primary"
 				>

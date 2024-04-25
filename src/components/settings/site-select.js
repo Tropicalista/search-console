@@ -11,7 +11,7 @@ import PostTypeSelection from './post-type-selection';
 import { SettingsContext } from '../../context/settings-context';
 
 const SiteSelect = ( props ) => {
-	const { settings, updateSetting, refreshToken } =
+	const { settings, updateSetting, refreshToken, saveSettings } =
 		useContext( SettingsContext );
 	const [ sites, setSites ] = useState( null );
 
@@ -52,7 +52,9 @@ const SiteSelect = ( props ) => {
 
 	return (
 		<Card>
-			<CardHeader>{ __( 'Options', 'search-console' ) }</CardHeader>
+			<CardHeader>
+				<b>{ __( 'Options', 'search-console' ) }</b>
+			</CardHeader>
 
 			<CardBody>
 				<SelectControl
@@ -62,6 +64,7 @@ const SiteSelect = ( props ) => {
 					value={ settings.site }
 					onChange={ ( val ) => {
 						updateSetting( 'site', val );
+						saveSettings();
 					} }
 				/>
 

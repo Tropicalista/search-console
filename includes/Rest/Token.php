@@ -129,12 +129,8 @@ class Token {
 	public function revoke_token( \WP_REST_Request $request ) {
 
 		$token = $request->get_param( 'token' );
-
 		$option = get_option( $this->token_key );
-		$option['token'] = false;
-
 		$revoke = $this->api->revoke_token( $token );
-		update_option( $this->token_key, $option );
 
 		return new \WP_REST_Response( $revoke );
 	}

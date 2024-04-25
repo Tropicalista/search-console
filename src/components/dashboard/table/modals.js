@@ -3,20 +3,24 @@
  */
 import { Fragment, useState, useContext } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
-import { Button, Modal, Flex } from '@wordpress/components';
-import SearchType from './modals/searchtype';
-import Device from './modals/device';
-import Country from './modals/country';
-import Page from './modals/page';
-import Query from './modals/query';
-import { SettingsContext } from '../../context/settings-context';
+import {
+	Button,
+	Modal,
+	Flex,
+	__experimentalVStack as VStack,
+} from '@wordpress/components';
+import Device from '../modals/device';
+import Country from '../modals/country';
+import Page from '../modals/page';
+import Query from '../modals/query';
+import { SettingsContext } from '../../../context/settings-context';
 
 export function MyModal( props ) {
 	const { onRequestClose, modal, title } = props;
 	const { query, updateQuery } = useContext( SettingsContext );
 
 	const [ filter, setFilter ] = useState(
-		query.dimensionFiltersGroup.filters.find(
+		query.dimensionFilterGroups.filters.find(
 			( f ) => f.dimension === modal
 		)
 	);
@@ -41,12 +45,12 @@ export function MyModal( props ) {
 		} else {
 			const newFilters = [
 				filter,
-				...query.dimensionFiltersGroup.filters.filter(
+				...query.dimensionFilterGroups.filters.filter(
 					( item ) => item.dimension !== modal
 				),
 			];
-			updateQuery( 'dimensionFiltersGroup', {
-				...query.dimensionFiltersGroup,
+			updateQuery( 'dimensionFilterGroups', {
+				...query.dimensionFilterGroups,
 				filters: newFilters,
 			} );
 		}
@@ -54,7 +58,6 @@ export function MyModal( props ) {
 	};
 
 	const modals = {
-		searchType: SearchType,
 		device: Device,
 		country: Country,
 		page: Page,
@@ -65,7 +68,7 @@ export function MyModal( props ) {
 
 	return (
 		<Modal title={ title } onRequestClose={ onRequestClose }>
-			<Fragment>
+			<VStack>
 				<div className={ 'search-console-modal-container' }>
 					<ModalFilter
 						handleChange={ handleChange }
@@ -91,7 +94,7 @@ export function MyModal( props ) {
 						{ __( 'Save', 'search-console' ) }
 					</Button>
 				</Flex>
-			</Fragment>
+			</VStack>
 		</Modal>
 	);
 }

@@ -3,8 +3,8 @@ import { Card, CardBody, Notice, Button } from '@wordpress/components';
 import { useContext, createInterpolateElement } from '@wordpress/element';
 import LoadingSpinner from '../components/loading-spinner.js';
 import { MyChart } from '../components/dashboard/chart/index.js';
-import { MyTable } from '../components/dashboard/table';
-import { Filters } from '../components/dashboard/filters';
+import { Table } from '../components/dashboard/table/index.js';
+import { Filters } from '../components/dashboard/table/filters.js';
 import Ads from '../components/ads/index';
 import { SettingsContext } from '../context/settings-context';
 import { useHistory } from '../router';
@@ -32,7 +32,7 @@ const Dashboard = () => {
 			),
 		} );
 
-	if ( ! settings?.token || ! settings?.token?.refresh_token ) {
+	if ( ! settings.token || ! settings.token.refresh_token ) {
 		return (
 			<Notice status="warning" isDismissible={ false }>
 				<p>
@@ -45,8 +45,8 @@ const Dashboard = () => {
 	}
 
 	if (
-		! settings?.credentials?.client_secret ||
-		! settings?.credentials?.client_id
+		! settings.credentials.client_secret ||
+		! settings.credentials.client_id
 	) {
 		return (
 			<Notice status="warning" isDismissible={ false }>
@@ -89,7 +89,7 @@ const Dashboard = () => {
 			</Card>
 			<Card>
 				<CardBody>
-					<MyTable />
+					<Table />
 				</CardBody>
 			</Card>
 		</div>

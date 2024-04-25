@@ -1,8 +1,8 @@
 import { createRoot, useEffect } from '@wordpress/element';
-import {
-	__experimentalNavigatorProvider as NavigatorProvider,
-	__experimentalNavigatorScreen as NavigatorScreen,
-} from '@wordpress/components';
+import { SnackbarList } from '@wordpress/components';
+import { useDispatch, useSelect } from '@wordpress/data';
+import { store as noticesStore } from '@wordpress/notices';
+
 import { RouterProvider, useLocation, useHistory } from './router';
 import { getQueryArg } from '@wordpress/url';
 
@@ -55,6 +55,10 @@ const Router = () => {
 		};
 	}, [] );
 
+	history.listen( () => {
+		reset();
+	} );
+
 	if ( 'search-console-settings' === params.page ) {
 		return <Settings />;
 	}
@@ -67,11 +71,27 @@ const App = () => {
 			<Header title={ 'Search Console' } />
 			<SettingsContextProvider>
 				<Router />
+				<Notifications />
 			</SettingsContextProvider>
 			<Footer />
 		</RouterProvider>
 	);
 };
+
+function Notifications() {
+	const notices = useSelect(
+		( select ) => select( noticesStore ).getNotices(),
+		[]
+	);
+	const { removeNotice } = useDispatch( noticesStore );
+	const snackbarNotices = notices.filter(
+		( { type } ) => type === 'snackbar'
+	);
+
+	return (
+		<SnackbarList notices={ snackbarNotices } onRemove={ removeNotice } />
+	);
+}
 
 window.addEventListener( 'DOMContentLoaded', () => {
 	const domNode = document.getElementById( 'search-console-wrapper' );

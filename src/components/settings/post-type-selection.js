@@ -6,7 +6,8 @@ import { store as coreStore } from '@wordpress/core-data';
 import { SettingsContext } from '../../context/settings-context';
 
 export default function PostTypeSelection() {
-	const { settings, updateSetting } = useContext( SettingsContext );
+	const { settings, updateSetting, saveSettings } =
+		useContext( SettingsContext );
 
 	// useSelect to retrieve all post types
 	const postTypes = useSelect(
@@ -16,6 +17,7 @@ export default function PostTypeSelection() {
 
 	const addPostType = ( val ) => {
 		updateSetting( 'postTypes', [ ...settings.postTypes, val ] );
+		saveSettings();
 	};
 
 	const removePostType = ( val ) => {
@@ -23,6 +25,7 @@ export default function PostTypeSelection() {
 			( item ) => item !== val
 		);
 		updateSetting( 'postTypes', filteredArray );
+		saveSettings();
 	};
 
 	// Options expects [{label: ..., value: ...}]

@@ -7,32 +7,39 @@ export default function Dimensions() {
 	const { updateQuery, query } = useContext( SettingsContext );
 
 	const onSelect = ( dimension ) => {
-		updateQuery( 'dimension', dimension );
-		setSelected( dimension );
+		updateQuery( 'dimensions', [ dimension ] );
 	};
 
 	return (
 		<div className="search-console-dimensions">
 			<Button
-				className={ 'query' === query.dimension ? 'is-selected' : '' }
+				className={
+					query.dimensions.includes( 'query' ) ? 'is-selected' : ''
+				}
 				onClick={ () => onSelect( 'query' ) }
 			>
 				{ __( 'Query', 'search-console' ) }
 			</Button>
 			<Button
-				className={ 'page' === query.dimension ? 'is-selected' : '' }
+				className={
+					query.dimensions.includes( 'page' ) ? 'is-selected' : ''
+				}
 				onClick={ () => onSelect( 'page' ) }
 			>
 				{ __( 'Pages', 'search-console' ) }
 			</Button>
 			<Button
-				className={ 'country' === query.dimension ? 'is-selected' : '' }
+				className={
+					query.dimensions.includes( 'country' ) ? 'is-selected' : ''
+				}
 				onClick={ () => onSelect( 'country' ) }
 			>
 				{ __( 'Countries', 'search-console' ) }
 			</Button>
 			<Button
-				className={ 'device' === query.dimension ? 'is-selected' : '' }
+				className={
+					query.dimensions.includes( 'device' ) ? 'is-selected' : ''
+				}
 				onClick={ () => onSelect( 'device' ) }
 			>
 				{ __( 'Devices', 'search-console' ) }
