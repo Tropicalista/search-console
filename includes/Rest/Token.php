@@ -150,7 +150,7 @@ class Token {
 		$response = $this->api->refresh_token( $token );
 
 		if ( ! empty( $response['error'] ) ) {
-			return new \WP_Error( 423, $response );
+			return new \WP_Error( 401, $response );
 		}
 
 		$newToken = array_merge( $token, $response );
@@ -166,6 +166,7 @@ class Token {
 	 */
 	private function save_token( $token ) {
 
+		$token['created_at'] = time();
 		$option = get_option( $this->token_key );
 
 		$option['token'] = $token;

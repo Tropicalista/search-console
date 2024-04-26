@@ -94,6 +94,7 @@ function register_settings() {
 					'type' => 'string',
 				),
 			),
+			'additionalProperties' => true,
 		),
 	);
 
@@ -111,6 +112,7 @@ function register_settings() {
 			'refresh_token' => '',
 			'scope'         => '',
 			'token_type'    => '',
+			'created_at'    => time(),
 		),
 		'credentials' => array(
 			'client_id' => '',

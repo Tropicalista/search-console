@@ -5,6 +5,7 @@ import { __ } from '@wordpress/i18n';
 import { store as coreStore, useEntityProp } from '@wordpress/core-data';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { store as noticesStore } from '@wordpress/notices';
+import { useHistory } from '../router';
 
 export const SettingsContext = createContext();
 
@@ -29,8 +30,9 @@ function SettingsContextProvider( props ) {
 
 	const [ ready, setReady ] = useState( false );
 	const [ query, setQuery ] = useState( defaultQuery );
-	const [ loading, setLoading ] = useState( false );
 	const [ email, setEmail ] = useState( false );
+
+	const history = useHistory();
 
 	const [ settings, setSettings ] = useEntityProp(
 		'root',
@@ -89,7 +91,6 @@ function SettingsContextProvider( props ) {
 	);
 
 	const refreshToken = () => {
-		setLoading( true );
 		apiFetch( {
 			path: '/searchconsole/v1/refresh',
 			method: 'POST',
@@ -105,9 +106,24 @@ function SettingsContextProvider( props ) {
 			.catch( ( error ) => {
 				// eslint-disable-next-line no-console
 				console.log( error );
-				loadSearchConsole();
-			} )
-			.finally( () => setLoading( false ) );
+				createNotice(
+					'error',
+					'⚠️ ' + error.message.error_description,
+					{
+						type: 'snackbar',
+						explicitDismiss: true,
+						actions: [
+							{
+								label: 'Reauthenticate on settings page',
+								onClick: () =>
+									history.push( {
+										page: 'search-console-settings',
+									} ), // styled as a button link
+							},
+						],
+					}
+				);
+			} );
 	};
 
 	const revokeToken = () => {

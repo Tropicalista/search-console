@@ -285,4 +285,27 @@ $mobile: 426px;
 		padding-right: 16px;
 		position: fixed;
 	}
+
+	.slideshow-container {
+		position: relative;
+		width: 100%;
+		height: 100px;
+		overflow: hidden;
+	  }
+	  
+	  .slide {
+		width: 100%;
+		height: auto;
+		position: absolute;
+		background-size: cover;
+		background-position: center;
+		transition: opacity 0.5s ease;
+		opacity: 0;
+	  }
+	  
+	  .slide.active {
+		opacity: 1;
+		height: auto;
+	  }
+
 }

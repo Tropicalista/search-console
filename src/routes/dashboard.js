@@ -81,7 +81,6 @@ const Dashboard = () => {
 					<MyChart />
 				</CardBody>
 			</Card>
-			<Ads />
 			<Card>
 				<CardBody>
 					<Filters />

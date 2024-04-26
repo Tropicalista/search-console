@@ -6,73 +6,73 @@ import {
 	__experimentalHStack as HStack,
 } from '@wordpress/components';
 import { store as blockDirectoryStore } from '@wordpress/block-directory';
-import { useState, RawHTML, Fragment, useEffect } from '@wordpress/element';
-import { getBlockTypes } from '@wordpress/blocks';
-
-import { useSelect, useDispatch, dispatch, select } from '@wordpress/data';
+import { useState, RawHTML, useEffect } from '@wordpress/element';
+import { store as coreStore } from '@wordpress/core-data';
+import SlideShow from './slideshow';
+import { useSelect, useDispatch } from '@wordpress/data';
 
 const Ads = () => {
-	const [ loading, setLoading ] = useState( false );
-	const { installBlockType } = useDispatch( blockDirectoryStore );
+	const { saveEntityRecord } = useDispatch( coreStore );
 
-	const { isFormelloInstalled, isFormelloActive } = useSelect( ( select ) => {
-		const formello = select( 'core' ).getPlugin( 'formello/formello' );
-		return {
-			isFormelloInstalled: formello,
-			isFormelloActive: formello?.status === 'active',
-		};
-	} );
-
-	const { block } = useSelect( ( select ) => {
-		const { getDownloadableBlocks } = select( blockDirectoryStore );
-		const blocks = getDownloadableBlocks( 'block:formello/form' ).filter(
-			( { name } ) => 'formello/form' === name
-		);
-		return {
-			block: blocks.length && blocks[ 0 ],
-		};
-	} );
-
-	const isInstallingBlock = useSelect(
-		( select ) => select( blockDirectoryStore ).isInstalling( block.id ),
-		[ block.id ]
+	const { isFormelloInstalled, isFormelloActive, plugins } = useSelect(
+		( select ) => {
+			const formello = select( 'core' ).getPlugin( 'formello/formello' );
+			const myPlugins = select( 'core' ).getPlugins( { per_page: -1 } );
+			return {
+				isFormelloInstalled: formello,
+				isFormelloActive: formello?.status === 'active',
+				plugins: myPlugins?.filter( ( plugin ) => {
+					return [
+						'formello/formello',
+						'popper/popper',
+						'pdf-embed/pdf-embed',
+					].includes( plugin.plugin );
+				} ),
+			};
+		}
 	);
+
+	const installPlugin = ( slug ) => {
+		saveEntityRecord( 'root', 'plugin', {
+			slug,
+			status: 'active',
+		} );
+	};
 
 	const [ shown, setShown ] = useState( () => {
 		// getting stored value
-		const shown = localStorage.getItem( 'sc-shown' );
-		const initialValue = JSON.parse( shown );
+		const toShow = window.localStorage.getItem( 'sc-shown' );
+		const initialValue = JSON.parse( toShow );
 		return initialValue || new Date().getTime();
 	} );
 
-	if ( isFormelloInstalled && isFormelloActive ) {
+	if ( ! plugins || ( isFormelloInstalled && isFormelloActive ) ) {
 		return null;
 	}
 
 	return (
 		<Card>
 			<CardBody>
+				<SlideShow plugins={ plugins } />
 				<HStack alignment="left">
 					<RawHTML>
 						{ sprintf(
 							/* translators: Formello url. */
 							__(
-								`<p>Do you need a FREE seo tool? Check <a href="%s" target="_blank">SeoJuice.it</a> to manage all your SEO tasks.`,
+								`<p>Do you need a POPUP plugin? Check <a href="%s" target="_blank">Popper</a> to create beautiful popups.`,
 								'search-console'
 							),
-							'https://seojuice.it/?refid=299'
+							'https://wordpress.org/plugins/popper/'
 						) }
 					</RawHTML>
 					<Button
 						variant="primary"
 						isSmall
 						onClick={ () => {
-							installBlockType( block ).then( () =>
-								setLoading( true )
-							);
+							installPlugin();
 						} }
-						disabled={ isInstallingBlock }
-						isBusy={ isInstallingBlock }
+						disabled={ false }
+						isBusy={ false }
 					>
 						{ __( 'Install Formello', 'search-console' ) }
 					</Button>

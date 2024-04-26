@@ -80,14 +80,14 @@ class Api {
 
 		$args['method'] = $type;
 
-		$request = wp_remote_request( $url, $args );
+		$response = wp_remote_request( $url, $args );
 
-		if ( is_wp_error( $request ) ) {
-			$message = $request->get_error_message();
+		if ( is_wp_error( $response ) ) {
+			$message = $response->get_error_message();
 			return new \WP_Error( 423, $message );
 		}
 
-		$body = json_decode( wp_remote_retrieve_body( $request ), true );
+		$body = json_decode( wp_remote_retrieve_body( $response ), true );
 
 		return $body;
 	}

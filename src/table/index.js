@@ -21,7 +21,7 @@ const chartQuery = {
 const allUrls = [];
 
 window.jQuery( document ).ready( function () {
-	window.jQuery( '.gsc-url' ).each( ( index ) => {
+	window.jQuery( '.gsc-url' ).each( () => {
 		allUrls.push( window.jQuery( this ).data( 'url' ) );
 	} );
 } );
@@ -38,9 +38,9 @@ function refreshToken() {
 // callback on gapi loaded
 window.onGoogleScriptLoad = () => {
 	// get settings
-	apiFetch( { path: '/searchconsole/v1/settings/' } ).then( ( result ) => {
-		token = result.token;
-		chartQuery.siteUrl = result.site;
+	apiFetch( { path: '/wp/v2/settings/' } ).then( ( result ) => {
+		token = result.search_console.token;
+		chartQuery.siteUrl = result.search_console.site;
 		window.gapi.load( 'client', start );
 	} );
 };

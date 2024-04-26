@@ -3,10 +3,10 @@ import { __ } from '@wordpress/i18n';
 import { Fragment, useState, useContext } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 import { SettingsContext } from '../../context/settings-context';
-import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import { hasGrantedAnyScopeGoogle, useGoogleLogin } from '@react-oauth/google';
 
 const GoogleOauthButton = () => {
-	const { updateSetting, email, settings, revokeToken } =
+	const { updateSetting, settings, revokeToken } =
 		useContext( SettingsContext );
 
 	const [ message, setMessage ] = useState( false );
@@ -18,6 +18,11 @@ const GoogleOauthButton = () => {
 		},
 		scope: 'https://www.googleapis.com/auth/webmasters.readonly https://www.googleapis.com/auth/siteverification email',
 	} );
+
+	const hasAccess = hasGrantedAnyScopeGoogle(
+		window.search_console.token,
+		'https://www.googleapis.com/auth/webmasters.readonly'
+	);
 
 	const getToken = ( code ) => {
 		apiFetch( {
@@ -43,6 +48,15 @@ const GoogleOauthButton = () => {
 			.finally( () => console.log( 'Success' ) );
 	};
 
+	const getEmail = () => {
+		if ( settings.token.id_token ) {
+			return JSON.parse(
+				atob( settings.token.id_token.split( '.' )[ 1 ] )
+			).email;
+		}
+		return null;
+	};
+
 	return (
 		<Fragment>
 			<Button
@@ -50,9 +64,9 @@ const GoogleOauthButton = () => {
 				onClick={ () => googleLogin() }
 				icon={ 'google' }
 			>
-				{ email || __( 'Login with Google', 'search-console' ) }
+				{ getEmail() || __( 'Login with Google', 'search-console' ) }
 			</Button>
-			{ settings.token.refresh_token && (
+			{ settings.token.id_token && (
 				<p>
 					<Button
 						text={ __( 'Revoke token', 'search-console' ) }

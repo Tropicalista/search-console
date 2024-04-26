@@ -5,7 +5,7 @@
  * Plugin Name:    Search Console
  * Plugin URI:     https://www.francescopepe.com/
  * Description:    This plugin displays your Google Search Console Analytics data inside your WordPress.
- * Version:        2.9.1
+ * Version:        2.9.2
  * Author:         Tropicalista
  * Author URI:     https://www.francescopepe.com
  * License:        GPL-2.0+
@@ -139,6 +139,15 @@ function search_console_dashboard_widgets() {
 		array(),
 		true
 	);
+
+	wp_localize_script(
+		'search-console-widget',
+		'search_console',
+		array(
+			'token' => get_option( 'search_console' )['token'],
+		)
+	);
+
 	wp_enqueue_script( 'search-console-widget' );
 	wp_enqueue_style(
 		'search-console-bundle-styles',
@@ -215,7 +224,7 @@ register_activation_hook( __FILE__, 'search_console_activate' );
  * @return void
  */
 function search_console_tracker_optin( $data ) {
-	$data['project'] = 'search_console';
+	$data['project'] = 'search-console';
 	$response = wp_remote_post(
 		'https://hook.eu1.make.com/dplrdfggemll51whv3b21yjabuk8po0b',
 		array(
@@ -226,7 +235,7 @@ function search_console_tracker_optin( $data ) {
 		)
 	);
 }
-add_action( 'search_console_tracker_optin', 'search_console_tracker_optin', 10 );
+add_action( 'search-console_tracker_optin', 'search-console_tracker_optin', 10 );
 
 /**
  * Initialize the plugin tracker
@@ -238,8 +247,8 @@ function search_console_init_tracker() {
 	$client = new Appsero\Client( '3db07d4b-1867-49ea-8338-be9adc5fa614', 'Search Console', __FILE__ );
 
 	// Active insights.
-	$client->insights()->init();
-
-	$twenty_twelve_license = $client->license();
+	$client->insights()
+		->add_plugin_data()
+		->init();
 }
 search_console_init_tracker();

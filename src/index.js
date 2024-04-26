@@ -14,6 +14,7 @@ import Settings from './routes/settings';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import SettingsContextProvider from './context/settings-context';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const Router = () => {
 	const history = useHistory();
@@ -67,14 +68,16 @@ const Router = () => {
 
 const App = () => {
 	return (
-		<RouterProvider>
-			<Header title={ 'Search Console' } />
-			<SettingsContextProvider>
-				<Router />
-				<Notifications />
-			</SettingsContextProvider>
-			<Footer />
-		</RouterProvider>
+		<GoogleOAuthProvider>
+			<RouterProvider>
+				<Header title={ 'Search Console' } />
+				<SettingsContextProvider>
+					<Router />
+					<Notifications />
+				</SettingsContextProvider>
+				<Footer />
+			</RouterProvider>
+		</GoogleOAuthProvider>
 	);
 };
 
