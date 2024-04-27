@@ -75,6 +75,9 @@ In most cases, #1 will work fine and is way easier.
 
 == Changelog ==
 
+= 2.9.3 =
+* Updated appsero
+
 = 2.9.2 =
 * Fixed dashboard widget
 * Fixed data not showing on table
