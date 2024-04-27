@@ -24,7 +24,6 @@ class ComposerStaticInit1e8350b80f1e75756cd30b10a0cfd18b
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Search_Console\\Api' => __DIR__ . '/../..' . '/includes/Api.php',
         'Search_Console\\Encryption' => __DIR__ . '/../..' . '/includes/Encryption.php',
-        'Search_Console\\Rest\\Settings' => __DIR__ . '/../..' . '/includes/Rest/Settings.php',
         'Search_Console\\Rest\\Token' => __DIR__ . '/../..' . '/includes/Rest/Token.php',
     );
 
