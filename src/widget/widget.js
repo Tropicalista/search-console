@@ -13,9 +13,6 @@ import '../store';
 
 const Widget = () => {
 	const { settings, ready } = useContext( SettingsContext );
-	const settingsUrl = addQueryArgs( 'admin.php', {
-		page: 'search-console',
-	} );
 
 	if ( ! ready || ! settings ) {
 		return (
@@ -26,7 +23,8 @@ const Widget = () => {
 	if (
 		! settings?.site ||
 		! settings?.credentials?.client_secret ||
-		! settings?.credentials?.client_id
+		! settings?.credentials?.client_id ||
+		! settings.token.refresh_token
 	) {
 		return (
 			<Notice status="warning" isDismissible={ false }>
@@ -37,7 +35,9 @@ const Widget = () => {
 							'<p>You need to authenticate and set a site on <a href="%s">settings page</a>.</p>',
 							'formello'
 						),
-						settingsUrl
+						addQueryArgs( 'admin.php', {
+							page: 'search-console-settings',
+						} )
 					) }
 				</RawHTML>
 			</Notice>
@@ -54,7 +54,9 @@ const Widget = () => {
 						'<p>More data on <a href="%s">Search Console dashboard</a>.</p>',
 						'formello'
 					),
-					settingsUrl + '#/'
+					addQueryArgs( 'admin.php', {
+						page: 'search-console',
+					} )
 				) }
 			</RawHTML>
 		</div>

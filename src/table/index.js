@@ -21,8 +21,8 @@ const chartQuery = {
 const allUrls = [];
 
 window.jQuery( document ).ready( function () {
-	window.jQuery( '.gsc-url' ).each( () => {
-		allUrls.push( window.jQuery( this ).data( 'url' ) );
+	window.jQuery( '.gsc-url' ).each( ( index, el ) => {
+		allUrls.push( window.jQuery( el ).data( 'url' ) );
 	} );
 } );
 
@@ -48,6 +48,11 @@ window.onGoogleScriptLoad = () => {
 function start() {
 	window.gapi.client.load( 'searchconsole', 'v1' ).then( () => {
 		window.gapi.client.setToken( token );
+		window.gapi.client.init( {
+			discoveryDocs: [
+				'https://www.googleapis.com/discovery/v1/apis/webmasters/v3/rest',
+			],
+		} );
 		getReport();
 	} );
 }

@@ -7,9 +7,7 @@
 
 namespace Search_Console;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Class to perform oAuth request.
@@ -112,11 +110,13 @@ class Api {
 	 * Retrieve an access token.
 	 */
 	public function get_access_token() {
-		$token = get_option( $this->option_key );
+		$option = get_option( $this->option_key );
 
-		if ( ! $token ) {
+		if ( empty( $option['token'] ) ) {
 			return false;
 		}
+
+		$token = $option['token'];
 
 		if ( ( $token['created_at'] + $token['expires_in'] - 30 ) < time() ) {
 			// It's expired so we have to re-issue again.
@@ -126,7 +126,8 @@ class Api {
 				$token['access_token'] = $refreshToken['access_token'];
 				$token['expires_in'] = $refreshToken['expires_in'];
 				$token['created_at'] = time();
-				update_option( $this->option_key, $token, false );
+				$updated_option = wp_parse_args( array( 'token' => $token ), $option );
+				update_option( $this->option_key, $updated_option );
 			} else {
 				return false;
 			}
@@ -144,7 +145,7 @@ class Api {
 		$args = array(
 			'client_id' => $this->client_id,
 			'client_secret' => $this->client_secret,
-			'refresh_token' => $token['refresh_token'],
+			'refresh_token' => $token['refresh_token'] ?? '',
 			'grant_type' => 'refresh_token',
 		);
 
