@@ -2,6 +2,7 @@ import { useState, useEffect } from '@wordpress/element';
 import { useDispatch } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import { store as coreStore } from '@wordpress/core-data';
+import { Button, __experimentalHStack as HStack } from '@wordpress/components';
 
 const myPlugins = [
 	{
@@ -32,37 +33,28 @@ const myPlugins = [
 
 const SlideShow = ( { plugins } ) => {
 	const [ currentIndex, setCurrentIndex ] = useState( 0 );
-	const [ data, setData ] = useState( [] );
+	const [ slides, setSlides ] = useState( [] );
 	const { saveEntityRecord } = useDispatch( coreStore );
 
 	useEffect( () => {
-		//init();
+		init();
 	}, [] );
 
 	useEffect( () => {
 		const timer = setInterval( () => {
 			goToNextSlide();
-		}, 3000 ); // Change slide every 3 seconds
+		}, 5000 ); // Change slide every 5 seconds
 
 		return () => clearInterval( timer );
 	}, [ currentIndex ] );
 
 	const init = () => {
-		const arr = [];
-		for ( const plugin of myPlugins ) {
-			getPluginData( plugin ).then( ( res ) => {
-				arr.push( res );
-				setData( arr );
-			} );
-		}
-	};
-
-	const getPluginData = async ( plugin ) => {
-		const response = await fetch(
-			`https://api.wordpress.org/plugins/info/1.0/${ plugin }.json`
-		);
-		const result = await response.json();
-		return result;
+		const match = myPlugins.filter( ( plugin ) => {
+			return plugins?.find( ( p ) => p.name === plugin.name )
+				? false
+				: true;
+		} );
+		setSlides( match );
 	};
 
 	const installPlugin = ( slug ) => {
@@ -73,29 +65,50 @@ const SlideShow = ( { plugins } ) => {
 	};
 
 	const goToNextSlide = () => {
-		const nextIndex = ( currentIndex + 1 ) % myPlugins.length;
-		setCurrentIndex( nextIndex );
+		if ( slides.length > 1 ) {
+			const nextIndex = ( currentIndex + 1 ) % slides.length;
+			setCurrentIndex( nextIndex );
+		}
+	};
+
+	const setMargin = ( index ) => {
+		if ( 0 === index ) {
+			const margin =
+				currentIndex > 0
+					? '-' + ( 100 / slides.length ) * currentIndex + '%'
+					: 0;
+			return margin;
+		}
 	};
 
 	return (
-		<div className="slideshow-container">
-			{ myPlugins.map( ( plugin, index ) => {
-				const notShow = plugins?.find(
-					( p ) => p.name === plugin.name
-				);
-				if ( notShow ) {
-					return null;
-				}
+		<div
+			className="slideshow-container"
+			style={ {
+				width: `calc( 100% * ${ slides.length })`,
+			} }
+		>
+			{ slides.map( ( plugin, index ) => {
 				return (
 					<div
 						key={ index }
 						className={ `slide ${
 							index === currentIndex ? 'active' : ''
 						}` }
-						//style={ { backgroundImage: `url(${ slide })` } }
+						style={ {
+							width: `calc( 100% / ${ slides.length })`,
+							marginLeft: setMargin( index ),
+						} }
 					>
-						<h4>{ plugin.name }</h4>
-						<p>{ plugin.ad }</p>
+						<HStack justify="flex-start">
+							<span>{ plugin.ad }</span>
+							<Button
+								variant="primary"
+								size="small"
+								text={ __( 'Install', 'search-console' ) }
+								onClick={ () => installPlugin( plugin.slug ) }
+							/>
+						</HStack>
 					</div>
 				);
 			} ) }

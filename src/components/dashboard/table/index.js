@@ -2,10 +2,7 @@
  * WordPress dependencies
  */
 import { useState, useContext, useEffect, useMemo } from '@wordpress/element';
-import { __ } from '@wordpress/i18n';
 import { DataViews } from '@wordpress/dataviews';
-import { SearchControl } from '@wordpress/components';
-import { useDebounce } from '@wordpress/compose';
 
 /**
  * Internal dependencies
@@ -15,8 +12,7 @@ import Countries from '../modals/countries';
 import { SettingsContext } from '../../../context/settings-context';
 
 export function Table() {
-	const { settings, query, showError, updateQuery } =
-		useContext( SettingsContext );
+	const { settings, query, showError } = useContext( SettingsContext );
 
 	const [ data, setData ] = useState( [] );
 	const [ view, setView ] = useState( {
@@ -93,25 +89,6 @@ export function Table() {
 			);
 		}
 	};
-
-	const setSearch = ( filter ) => {
-		updateQuery( 'dimensionFilterGroups', {
-			...query.dimensionFilterGroups,
-			filters: [
-				{
-					dimension: query.dimensions[ 0 ],
-					expression: filter,
-					operator: 'CONTAINS',
-				},
-			],
-		} );
-		setView( {
-			...view,
-			search: filter,
-		} );
-	};
-
-	const onSearch = useDebounce( setSearch, 400 );
 
 	const normalizeData = ( array ) => {
 		return array.map( ( item ) => {

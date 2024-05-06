@@ -5,7 +5,6 @@ import apiFetch from '@wordpress/api-fetch';
 let token = '';
 const chartQuery = {
 	siteUrl: '',
-	rowLimit: null,
 	searchType: 'web',
 	startDate: dateI18n(
 		'Y-m-d',
@@ -16,6 +15,10 @@ const chartQuery = {
 		new Date().setDate( new Date().getDate() - 1 )
 	),
 	dimensions: [ 'page' ],
+	dimensionFilterGroups: {},
+	//aggregationType: 'byPage',
+	startRow: 0,
+	rowLimit: 1,
 };
 
 const allUrls = [];
@@ -32,6 +35,7 @@ function refreshToken() {
 		method: 'POST',
 	} ).then( ( result ) => {
 		window.gapi.client.setToken( result );
+		getReport();
 	} );
 }
 
@@ -48,26 +52,15 @@ window.onGoogleScriptLoad = () => {
 function start() {
 	window.gapi.client.load( 'searchconsole', 'v1' ).then( () => {
 		window.gapi.client.setToken( token );
-		window.gapi.client.init( {
-			discoveryDocs: [
-				'https://www.googleapis.com/discovery/v1/apis/webmasters/v3/rest',
-			],
-		} );
-		getReport();
+		check();
 	} );
 }
 
-function getReport() {
-	window.gapi.client.webmasters.searchanalytics
-		.query( chartQuery )
-		.then( function ( response ) {
-			response.result.rows.forEach( function ( x ) {
-				if ( allUrls.indexOf( x.keys[ 0 ] ) > -1 ) {
-					window
-						.jQuery( 'span[data-url="' + x.keys[ 0 ] + '"]' )
-						.html( createReportHtml( x ) );
-				}
-			} );
+function check() {
+	window.gapi.client.webmasters.sitemaps
+		.list( { siteUrl: chartQuery.siteUrl } )
+		.then( function () {
+			getReport();
 		} )
 		.catch( ( error ) => {
 			if ( 401 === error.status ) {
@@ -76,10 +69,52 @@ function getReport() {
 		} );
 }
 
+function getReport() {
+	const batch = window.gapi.client.newBatch();
+
+	for ( const url of allUrls ) {
+		const req = [
+			{
+				filters: [
+					{
+						dimension: 'page',
+						operator: 'EQUALS',
+						expression: url,
+					},
+				],
+			},
+		];
+		batch.add(
+			window.gapi.client.webmasters.searchanalytics.query( {
+				...chartQuery,
+				dimensionFilterGroups: req,
+			} ),
+			{
+				id: url,
+			}
+		);
+	}
+
+	batch.then( ( data ) => {
+		for ( const url in data.result ) {
+			if (
+				allUrls.indexOf( url ) > -1 &&
+				data.result[ url ].result.rows
+			) {
+				window
+					.jQuery( 'span[data-url="' + url + '"]' )
+					.html(
+						createReportHtml( data.result[ url ].result.rows[ 0 ] )
+					);
+			}
+		}
+	} );
+}
+
 const createReportHtml = ( { clicks, position, impressions, ctr } ) => `
-	<b>Clicks:</b> ${ clicks }<br />
-	<b>Position:</b> ${ Math.round( position * 100 ) / 100 }<br />
-	<b>CTR:</b> ${ Math.round( ctr * 10000 ) / 100 }%<br />
-	<b>Impressions:</b> ${ impressions }<br />`;
+	<b>Clicks:</b> ${ clicks || 'n/a' }<br />
+	<b>Position:</b> ${ Math.round( position * 100 ) / 100 || 'n/a' }<br />
+	<b>CTR:</b> ${ Math.round( ctr * 10000 ) / 100 || 'n/a' }<br />
+	<b>Impressions:</b> ${ impressions || 'n/a' }<br />`;
 
 loadGoogleScript();

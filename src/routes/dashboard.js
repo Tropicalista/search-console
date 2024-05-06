@@ -1,5 +1,11 @@
 import { __ } from '@wordpress/i18n';
-import { Card, CardBody, Notice, Button } from '@wordpress/components';
+import {
+	Card,
+	CardBody,
+	Notice,
+	Button,
+	__experimentalVStack as VStack,
+} from '@wordpress/components';
 import { useContext, createInterpolateElement } from '@wordpress/element';
 import LoadingSpinner from '../components/loading-spinner.js';
 import { MyChart } from '../components/dashboard/chart/index.js';
@@ -76,21 +82,24 @@ const Dashboard = () => {
 
 	return (
 		<div className={ 'search-console-dashboard' }>
-			<Card>
-				<CardBody>
-					<MyChart />
-				</CardBody>
-			</Card>
-			<Card>
-				<CardBody>
-					<Filters />
-				</CardBody>
-			</Card>
-			<Card>
-				<CardBody>
-					<Table />
-				</CardBody>
-			</Card>
+			<VStack>
+				<Card>
+					<CardBody>
+						<MyChart />
+					</CardBody>
+				</Card>
+				<Card>
+					<CardBody>
+						<Filters />
+					</CardBody>
+				</Card>
+				<Ads />
+				<Card>
+					<CardBody>
+						<Table />
+					</CardBody>
+				</Card>
+			</VStack>
 		</div>
 	);
 };

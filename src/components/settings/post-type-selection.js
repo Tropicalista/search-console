@@ -34,8 +34,7 @@ export default function PostTypeSelection() {
 		: postTypes
 				.filter(
 					// Filter out internal WP post types eg: wp_block, wp_navigation, wp_template, wp_template_part..
-					( postType ) =>
-						postType.viewable && postType.slug !== 'attachment'
+					( postType ) => postType.viewable
 				)
 				.map(
 					// Format the options for display in the <SelectControl/>

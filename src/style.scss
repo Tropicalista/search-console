@@ -11,10 +11,12 @@ $mobile: 426px;
 }
 
 /* Hide WP notices on the settings page */
-.toplevel_page_search-console, .search-console_page_search-console-settings {
+.toplevel_page_search-console,
+.search-console_page_search-console-settings {
 	.notice {
 		display: none;
-	}	
+	}
+
 	.star {
 		color: #ffb900;
 	}
@@ -27,7 +29,7 @@ $mobile: 426px;
 #search-console-wrapper {
 	margin-left: -20px;
 
-	@media ( max-width: $tablet ) {
+	@media (max-width: $tablet ) {
 		margin-left: -10px;
 	}
 
@@ -75,7 +77,7 @@ $mobile: 426px;
 				align-items: center;
 				margin: 0;
 
-				@media ( max-width: $mobile ) {
+				@media (max-width: $mobile ) {
 					justify-content: center;
 				}
 			}
@@ -87,16 +89,16 @@ $mobile: 426px;
 				margin-right: 10px;
 			}
 
-			@media ( max-width: $mobile ) {
+			@media (max-width: $mobile ) {
 				text-align: center;
 			}
 		}
 
 		.masthead__plugin-links {
 			font-size: 13px;
-		    display: flex;
-		    justify-content: flex-end;
-		    align-items: center;
+			display: flex;
+			justify-content: flex-end;
+			align-items: center;
 
 			a {
 				align-items: center;
@@ -123,7 +125,7 @@ $mobile: 426px;
 				}
 			}
 
-			@media ( max-width: $tablet ) {
+			@media (max-width: $tablet ) {
 				a {
 					margin-left: 8px;
 
@@ -133,7 +135,7 @@ $mobile: 426px;
 				}
 			}
 
-			@media ( max-width: $mobile ) {
+			@media (max-width: $mobile ) {
 				justify-content: center;
 				margin-top: 10px;
 				width: 100%;
@@ -144,7 +146,7 @@ $mobile: 426px;
 
 	.footer {
 		padding: 10px 30px;
-		box-shadow: 0 0 0 1px #ccd0d4, 0 1px 1px 1px rgba(0,0,0,.04);
+		box-shadow: 0 0 0 1px #ccd0d4, 0 1px 1px 1px rgba(0, 0, 0, .04);
 		text-align: center;
 		margin-top: 2em;
 
@@ -156,7 +158,7 @@ $mobile: 426px;
 			margin: 0 auto;
 			max-width: 1024px;
 
-			@media ( max-width: $desktop ) {
+			@media (max-width: $desktop ) {
 				display: block;
 			}
 		}
@@ -179,43 +181,6 @@ $mobile: 426px;
 
 		max-width: 1024px;
 		margin: 1em auto;
-
-		.setting-controls__save-settings {
-			display: flex;
-			align-items: center;
-			gap: 1em;
-			margin-bottom: 1em;
-
-			.message {
-
-				@media ( max-width: $tablet ) {
-					display: none;
-				}
-
-				&.update-failed {
-					color: #b52727;
-				}
-			}
-
-			.save-settings__save-button {
-				&.is-busy {
-					color: #ffffff;
-					background-size: 100px 100%;
-					// Disable reason: This function call looks nicer when each argument is on its own line.
-					/* stylelint-disable */
-					background-image: linear-gradient(
-						-45deg,
-						#1989c1 28%,
-						color(#1989c1 shade(20%)) 28%,
-						color(#1989c1 shade(20%)) 72%,
-						#1989c1 72%
-					);
-					/* stylelint-enable */
-					border-color: color(#1989c1);
-				}
-			}
-
-		}
 
 	}
 
@@ -242,6 +207,7 @@ $mobile: 426px;
 			align-items: center;
 			justify-content: space-between;
 			padding: 1 rem;
+
 			input {
 				width: 300px;
 			}
@@ -250,15 +216,18 @@ $mobile: 426px;
 				padding: 0;
 				display: flex;
 				flex: 1;
+
 				button {
 					padding: 1rem;
 					cursor: pointer;
 					font-weight: bold;
 					border-bottom: 2px solid transparent;
 				}
+
 				.is-selected {
 					border-bottom: 2px solid #135e96;
 				}
+
 				.components-button:focus:not(:disabled) {
 					box-shadow: none;
 				}
@@ -268,8 +237,49 @@ $mobile: 426px;
 
 	}
 
+	.ads-container__reviews {
+		background-color: var(--wp-admin-theme-color);
+		box-shadow: 0 0 0 1px var(--wp-admin-theme-color-darker-20), 0 1px 1px 1px rgb(0 0 0 / 4%);
+		color: #fff;
+		position: relative;
+
+		&::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			z-index: 0;
+			background-color: var(--wp-admin-theme-color-darker-20);
+			mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><polygon points='12 17.7371778 5.81966011 21.5 7.49246652 14.4659011 2 9.75735421 9.2141911 9.1728642 12 2.5 14.7858089 9.1728642 22 9.75735421 16.5075335 14.4659011 18.1803399 21.5'></polygon></svg>");
+			-webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><polygon points='12 17.7371778 5.81966011 21.5 7.49246652 14.4659011 2 9.75735421 9.2141911 9.1728642 12 2.5 14.7858089 9.1728642 22 9.75735421 16.5075335 14.4659011 18.1803399 21.5'></polygon></svg>");
+			mask-size: 200px;
+			-webkit-mask-size: 200px;
+			mask-repeat: no-repeat;
+			-webkit-mask-repeat: no-repeat;
+			mask-position: -100px;
+			-webkit-mask-position: -100px;
+		}
+
+		>* {
+			position: relative;
+			z-index: 1;
+		}
+
+		a {
+			color: #fff;
+			display: block;
+			margin-top: 10px;
+			font-size: 1.1em;
+		}
+
+		h2 {
+			color: #fff;
+		}
+	}
+
 	.components-card {
-		margin-bottom: 1em;
 		.message {
 			margin: 1rem 0;
 		}
@@ -287,25 +297,29 @@ $mobile: 426px;
 	}
 
 	.slideshow-container {
-		position: relative;
-		width: 100%;
-		height: 100px;
 		overflow: hidden;
-	  }
-	  
-	  .slide {
-		width: 100%;
-		height: auto;
-		position: absolute;
-		background-size: cover;
-		background-position: center;
-		transition: opacity 0.5s ease;
-		opacity: 0;
-	  }
-	  
-	  .slide.active {
-		opacity: 1;
-		height: auto;
-	  }
+		display: flex;
+		background-color: #fff;
+		box-sizing: border-box;
+
+		&:not(:empty) {
+			padding: 1rem;
+
+		}
+	}
+
+	.slide {
+		height: 1px;
+		transition: .5s;
+		max-width: 100%;
+
+		p {
+			margin: 0;
+		}
+
+		&.active {
+			height: auto;
+		}
+	}
 
 }
