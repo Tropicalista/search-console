@@ -27,12 +27,18 @@ export function Filters() {
 	};
 
 	const remove = ( filter ) => {
-		updateQuery( 'dimensionFilterGroups', {
-			...query.dimensionFilterGroups,
-			filters: query.dimensionFilterGroups.filters.filter(
-				( prevItem ) => prevItem !== filter
-			),
+		const filters = query.dimensionFilterGroups.map( ( dimension ) => {
+			return dimension.filters;
 		} );
+
+		const replaced = [
+			...filters[ 0 ].filter( ( i ) => i.dimension !== filter.dimension ),
+		];
+		if ( replaced.length ) {
+			updateQuery( 'dimensionFilterGroups', [ { filters: replaced } ] );
+		} else {
+			updateQuery( 'dimensionFilterGroups', [] );
+		}
 	};
 
 	const setType = ( type ) => {
@@ -50,6 +56,8 @@ export function Filters() {
 			? '+'
 			: '-';
 	};
+
+	const filters = query.dimensionFilterGroups.map( ( f ) => f.filters );
 
 	return (
 		<Fragment>
@@ -122,7 +130,11 @@ export function Filters() {
 							<MenuGroup>
 								<MenuItem
 									onClick={ () => {
-										setShowModal( 'query' );
+										setShowModal( {
+											dimension: 'query',
+											expression: '',
+											operator: '',
+										} );
 										onToggle();
 									} }
 								>
@@ -130,7 +142,11 @@ export function Filters() {
 								</MenuItem>
 								<MenuItem
 									onClick={ () => {
-										setShowModal( 'page' );
+										setShowModal( {
+											dimension: 'page',
+											expression: '',
+											operator: '',
+										} );
 										onToggle();
 									} }
 								>
@@ -138,7 +154,11 @@ export function Filters() {
 								</MenuItem>
 								<MenuItem
 									onClick={ () => {
-										setShowModal( 'country' );
+										setShowModal( {
+											dimension: 'country',
+											expression: '',
+											operator: '',
+										} );
 										onToggle();
 									} }
 								>
@@ -146,7 +166,11 @@ export function Filters() {
 								</MenuItem>
 								<MenuItem
 									onClick={ () => {
-										setShowModal( 'device' );
+										setShowModal( {
+											dimension: 'device',
+											expression: '',
+											operator: '',
+										} );
 										onToggle();
 									} }
 								>
@@ -155,53 +179,53 @@ export function Filters() {
 							</MenuGroup>
 						) }
 					/>
-					{ query.dimensionFilterGroups.filters.map(
-						( filter, i ) => (
-							<div
-								className={
-									'dataviews-filter-summary__chip-container'
-								}
-								key={ i }
-							>
+					{ filters.map( ( filter, i ) => {
+						return filter.map( ( f ) => {
+							return (
 								<div
-									className="dataviews-filter-summary__chip has-reset"
-									role="button"
-									tabIndex="0"
-									aria-pressed="false"
-									aria-expanded="false"
-									onClick={ () =>
-										setShowModal( filter.dimension )
+									className={
+										'dataviews-filter-summary__chip-container'
 									}
-									onKeyDown={ ( event ) => {
-										if (
-											[ ENTER, SPACE ].includes(
-												event.key
-											)
-										) {
-											setShowModal( filter.dimension );
-											event.preventDefault();
-										}
-									} }
+									key={ i }
 								>
-									{ filter.dimension +
-										': ' +
-										getSign( filter ) +
-										filter.expression }
-									<button
-										className={
-											'dataviews-filter-summary__chip-remove has-values'
-										}
-										onClick={ ( e ) => {
-											e.stopPropagation();
-											remove( filter );
+									<div
+										className="dataviews-filter-summary__chip has-reset"
+										role="button"
+										tabIndex="0"
+										aria-pressed="false"
+										aria-expanded="false"
+										onClick={ () => setShowModal( f ) }
+										onKeyDown={ ( event ) => {
+											if (
+												[ ENTER, SPACE ].includes(
+													event.key
+												)
+											) {
+												setShowModal( f );
+												event.preventDefault();
+											}
 										} }
 									>
-										<Icon icon={ closeSmall } />
-									</button>
+										{ f.dimension +
+											': ' +
+											getSign( f ) +
+											f.expression }
+										<button
+											className={
+												'dataviews-filter-summary__chip-remove has-values'
+											}
+											onClick={ ( e ) => {
+												e.stopPropagation();
+												remove( f );
+											} }
+										>
+											<Icon icon={ closeSmall } />
+										</button>
+									</div>
 								</div>
-							</div>
-						)
-					) }
+							);
+						} );
+					} ) }
 				</div>
 				<div>
 					<DateSelect query={ query } />
@@ -211,7 +235,7 @@ export function Filters() {
 				<MyModal
 					onRequestClose={ onRequestClose }
 					modal={ showModal }
-					title={ showModal }
+					title={ showModal.dimension }
 				/>
 			) }
 		</Fragment>

@@ -1,27 +1,29 @@
-import { RadioControl } from '@wordpress/components';
+import { FormTokenField } from '@wordpress/components';
 import { Fragment } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 
 import countries from './countries';
 
 export default function Country( props ) {
 	const { filter, handleChange } = props;
 
-	const options = () => {
-		const opts = [];
-		for ( const k in countries ) {
-			opts.push( { value: k, label: countries[ k ] } );
-		}
-		return opts;
+	const onChange = ( val ) => {
+		handleChange(
+			Object.keys( countries )[
+				Object.values( countries ).indexOf( val )
+			]
+		);
 	};
 
 	return (
 		<Fragment>
-			<RadioControl
-				selected={ filter?.expression }
-				options={ options() }
-				onChange={ ( option ) => {
-					handleChange( option );
-				} }
+			<FormTokenField
+				value={ filter.expression ? [ filter.expression ] : [] }
+				suggestions={ Object.values( countries ) }
+				onChange={ ( tokens ) => onChange( tokens[ 0 ] ) }
+				label={ __( 'Choose a country', 'search-console' ) }
+				maxLength="1"
+				__experimentalShowHowTo={ false }
 			/>
 		</Fragment>
 	);

@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { Fragment, useState, useContext } from '@wordpress/element';
+import { useState, useContext } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import {
 	Button,
@@ -19,20 +19,16 @@ export function MyModal( props ) {
 	const { onRequestClose, modal, title } = props;
 	const { query, updateQuery } = useContext( SettingsContext );
 
-	const [ filter, setFilter ] = useState(
-		query.dimensionFilterGroups.filters.find(
-			( f ) => f.dimension === modal
-		)
-	);
+	const [ filter, setFilter ] = useState( modal );
 
 	const [ searchType, setSearchType ] = useState( query.searchType );
 
 	const handleChange = ( expression, operator ) => {
-		if ( 'searchType' === modal ) {
+		if ( 'searchType' === modal.dimension ) {
 			setSearchType( expression );
 		} else {
 			setFilter( {
-				dimension: modal,
+				dimension: modal.dimension,
 				expression,
 				operator,
 			} );
@@ -40,19 +36,40 @@ export function MyModal( props ) {
 	};
 
 	const saveChange = () => {
-		if ( 'searchType' === modal ) {
+		if ( 'searchType' === modal.dimension ) {
 			updateQuery( 'searchType', searchType );
 		} else {
-			const newFilters = [
-				filter,
-				...query.dimensionFilterGroups.filters.filter(
-					( item ) => item.dimension !== modal
-				),
-			];
-			updateQuery( 'dimensionFilterGroups', {
-				...query.dimensionFilterGroups,
-				filters: newFilters,
+			const dimensions = [ ...query.dimensionFilterGroups ];
+
+			let filters = dimensions.map( ( dimension ) => {
+				return dimension.filters;
 			} );
+
+			if ( ! filters.length ) {
+				filters.push( filter );
+			} else {
+				const match = filters[ 0 ].find(
+					( f ) => f.dimension === filter.dimension
+				);
+				// if not found we push
+				if ( -1 === match && ! filters.length ) {
+					filters.push( filter );
+				}
+				if ( -1 === match && filters.length ) {
+					filters[ 0 ].push( filter );
+				}
+				if ( match ) {
+					const replaced = [
+						filter,
+						...filters[ 0 ].filter(
+							( i ) => i.dimension !== filter.dimension
+						),
+					];
+					filters = replaced;
+				}
+			}
+
+			updateQuery( 'dimensionFilterGroups', [ { filters } ] );
 		}
 		onRequestClose();
 	};
@@ -64,7 +81,7 @@ export function MyModal( props ) {
 		query: Query,
 	};
 
-	const ModalFilter = modals[ modal ];
+	const ModalFilter = modals[ modal.dimension ];
 
 	return (
 		<Modal title={ title } onRequestClose={ onRequestClose }>
@@ -86,7 +103,7 @@ export function MyModal( props ) {
 						variant="primary"
 						onClick={ saveChange }
 						disabled={
-							'searchType' === modal
+							'searchType' === modal.dimension
 								? false
 								: ! filter?.expression
 						}

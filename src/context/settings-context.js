@@ -23,9 +23,11 @@ function SettingsContextProvider( props ) {
 		),
 		dimensions: [ 'QUERY' ],
 		fields: 'rows',
-		dimensionFilterGroups: {
-			filters: [],
-		},
+		dimensionFilterGroups: [
+			/*{
+				filters: [],
+			},*/
+		],
 	};
 
 	const [ ready, setReady ] = useState( false );
