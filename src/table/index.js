@@ -71,6 +71,7 @@ function check() {
 
 function getReport() {
 	const batch = window.gapi.client.newBatch();
+	const batchPrev = window.gapi.client.newBatch();
 
 	for ( const url of allUrls ) {
 		const req = [
@@ -93,28 +94,60 @@ function getReport() {
 				id: url,
 			}
 		);
+		batchPrev.add(
+			window.gapi.client.webmasters.searchanalytics.query( {
+				...chartQuery,
+				dimensionFilterGroups: req,
+				startDate: dateI18n(
+					'Y-m-d',
+					new Date().setDate( new Date().getDate() - 57 )
+				),
+				endDate: dateI18n(
+					'Y-m-d',
+					new Date().setDate( new Date().getDate() - 30 )
+				),
+			} ),
+			{
+				id: url,
+			}
+		);
 	}
 
-	batch.then( ( data ) => {
-		for ( const url in data.result ) {
-			if (
-				allUrls.indexOf( url ) > -1 &&
-				data.result[ url ].result.rows
-			) {
+	Promise.all( [ batch, batchPrev ] ).then( ( values ) => {
+		const current = values[ 0 ].result;
+		const previous = values[ 1 ].result;
+
+		const result = {};
+
+		for ( const url in current ) {
+			if ( ! previous[ url ].result?.rows?.[ 0 ] ) {
+				continue;
+			}
+			result[ url ] = {
+				current: current[ url ].result.rows[ 0 ],
+				previous: previous[ url ].result.rows[ 0 ],
+			};
+
+			if ( allUrls.indexOf( url ) > -1 && result[ url ] ) {
 				window
 					.jQuery( 'span[data-url="' + url + '"]' )
-					.html(
-						createReportHtml( data.result[ url ].result.rows[ 0 ] )
-					);
+					.html( createReportHtml( result[ url ] ) );
 			}
 		}
 	} );
 }
 
-const createReportHtml = ( { clicks, position, impressions, ctr } ) => `
-	<b>Clicks:</b> ${ clicks || 'n/a' }<br />
-	<b>Position:</b> ${ Math.round( position * 100 ) / 100 || 'n/a' }<br />
-	<b>CTR:</b> ${ Math.round( ctr * 10000 ) / 100 || 'n/a' }<br />
-	<b>Impressions:</b> ${ impressions || 'n/a' }<br />`;
-
+const createReportHtml = ( { current, previous } ) => `
+	<b>Clicks:</b> ${ current.clicks || 'n/a' } (${
+		previous.clicks || 'n/a'
+	})<br />
+	<b>Position:</b> ${ Math.round( current.position * 100 ) / 100 || 'n/a' } (${
+		Math.round( previous.position * 100 ) / 100 || 'n/a'
+	})<br />
+	<b>CTR:</b> ${ ( current.ctr * 100 ).toFixed( 2 ) + '%' || 'n/a' } (${
+		( previous.ctr * 100 ).toFixed( 2 ) + '%' || 'n/a'
+	})<br />
+	<b>Impressions:</b> ${ current.impressions || 'n/a' } (${
+		previous.impressions || 'n/a'
+	})<br />`;
 loadGoogleScript();
