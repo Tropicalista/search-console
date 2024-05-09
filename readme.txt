@@ -73,6 +73,20 @@ There's two ways to install Search Console.
 
 In most cases, #1 will work fine and is way easier.
 
+== Frequently Asked Questions ==
+
+= Why I get de-authorised every 1 or 2 weeks? =
+
+This is because your Google Cloud project is still in the "Testing" publishing status. Make sure to set it to "Production". For more details
+go to [documentation](https://www.francescopepe.com/docs/search-console).
+
+= Will this slow down my site? =
+No. This plugin is mostly JavaScript. No data will be download nto database. All data are fetched at the moment using Google API.
+
+= Who will have access to my data? =
+No data will be shared to anyone. Only authorized account will see your data. 
+
+
 == Changelog ==
 
 = 2.9.7 =

@@ -2,9 +2,8 @@ export default {
 	width: '100%',
 	height: '400',
 	colors: [ '#4285f4', '#5e35b1', '#00897b', '#E8710A' ],
-	curveType: 'function',
+	//curveType: 'function',
 	//theme: 'material',
-	smoothline: 'true',
 	focusTarget: 'category',
 	chartArea: {
 		// leave room for y-axis labels
