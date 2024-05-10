@@ -41,34 +41,28 @@ export function MyModal( props ) {
 		} else {
 			const dimensions = [ ...query.dimensionFilterGroups ];
 
-			let filters = dimensions.map( ( dimension ) => {
+			const filtersArr = dimensions.map( ( dimension ) => {
 				return dimension.filters;
 			} );
+
+			let filters = filtersArr.shift() || [];
 
 			if ( ! filters.length ) {
 				filters.push( filter );
 			} else {
-				const match = filters[ 0 ].find(
+				const match = filters.find(
 					( f ) => f.dimension === filter.dimension
 				);
 				// if not found we push
-				if ( -1 === match && ! filters.length ) {
+				if ( ! match ) {
 					filters.push( filter );
 				}
-				if ( -1 === match && filters.length ) {
-					filters[ 0 ].push( filter );
-				}
 				if ( match ) {
-					const replaced = [
-						filter,
-						...filters[ 0 ].filter(
-							( i ) => i.dimension !== filter.dimension
-						),
-					];
-					filters = replaced;
+					filters = filters.map( ( item ) =>
+						item.dimension === filter.dimension ? filter : item
+					);
 				}
 			}
-
 			updateQuery( 'dimensionFilterGroups', [ { filters } ] );
 		}
 		onRequestClose();

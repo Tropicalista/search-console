@@ -4,7 +4,16 @@ import { __ } from '@wordpress/i18n';
 import { store as coreStore } from '@wordpress/core-data';
 import { Button, __experimentalHStack as HStack } from '@wordpress/components';
 
-const myPlugins = [
+const myAds = [
+	{
+		name: 'Systeme.io',
+		ad: __(
+			'Free online marketing platform with funnel builder. Create popup, squeeze page, funnel automations all for FREE.',
+			'search-console'
+		),
+		link: 'https://systeme.io/?sa=sa0181820865b77bd583c54e7e7668a6a77e78f1c7',
+		isLink: true,
+	},
 	{
 		name: 'Formello',
 		ad: __(
@@ -31,7 +40,7 @@ const myPlugins = [
 	},
 ];
 
-const SlideShow = ( { plugins } ) => {
+const SlideShow = ( { plugins, direction, noSlide } ) => {
 	const [ currentIndex, setCurrentIndex ] = useState( 0 );
 	const [ slides, setSlides ] = useState( [] );
 	const { saveEntityRecord } = useDispatch( coreStore );
@@ -41,18 +50,19 @@ const SlideShow = ( { plugins } ) => {
 	}, [] );
 
 	useEffect( () => {
+		if ( noSlide ) {
+			return;
+		}
 		const timer = setInterval( () => {
 			goToNextSlide();
 		}, 5000 ); // Change slide every 5 seconds
 
 		return () => clearInterval( timer );
-	}, [ currentIndex ] );
+	} );
 
 	const init = () => {
-		const match = myPlugins.filter( ( plugin ) => {
-			return plugins?.find( ( p ) => p.name === plugin.name )
-				? false
-				: true;
+		const match = myAds.filter( ( ad ) => {
+			return plugins?.find( ( p ) => p.name === ad.name ) ? false : true;
 		} );
 		setSlides( match );
 	};
@@ -100,14 +110,30 @@ const SlideShow = ( { plugins } ) => {
 							marginLeft: setMargin( index ),
 						} }
 					>
-						<HStack justify="flex-start">
+						<HStack justify="flex-start" direction={ direction }>
 							<span>{ plugin.ad }</span>
-							<Button
-								variant="primary"
-								size="small"
-								text={ __( 'Install', 'search-console' ) }
-								onClick={ () => installPlugin( plugin.slug ) }
-							/>
+							{ plugin.isLink ? (
+								<Button
+									variant="primary"
+									size="small"
+									text={ __(
+										'Try now FREE!',
+										'search-console'
+									) }
+									href={ plugin.link }
+									target="_blank"
+									icon="megaphone"
+								/>
+							) : (
+								<Button
+									variant="primary"
+									size="small"
+									text={ __( 'Install', 'search-console' ) }
+									onClick={ () =>
+										installPlugin( plugin.slug )
+									}
+								/>
+							) }
 						</HStack>
 					</div>
 				);

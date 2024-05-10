@@ -3,14 +3,16 @@ import {
 	CardHeader,
 	CardBody,
 	ExternalLink,
-    Button,
+	Button,
 } from '@wordpress/components';
+import Ads from '../ads';
 
 import { __ } from '@wordpress/i18n';
 
 export default function Help() {
 	return (
 		<>
+				<Ads direction="column" />
 			<Card>
 				<CardHeader>
 					<b>{ __( 'Need help?', 'search-console' ) }</b>

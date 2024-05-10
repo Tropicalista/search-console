@@ -300,18 +300,15 @@ $mobile: 426px;
 		overflow: hidden;
 		display: flex;
 		background-color: #fff;
-		box-sizing: border-box;
-
-		&:not(:empty) {
-			padding: 1rem;
-
-		}
+		flex-wrap: nowrap;
 	}
 
 	.slide {
 		height: 1px;
-		transition: .5s;
+		transition: .5s cubic-bezier(0.075, 0.82, 0.165, 1);
 		max-width: 100%;
+		box-sizing: border-box;
+		padding: 1rem;
 
 		p {
 			margin: 0;

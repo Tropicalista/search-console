@@ -179,8 +179,8 @@ export function Filters() {
 							</MenuGroup>
 						) }
 					/>
-					{ filters.map( ( filter, i ) => {
-						return filter.map( ( f ) => {
+					{ filters.map( ( filter ) => {
+						return filter.map( ( f, i ) => {
 							return (
 								<div
 									className={

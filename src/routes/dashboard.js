@@ -93,7 +93,7 @@ const Dashboard = () => {
 						<Filters />
 					</CardBody>
 				</Card>
-				<Ads />
+				<Ads noSlide={ true } />
 				<Card>
 					<CardBody>
 						<Table />

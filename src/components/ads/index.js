@@ -1,19 +1,9 @@
-import { __, sprintf } from '@wordpress/i18n';
-import {
-	Card,
-	CardBody,
-	Button,
-	__experimentalHStack as HStack,
-} from '@wordpress/components';
-import { store as blockDirectoryStore } from '@wordpress/block-directory';
-import { useState, RawHTML, useEffect } from '@wordpress/element';
-import { store as coreStore } from '@wordpress/core-data';
+import { Card } from '@wordpress/components';
+import { useState } from '@wordpress/element';
 import SlideShow from './slideshow';
-import { useSelect, useDispatch } from '@wordpress/data';
+import { useSelect } from '@wordpress/data';
 
-const Ads = () => {
-	const { saveEntityRecord } = useDispatch( coreStore );
-
+const Ads = ( props ) => {
 	const { plugins } = useSelect( ( select ) => {
 		const myPlugins = select( 'core' ).getPlugins( { per_page: -1 } );
 		return {
@@ -41,7 +31,7 @@ const Ads = () => {
 	return (
 		<Card>
 			<div style={ { overflowX: 'hidden' } }>
-				<SlideShow plugins={ plugins } />
+				<SlideShow plugins={ plugins } { ...props } />
 			</div>
 		</Card>
 	);

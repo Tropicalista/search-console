@@ -2,8 +2,11 @@ export default {
 	width: '100%',
 	height: '400',
 	colors: [ '#4285f4', '#5e35b1', '#00897b', '#E8710A' ],
-	//curveType: 'function',
-	//theme: 'material',
+	animation: {
+		duration: 1000,
+		easing: "out",
+		startup: true,
+	},
 	focusTarget: 'category',
 	chartArea: {
 		// leave room for y-axis labels

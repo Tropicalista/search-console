@@ -99,7 +99,7 @@ function search_console_encrypt_option( $settings ) {
 function search_console_add_meta() {
 	$options = get_option( 'search_console' );
 
-	if ( $options && $options['siteVerification'] ) {
+	if ( $options && $options['siteVerification'] && is_home() ) {
 		$args = array(
 			'meta'     => array(
 				'content' => array(),

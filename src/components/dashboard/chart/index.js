@@ -62,7 +62,6 @@ export function MyChart() {
 		<div className="search-console-chart">
 			<Chart
 				chartType="LineChart"
-				loader={ <Spinner /> }
 				data={ table }
 				options={ Options }
 				legendToggle
