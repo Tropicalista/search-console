@@ -26,7 +26,7 @@ function column_posts( $columns, $post_type ) {
 		// Remove Date.
 		unset( $columns['date'] );
 		$columns['search-console'] = __( 'Search Console', 'search-console' );
-		$columns['date'] = 'Date';
+		$columns['date']           = 'Date';
 		wp_enqueue_script( 'searchconsole-table' );
 	}
 
@@ -46,7 +46,7 @@ function column_pages( $columns ) {
 		// Remove Date.
 		unset( $columns['date'] );
 		$columns['search-console'] = __( 'Search Console', 'search-console' );
-		$columns['date'] = 'Date';
+		$columns['date']           = 'Date';
 		wp_enqueue_script( 'searchconsole-table' );
 	}
 
@@ -101,9 +101,9 @@ function search_console_add_meta() {
 
 	if ( $options && $options['siteVerification'] && is_home() ) {
 		$args = array(
-			'meta'     => array(
+			'meta' => array(
 				'content' => array(),
-				'name' => array(),
+				'name'    => array(),
 			),
 		);
 
@@ -118,3 +118,15 @@ add_action( 'manage_posts_custom_column', __NAMESPACE__ . '\column_data', 10, 2 
 add_filter( 'option_search_console', __NAMESPACE__ . '\search_console_decrypt_option' );
 add_filter( 'pre_update_option_search_console', __NAMESPACE__ . '\search_console_encrypt_option' );
 add_action( 'wp_head', __NAMESPACE__ . '\search_console_add_meta' );
+add_action(
+	'all_admin_notices',
+	function () {
+
+		$options = get_option( 'search_console' );
+		$screen = get_current_screen();
+
+		if ( in_array( $screen->post_type, $options['postTypes'] ) ) {
+			echo '<div id="search-console-table"></div>';
+		}
+	}
+);

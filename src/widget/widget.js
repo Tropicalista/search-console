@@ -6,7 +6,7 @@ import { __, sprintf } from '@wordpress/i18n';
 import { Notice } from '@wordpress/components';
 import { addQueryArgs } from '@wordpress/url';
 
-import { MyChart } from '../components/dashboard/chart';
+import { MyChart } from './chart';
 import LoadingSpinner from '../components/loading-spinner.js';
 import { SettingsContext } from '../context/settings-context';
 import '../store';
@@ -51,7 +51,7 @@ const Widget = () => {
 				{ sprintf(
 					/* translators: Developer console url. */
 					__(
-						'<p>More data on <a href="%s">Search Console dashboard</a>.</p>',
+						'More data on <a href="%s">Search Console dashboard</a>.',
 						'formello'
 					),
 					addQueryArgs( 'admin.php', {

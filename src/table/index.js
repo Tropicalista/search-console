@@ -1,6 +1,26 @@
 import { loadGoogleScript } from './loadGapi';
 import { dateI18n } from '@wordpress/date';
 import apiFetch from '@wordpress/api-fetch';
+import './app';
+
+const elements = document.getElementsByClassName(
+	'search-console column-search-console'
+);
+
+Array.from( elements ).forEach( function ( element ) {
+	const children = element.querySelector( 'span.gsc-url' );
+
+	element.addEventListener( 'click', ( e ) => {
+		const url = children.getAttribute( 'data-url' );
+		const urlFound = new CustomEvent( 'search-console-details', {
+			bubbles: true,
+			detail: {
+				url,
+			},
+		} );
+		window.dispatchEvent( urlFound );
+	} );
+} );
 
 let token = '';
 const chartQuery = {

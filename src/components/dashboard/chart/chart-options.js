@@ -4,7 +4,7 @@ export default {
 	colors: [ '#4285f4', '#5e35b1', '#00897b', '#E8710A' ],
 	animation: {
 		duration: 1000,
-		easing: "out",
+		easing: 'out',
 		startup: true,
 	},
 	focusTarget: 'category',
@@ -38,6 +38,9 @@ export default {
 		},
 		3: {
 			direction: -1,
+			viewWindow: {
+				max: 1,
+			},
 		},
 	},
 	series: {
