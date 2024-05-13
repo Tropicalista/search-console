@@ -8,7 +8,7 @@ const myAds = [
 	{
 		name: 'Systeme.io',
 		ad: __(
-			'Free online marketing platform with funnel builder. Create popup, squeeze page, funnel automations all for FREE.',
+			'Free online marketing platform with funnel builder. Create popup, squeeze page, funnel automations all for FREE. No credit card required',
 			'search-console'
 		),
 		link: 'https://systeme.io/?sa=sa0181820865b77bd583c54e7e7668a6a77e78f1c7',
@@ -117,7 +117,7 @@ const SlideShow = ( { plugins, direction, noSlide } ) => {
 									variant="primary"
 									size="small"
 									text={ __(
-										'Try now FREE!',
+										'Get FREE offer!',
 										'search-console'
 									) }
 									href={ plugin.link }

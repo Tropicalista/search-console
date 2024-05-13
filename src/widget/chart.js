@@ -26,8 +26,12 @@ const options = {
 	},
 	height: 350,
 	hAxis: {
-		minorGridlines: { count: 1 },
-		showTextEvery: 7,
+		gridlines: {
+			count: 5,
+			minSpacing: 15,
+		},
+		minorGridlines: { count: 0 },
+		showTextEvery: 1,
 	},
 	vAxis: {
 		textPosition: 'none',
@@ -94,8 +98,14 @@ export function MyChart( { url } ) {
 					previous.rows[ row ].keys[ 0 ],
 					formatData( previous.rows[ row ][ metric ] )
 				),
-				formatData( current.rows[ row ][ metric ] ),
-				formatData( previous.rows[ row ][ metric ] ),
+				{
+					v: current.rows[ row ][ metric ],
+					f: formatData( current.rows[ row ][ metric ] ),
+				},
+				{
+					v: previous.rows[ row ][ metric ],
+					f: formatData( previous.rows[ row ][ metric ] ),
+				},
 			] );
 		}
 
@@ -187,7 +197,7 @@ export function MyChart( { url } ) {
 
 	const formatData = ( val ) => {
 		if ( 'ctr' === metric ) {
-			return ( val * 100 ).toFixed( 2 );
+			return ( val * 100 ).toFixed( 2 ) + '%';
 		}
 		if ( 'position' === metric ) {
 			return val.toFixed( 2 );
@@ -203,7 +213,7 @@ export function MyChart( { url } ) {
 		previousValue
 	) => {
 		return `<div style="padding: 1rem;"><b>${
-			__( 'Day' ) + ' ' + day
+			__( 'Day' ) + ' ' + ( parseInt( day ) + 1 )
 		}</b><div style="display: flex; gap: 1rem;"><span>${ currentDate }</span><b>${ currentValue }</b></div><div style="display: flex; gap: 1rem;"><span>${ previousDate }</span><b>${ previousValue }</b></div></div>`;
 	};
 
@@ -213,7 +223,7 @@ export function MyChart( { url } ) {
 			...customOptions,
 			vAxis: {
 				direction: 'position' === newMetric ? -1 : 1,
-				format: 'ctr' === newMetric ? "#.#'%'" : 'none',
+				format: 'ctr' === newMetric ? '#,###%' : 'none',
 			},
 			series: {
 				0: { color: newColor, labelInLegend: 'Last 28 days' },
