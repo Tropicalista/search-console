@@ -39,7 +39,7 @@ export default {
 		3: {
 			direction: -1,
 			viewWindow: {
-				max: 1,
+				min: 1,
 			},
 		},
 	},
