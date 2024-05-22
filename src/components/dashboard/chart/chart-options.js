@@ -35,6 +35,10 @@ export default {
 		1: { title: 'impressions' },
 		2: {
 			format: '#%',
+			viewWindow: {
+				min: 0,
+				max: 1,
+			},
 		},
 		3: {
 			direction: -1,

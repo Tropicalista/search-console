@@ -39,10 +39,16 @@ export function MyChart() {
 				data.forEach( ( row ) => {
 					temp.push( [
 						window.moment( row.keys[ 0 ], 'YYYY-MM-DD' ).toDate(),
-						row.clicks,
-						row.impressions,
-						row.ctr * 100,
-						parseFloat( row.position ),
+						formatData( row.clicks ),
+						formatData( row.impressions ),
+						{
+							v: row.ctr,
+							f: formatData( row.ctr, 'ctr' ),
+						},
+						{
+							v: row.position,
+							f: formatData( row.position, 'position' ),
+						},
 					] );
 				} );
 				setTable( temp );
@@ -50,6 +56,16 @@ export function MyChart() {
 			.catch( ( error ) => {
 				showError( error );
 			} );
+	};
+
+	const formatData = ( val, metric ) => {
+		if ( 'ctr' === metric ) {
+			return ( val * 100 ).toFixed( 2 ) + '%';
+		}
+		if ( 'position' === metric ) {
+			return val.toFixed( 2 );
+		}
+		return val;
 	};
 
 	if ( ! table ) {

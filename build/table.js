@@ -500,7 +500,10 @@ function MyChart({
       label: 'Previous',
       type: 'number'
     }]);
-    for (const row in current.rows) {
+    for (const row in previous.rows) {
+      if (row > 27) {
+        continue;
+      }
       testTable.push([parseInt(row) + 1, createCustomHTMLContent(row, current.rows[row].keys[0], formatData(current.rows[row][metric]), previous.rows[row].keys[0], formatData(previous.rows[row][metric])), {
         v: current.rows[row][metric],
         f: formatData(current.rows[row][metric])

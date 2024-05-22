@@ -3919,7 +3919,11 @@ __webpack_require__.r(__webpack_exports__);
       title: 'impressions'
     },
     2: {
-      format: '#%'
+      format: '#%',
+      viewWindow: {
+        min: 0,
+        max: 1
+      }
     },
     3: {
       direction: -1,
@@ -4010,12 +4014,27 @@ function MyChart() {
       const temp = [];
       temp.push([(0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Keys', 'search-console'), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Clicks', 'search-console'), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Impressions', 'search-console'), 'CTR', (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Position', 'search-console')]);
       data.forEach(row => {
-        temp.push([window.moment(row.keys[0], 'YYYY-MM-DD').toDate(), row.clicks, row.impressions, row.ctr * 100, parseFloat(row.position)]);
+        temp.push([window.moment(row.keys[0], 'YYYY-MM-DD').toDate(), formatData(row.clicks), formatData(row.impressions), {
+          v: row.ctr,
+          f: formatData(row.ctr, 'ctr')
+        }, {
+          v: row.position,
+          f: formatData(row.position, 'position')
+        }]);
       });
       setTable(temp);
     }).catch(error => {
       showError(error);
     });
+  };
+  const formatData = (val, metric) => {
+    if ('ctr' === metric) {
+      return (val * 100).toFixed(2) + '%';
+    }
+    if ('position' === metric) {
+      return val.toFixed(2);
+    }
+    return val;
   };
   if (!table) {
     return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_loading_spinner_js__WEBPACK_IMPORTED_MODULE_6__["default"], {

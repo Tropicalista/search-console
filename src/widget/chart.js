@@ -78,7 +78,6 @@ export function MyChart( { url } ) {
 		if ( ! data ) return;
 		const current = data.current;
 		const previous = data.previous;
-
 		const testTable = [];
 
 		testTable.push( [
@@ -88,7 +87,10 @@ export function MyChart( { url } ) {
 			{ label: 'Previous', type: 'number' },
 		] );
 
-		for ( const row in current.rows ) {
+		for ( const row in previous.rows ) {
+			if ( row > 27 ) {
+				continue;
+			}
 			testTable.push( [
 				parseInt( row ) + 1,
 				createCustomHTMLContent(
