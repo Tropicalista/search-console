@@ -15,7 +15,7 @@ const Credentials = () => {
 	}
 
 	const authUrl = sprintf(
-		'https://developers.google.com/web/site-kit?sitename=%1$s&siteurl=%2$s',
+		'https://developers.google.com/web/site-kit',
 		settings.title,
 		settings.wp_url
 	);
@@ -31,10 +31,7 @@ const Credentials = () => {
 					{ sprintf(
 						/* translators: Developer console url. */
 						__(
-							'<p>You need to create a <a target="_blank" href="%1$s">Google Developer Console</a> account before proceeding to authorization.</p>' +
-								'<p>Create a project from Google Developers Console if none exists.</p>' +
-								'<p>Go to Credentials tab, then create credential for OAuth client.</p>' +
-								'Application type will be Web Application. Add <code>%2$s</code> in Authorized redirect URIs. This will give you Client ID and Client Secret key.<p>',
+							'<p>You need to create a <a target="_blank" href="%1$s">Google Developer Console</a> account before proceeding to authorization.</p>',
 							'search-console'
 						),
 						`https://console.developers.google.com/`,
