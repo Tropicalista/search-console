@@ -9,8 +9,8 @@ const Ads = ( props ) => {
 		return {
 			plugins: myPlugins?.filter( ( plugin ) => {
 				return [
-					'formello/formello2',
-					'popper/popper2',
+					'formello/formello',
+					'popper/popper',
 					'pdf-embed/pdf-embed',
 				].includes( plugin.plugin );
 			} ),
