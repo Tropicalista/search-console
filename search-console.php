@@ -5,7 +5,7 @@
  * Plugin Name:    Search Console
  * Plugin URI:     https://www.francescopepe.com/
  * Description:    This plugin displays your Google Search Console Analytics data inside your WordPress.
- * Version:        3.0.5
+ * Version:        3.0.6
  * Author:         Tropicalista
  * Author URI:     https://www.francescopepe.com
  * License:        GPL-2.0+
@@ -28,20 +28,19 @@ require_once plugin_dir_path( __FILE__ ) . 'includes/Rest/Token.php';
  * @return void
  */
 function search_console_admin_menu() {
-	global $submenu;
 
 	$capability = 'search_console';
 	$slug       = 'search-console';
 	$title      = __( 'Search Console', 'search-console' );
 
-	$hook = add_menu_page( $title, $title, $capability, 'search-console', 'search_console_load_admin_view', 'dashicons-chart-bar' );
+	$hook = add_menu_page( $title, $title, $capability, $slug, 'search_console_load_admin_view', 'dashicons-chart-bar' );
 
 	$dashboard_hook = add_submenu_page(
 		$slug,
 		'Dashboard',
 		'Dashboard',
 		'manage_options',
-		'search-console',
+		$slug,
 		'search_console_load_admin_view'
 	);
 	$settings_hook = add_submenu_page(
@@ -49,7 +48,7 @@ function search_console_admin_menu() {
 		__( 'Settings' ),
 		__( 'Settings' ),
 		'manage_options',
-		'search-console-settings',
+		$slug . '-settings',
 		'search_console_load_admin_view'
 	);
 
@@ -78,42 +77,17 @@ function search_console_load_admin_view() {
  * @throws \Error The error.
  */
 function search_console_load_assets() {
-	$script_asset_path = plugin_dir_path( __FILE__ ) . 'build/index.asset.php';
-	if ( ! file_exists( $script_asset_path ) ) {
-		throw new \Error(
-			'You need to run `npm start` or `npm run build` for the "create-block/formello" block first.'
-		);
-	}
-
-	$script_asset = require $script_asset_path;
-
-	load_plugin_textdomain( 'search-console', false, plugin_dir_path( __FILE__ ) . 'languages/' );
-
-	wp_register_script(
-		'search-console',
-		plugin_dir_url( __FILE__ ) . 'build/index.js',
-		$script_asset['dependencies'],
-		$script_asset['version'],
-		true
-	);
-
-	wp_enqueue_script( 'search-console' );
-	wp_set_script_translations( 'search-console', 'search-console', plugin_dir_path( __FILE__ ) . 'languages' );
-
+	wp_enqueue_style( 'search-console-dashboard' );
+	wp_enqueue_script( 'search-console-dashboard' );
 	wp_localize_script(
-		'search-console',
+		'search-console-dashboard',
 		'search_console',
 		array(
-			'token' => get_option( 'search_console' )['token'],
+			'token' => get_option( 'search_console' )['token'] ?? array(),
 		)
 	);
-
-	wp_enqueue_style(
-		'search-console-bundle-styles',
-		plugin_dir_url( __FILE__ ) . 'build/style-index.css',
-		array( 'wp-components' ),
-		$script_asset['version']
-	);
+	load_plugin_textdomain( 'search-console-dashboard', false, plugin_dir_path( __FILE__ ) . 'languages/' );
+	wp_set_script_translations( 'search-console-dashboard', 'search-console', plugin_dir_path( __FILE__ ) . 'languages' );
 }
 
 /**
@@ -122,42 +96,64 @@ function search_console_load_assets() {
  * @throws \Error The error.
  */
 function search_console_dashboard_widgets() {
-
-	$script_asset_path = plugin_dir_path( __FILE__ ) . 'build/widget.asset.php';
-	if ( ! file_exists( $script_asset_path ) ) {
-		throw new \Error(
-			'You need to run `npm start` or `npm run build` for the "create-block/formello" block first.'
-		);
-	}
-
-	$script_asset = require $script_asset_path;
-
-	wp_register_script(
-		'search-console-widget',
-		plugin_dir_url( __FILE__ ) . 'build/widget.js',
-		$script_asset['dependencies'],
-		array(),
-		true
-	);
-
 	wp_localize_script(
 		'search-console-widget',
 		'search_console',
 		array(
-			'token' => get_option( 'search_console' )['token'],
+			'token' => get_option( 'search_console' )['token'] ?? array(),
 		)
 	);
 
 	wp_enqueue_script( 'search-console-widget' );
-	wp_enqueue_style(
-		'search-console-bundle-styles',
-		plugin_dir_url( __FILE__ ) . 'build/style-index.css',
-		array( 'wp-components' ),
-		$script_asset['version']
-	);
 	wp_add_dashboard_widget( 'custom_help_widget', __( 'Search Console', 'search-console' ), 'search_console_dashboard_help' );
 }
 add_action( 'wp_dashboard_setup', 'search_console_dashboard_widgets' );
+
+/**
+ * Register assets
+ *
+ * @throws \Error If missing file.
+ *
+ * @return void
+ */
+function search_console_register_assets() {
+	$dirs = glob( __DIR__ . '/build/*/', GLOB_ONLYDIR );
+	$names = array_map(
+		function ( $type_path ) {
+			return basename( $type_path );
+		},
+		$dirs
+	);
+
+	foreach ( $names as $name ) {
+		$script_asset_path = __DIR__ . "/build/$name/index.asset.php";
+
+		if ( ! file_exists( $script_asset_path ) ) {
+			throw new \Error(
+				'You need to run `npm start` or `npm run build` for the "formello/formello-conditional-fields" block first.'
+			);
+		}
+		$index_js     = 'build/' . $name . '/index.js';
+		$script_asset = require $script_asset_path;
+
+		wp_register_script(
+			'search-console-' . $name,
+			plugins_url( $index_js, __FILE__ ),
+			$script_asset['dependencies'],
+			$script_asset['version'],
+			true
+		);
+	}
+
+	wp_register_style(
+		'search-console-dashboard',
+		plugins_url( 'build/style-dashboard.css', __FILE__ ),
+		array( 'wp-components', 'wp-reset-editor-styles' ),
+		$script_asset['version'],
+		'all'
+	);
+}
+add_action( 'admin_init', 'search_console_register_assets' );
 
 /**
  * Dashboard widget
@@ -172,37 +168,16 @@ function search_console_dashboard_help() {
  * @throws \Error The error.
  */
 function search_console_add_table_scripts() {
-
-	$script_asset_path = plugin_dir_path( __FILE__ ) . 'build/table.asset.php';
-	if ( ! file_exists( $script_asset_path ) ) {
-		throw new \Error(
-			'You need to run `npm start` or `npm run build` for the "create-block/formello" block first.'
-		);
-	}
-
-	$script_asset = require $script_asset_path;
-
-	wp_register_script(
-		'searchconsole-table',
-		plugin_dir_url( __FILE__ ) . 'build/table.js',
-		$script_asset['dependencies'],
-		array(),
-		true
-	);
-
 	wp_localize_script(
 		'searchconsole-table',
 		'search_console',
 		array(
-			'token' => get_option( 'search_console' )['token'],
+			'token' => get_option( 'search_console' )['token'] ?? array(),
 		)
 	);
 
 	wp_enqueue_style(
-		'search-console-bundle-styles',
-		plugin_dir_url( __FILE__ ) . 'build/style-index.css',
-		array( 'wp-components' ),
-		$script_asset['version']
+		'search-console-bundle-styles'
 	);
 }
 add_action( 'admin_enqueue_scripts', 'search_console_add_table_scripts' );

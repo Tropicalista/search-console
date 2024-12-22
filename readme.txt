@@ -4,8 +4,8 @@ Donate link: https://www.formello.net
 Tags: search console, google search console, search console widget, search console metatag
 Requires at least: 5.6
 Requires PHP: 5.6
-Tested up to: 6.6
-Stable tag: 3.0.5
+Tested up to: 6.7
+Stable tag: 3.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -89,6 +89,9 @@ No data will be shared to anyone. Only authorized account will see your data.
 
 
 == Changelog ==
+
+= 3.0.6 =
+* WP 6.7 compatibility
 
 = 3.0.5 =
 * WP 6.6 compatibility

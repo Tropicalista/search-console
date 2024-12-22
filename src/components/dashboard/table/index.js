@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { useState, useContext, useEffect, useMemo } from '@wordpress/element';
-import { DataViews } from '@wordpress/dataviews';
+import { DataViews } from '@wordpress/dataviews/wp';
 
 /**
  * Internal dependencies

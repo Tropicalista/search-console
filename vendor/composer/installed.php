@@ -3,7 +3,7 @@
         'name' => 'tropicalista/searchconsole',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '4c4a1a1fab0a79cf05335f192caf93ef4a68829e',
+        'reference' => '5ae32f97603c7d8cbf1494b59ebe2c091bbdbb26',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'appsero/client' => array(
             'pretty_version' => 'dev-develop',
             'version' => 'dev-develop',
-            'reference' => 'a8e02e8a5a862671f04ff00a456e2711d807a598',
+            'reference' => 'aef4cf138ab4f348cee4e2f20f7d3cd815db0877',
             'type' => 'library',
             'install_path' => __DIR__ . '/../appsero/client',
             'aliases' => array(
@@ -24,7 +24,7 @@
         'tropicalista/searchconsole' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '4c4a1a1fab0a79cf05335f192caf93ef4a68829e',
+            'reference' => '5ae32f97603c7d8cbf1494b59ebe2c091bbdbb26',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
