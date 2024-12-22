@@ -22,7 +22,7 @@ export function Table() {
 		sort: {},
 		search: '',
 		filters: [],
-		hiddenFields: [],
+		fields: [ 'keys', 'clicks', 'ctr', 'impressions', 'position' ],
 		layout: {},
 	} );
 
