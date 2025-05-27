@@ -17,9 +17,9 @@ import { useHistory } from '../router';
 
 const Dashboard = () => {
 	const history = useHistory();
-	const { settings, ready } = useContext( SettingsContext );
+	const { settings } = useContext( SettingsContext );
 
-	if ( ! ready || ! settings ) {
+	if ( ! settings ) {
 		return (
 			<LoadingSpinner text={ __( 'Fetching data…', 'search-console' ) } />
 		);
@@ -93,7 +93,6 @@ const Dashboard = () => {
 						<Filters />
 					</CardBody>
 				</Card>
-				<Ads noSlide={ true } />
 				<Card>
 					<CardBody>
 						<Table />

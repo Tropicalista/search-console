@@ -3,6 +3,8 @@ import {
 	ToggleControl,
 	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
 	__experimentalInputControl as InputControl,
+	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
+	__experimentalVStack as VStack,
 } from '@wordpress/components';
 
 import { __ } from '@wordpress/i18n';
@@ -42,7 +44,7 @@ const Verification = () => {
 	};
 
 	return (
-		<div className="search-console-Advanced">
+		<VStack>
 			{ settings.site && (
 				<Fragment>
 					<p>
@@ -65,6 +67,7 @@ const Verification = () => {
 							updateSetting( 'siteVerification', val );
 							saveSettings();
 						} }
+						__nextHasNoMarginBottom
 					/>
 				</Fragment>
 			) }
@@ -83,9 +86,10 @@ const Verification = () => {
 						updateSetting( 'meta', val );
 					} }
 					suffix={ <Button onClick={ getMeta } icon={ 'update' } /> }
+					__next40pxDefaultSize
 				/>
 			) }
-		</div>
+		</VStack>
 	);
 };
 

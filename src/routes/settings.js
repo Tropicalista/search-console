@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n';
 import GoogleOAuth from '../components/settings/google-oauth';
 import Credentials from '../components/settings/credentials';
 import Help from '../components/settings/help';
-import SiteSelect from '../components/settings/site-select';
+import Options from '../components/settings/options';
 import SaveButton from '../components/settings/save-button';
 import LoadingSpinner from '../components/loading-spinner.js';
 import { SettingsContext } from '../context/settings-context';
@@ -13,9 +13,9 @@ import {
 } from '@wordpress/components';
 
 const Settings = () => {
-	const { ready, settings } = useContext( SettingsContext );
+	const { settings } = useContext( SettingsContext );
 
-	if ( ! ready || ! settings ) {
+	if ( ! settings ) {
 		return (
 			<LoadingSpinner text={ __( 'Fetching data…', 'search-console' ) } />
 		);
@@ -32,7 +32,7 @@ const Settings = () => {
 			>
 				<VStack>
 					<GoogleOAuth />
-					<SiteSelect />
+					<Options token={ settings.token } />
 					<Credentials />
 					<SaveButton />
 				</VStack>

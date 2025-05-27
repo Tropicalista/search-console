@@ -4,21 +4,31 @@ import { useState, useEffect, useContext } from '@wordpress/element';
 import { Spinner } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { SettingsContext } from '../../../context/settings-context';
+import { useGapi } from '../../../context/gapi';
 
 import LoadingSpinner from '../../loading-spinner.js';
 
 export function MyChart() {
-	const { settings, query, showError } = useContext( SettingsContext );
+	const { settings, query } = useContext( SettingsContext );
 
 	const [ table, setTable ] = useState( false );
 
+	const gapiScript = useGapi( { token: settings.token } );
+
+	const loadApi = () => {
+		window.gapi.client.setToken( settings.token );
+		window.gapi.client.load( 'searchconsole', 'v1' ).then( () => {
+			getData();
+		} );
+	};
+
 	useEffect( () => {
-		if ( settings.token.access_token ) getData();
-	}, [ query, settings.token ] );
+		if ( gapiScript.ready ) {
+			loadApi();
+		}
+	}, [ gapiScript.ready, query, settings.token ] );
 
 	const getData = () => {
-		window.gapi?.client?.setToken( settings.token );
-
 		window.gapi?.client?.webmasters?.searchanalytics
 			.query( {
 				...query,
@@ -53,9 +63,7 @@ export function MyChart() {
 				} );
 				setTable( temp );
 			} )
-			.catch( ( error ) => {
-				showError( error );
-			} );
+			.catch( gapiScript.handleError );
 	};
 
 	const formatData = ( val, metric ) => {

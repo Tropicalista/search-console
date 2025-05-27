@@ -1,5 +1,5 @@
 import { useSelect } from '@wordpress/data';
-import { ToggleControl } from '@wordpress/components';
+import { ToggleControl, __experimentalVStack as VStack } from '@wordpress/components';
 import { Fragment, useContext } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { store as coreStore } from '@wordpress/core-data';
@@ -45,7 +45,7 @@ export default function PostTypeSelection() {
 				);
 
 	return (
-		<Fragment>
+		<VStack>
 			<p>
 				{ __(
 					'Choose on which post type you want see Search Console data.',
@@ -68,9 +68,10 @@ export default function PostTypeSelection() {
 									removePostType( postType.value );
 								}
 							} }
+							__nextHasNoMarginBottom
 						/>
 					);
 				} ) }
-		</Fragment>
+		</VStack>
 	);
 }

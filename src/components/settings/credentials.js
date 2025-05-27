@@ -1,8 +1,8 @@
 import { TextControl, Card, CardBody, CardHeader } from '@wordpress/components';
-
 import { __, sprintf } from '@wordpress/i18n';
 import { RawHTML, useContext } from '@wordpress/element';
 import { SettingsContext } from '../../context/settings-context';
+import { addQueryArgs } from '@wordpress/url';
 
 const Credentials = () => {
 	const { settings, updateSetting } = useContext( SettingsContext );
@@ -14,10 +14,12 @@ const Credentials = () => {
 		updateSetting( 'credentials', credentials );
 	}
 
-	const authUrl = sprintf(
+	const authUrl = addQueryArgs(
 		'https://developers.google.com/web/site-kit',
-		settings.title,
-		settings.wp_url
+		{
+			title: settings.title,
+			wp_url: settings.wp_url,
+		}
 	);
 
 	return (
@@ -61,6 +63,8 @@ const Credentials = () => {
 					onChange={ ( val ) => {
 						setCredentials( 'client_id', val );
 					} }
+					__nextHasNoMarginBottom
+					__next40pxDefaultSize
 				/>
 				<TextControl
 					placeholder={ 'CLIENT SECRET' }
@@ -73,6 +77,8 @@ const Credentials = () => {
 					onChange={ ( val ) => {
 						setCredentials( 'client_secret', val );
 					} }
+					__nextHasNoMarginBottom
+					__next40pxDefaultSize
 				/>
 			</CardBody>
 		</Card>

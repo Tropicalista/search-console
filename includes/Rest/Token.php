@@ -27,9 +27,9 @@ class Token {
 	private $token_key = 'search_console';
 
 	/**
-	 * Default client id.
+	 * Api SDK.
 	 *
-	 * @var $api string.
+	 * @var $api Search_Console\Api.
 	 */
 	private $api;
 
@@ -37,6 +37,7 @@ class Token {
 	 * Constructor.
 	 */
 	public function __construct() {
+		$this->api = new \Search_Console\Api();
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 		add_action( 'init', array( $this, 'oauth_callback' ) );
 	}

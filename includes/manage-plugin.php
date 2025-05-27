@@ -126,6 +126,7 @@ add_action(
 		$screen = get_current_screen();
 
 		if ( in_array( $screen->post_type, $options['postTypes'] ) ) {
+			wp_enqueue_script( 'search-console-table' );
 			echo '<div id="search-console-table"></div>';
 		}
 	}

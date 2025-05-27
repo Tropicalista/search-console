@@ -72,30 +72,6 @@ function register_settings() {
 				),
 			),
 		),
-		'token' => array(
-			'type'       => 'object',
-			'properties' => array(
-				'access_token'  => array(
-					'type' => 'string',
-				),
-				'expires_in'    => array(
-					'type' => 'number',
-				),
-				'id_token'      => array(
-					'type' => 'string',
-				),
-				'refresh_token' => array(
-					'type' => 'string',
-				),
-				'scope'         => array(
-					'type' => 'string',
-				),
-				'token_type'    => array(
-					'type' => 'string',
-				),
-			),
-			'additionalProperties' => true,
-		),
 	);
 
 	$defaults = array(
@@ -105,15 +81,7 @@ function register_settings() {
 		'site' => '',
 		'siteVerification' => false,
 		'meta' => '',
-		'token' => array(
-			'access_token'  => '',
-			'expires_in'    => 3600,
-			'id_token'      => '',
-			'refresh_token' => '',
-			'scope'         => '',
-			'token_type'    => '',
-			'created_at'    => time(),
-		),
+		'token' => false,
 		'credentials' => array(
 			'client_id' => '',
 			'client_secret' => '',
@@ -134,6 +102,7 @@ function register_settings() {
 				'schema' => array(
 					'type'       => 'object',
 					'properties' => $settings,
+					'additionalProperties' => true,
 				),
 			),
 			//'sanitize_callback' => __NAMESPACE__ . '\recursive_sanitize_text_field',

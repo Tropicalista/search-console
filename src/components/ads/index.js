@@ -17,13 +17,6 @@ const Ads = ( props ) => {
 		};
 	} );
 
-	const [ shown, setShown ] = useState( () => {
-		// getting stored value
-		const toShow = window.localStorage.getItem( 'sc-shown' );
-		const initialValue = JSON.parse( toShow );
-		return initialValue || new Date().getTime();
-	} );
-
 	if ( ! plugins ) {
 		return null;
 	}

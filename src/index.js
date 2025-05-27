@@ -15,6 +15,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import SettingsContextProvider from './context/settings-context';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GapiProvider } from './context/gapi';
 
 const Router = () => {
 	const history = useHistory();
@@ -72,8 +73,15 @@ const App = () => {
 			<RouterProvider>
 				<Header title={ 'Search Console' } />
 				<SettingsContextProvider>
-					<Router />
-					<Notifications />
+					<GapiProvider
+						discoveryDocs={ [
+							'https://www.googleapis.com/discovery/v1/apis/searchconsole/v1/rest',
+							'https://www.googleapis.com/discovery/v1/apis/siteVerification/v1/rest',
+						] }
+					>
+						<Router />
+						<Notifications />
+					</GapiProvider>
 				</SettingsContextProvider>
 				<Footer />
 			</RouterProvider>

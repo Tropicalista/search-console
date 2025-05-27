@@ -6,8 +6,7 @@ import { SettingsContext } from '../../context/settings-context';
 import { hasGrantedAnyScopeGoogle, useGoogleLogin } from '@react-oauth/google';
 
 const GoogleOauthButton = () => {
-	const { updateSetting, settings, revokeToken } =
-		useContext( SettingsContext );
+	const { updateSetting, settings, saveSettings } = useContext( SettingsContext );
 
 	const [ message, setMessage ] = useState( false );
 
@@ -46,6 +45,13 @@ const GoogleOauthButton = () => {
 				} );
 			} )
 			.finally( () => console.log( 'Success' ) );
+	};
+
+	const revokeToken = () => {
+		google.accounts.oauth2.revoke( settings.token.refresh_token, () => {
+			updateSetting( 'token', false );
+			saveSettings();
+		} );
 	};
 
 	const getEmail = () => {

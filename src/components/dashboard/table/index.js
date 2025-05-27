@@ -10,9 +10,10 @@ import { DataViews } from '@wordpress/dataviews/wp';
 import Dimensions from './dimensions';
 import Countries from '../modals/countries';
 import { SettingsContext } from '../../../context/settings-context';
+import { useGapi } from '../../../context/gapi';
 
 export function Table() {
-	const { settings, query, showError } = useContext( SettingsContext );
+	const { settings, query } = useContext( SettingsContext );
 
 	const [ data, setData ] = useState( [] );
 	const [ view, setView ] = useState( {
@@ -26,17 +27,26 @@ export function Table() {
 		layout: {},
 	} );
 
+	const gapiScript = useGapi( { token: settings.token } );
+
+	const loadApi = () => {
+		window.gapi.client.setToken( settings.token );
+		window.gapi.client.load( 'searchconsole', 'v1' ).then( () => {
+			getData();
+		} );
+	};
+
 	useEffect( () => {
-		getData();
-	}, [ query, settings.token ] );
+		if ( gapiScript.ready ) {
+			loadApi();
+		}
+	}, [ gapiScript.ready, query, settings.token ] );
 
 	useEffect( () => {
 		filterData();
 	}, [ view.sort ] );
 
 	const getData = () => {
-		window.gapi.client.setToken( settings.token );
-
 		window.gapi?.client?.webmasters.searchanalytics
 			.query( {
 				...query,
@@ -49,9 +59,7 @@ export function Table() {
 				}
 				setData( normalizeData( response.result.rows ) );
 			} )
-			.catch( ( error ) => {
-				showError( error );
-			} );
+			.catch( gapiScript.handleError );
 	};
 
 	const paginateArray = ( array ) => {
