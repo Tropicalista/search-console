@@ -11,7 +11,6 @@ import LoadingSpinner from '../components/loading-spinner.js';
 import { MyChart } from '../components/dashboard/chart/index.js';
 import { Table } from '../components/dashboard/table/index.js';
 import { Filters } from '../components/dashboard/table/filters.js';
-import Ads from '../components/ads/index';
 import { SettingsContext } from '../context/settings-context';
 import { useHistory } from '../router';
 

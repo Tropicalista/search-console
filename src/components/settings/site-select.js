@@ -11,18 +11,12 @@ const SiteSelect = () => {
 
 	const gapiScript = useGapi( { token: settings.token } );
 
-	const loadApi = () => {
-		window.gapi.client.setToken( settings.token );
-		window.gapi.client.load( 'searchconsole', 'v1' ).then( () => {
-			getSites();
-		} );
-	};
-
 	useEffect( () => {
 		if ( gapiScript.ready ) {
-			loadApi();
+			window.gapi.client.setToken( settings.token );
+			getSites();
 		}
-	}, [ gapiScript.ready ] );
+	}, [ gapiScript.ready, settings.token ] );
 
 	const getSites = () => {
 		const options = [

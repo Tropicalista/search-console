@@ -18,28 +18,23 @@ const Verification = () => {
 
 	const getMeta = () => {
 		if ( settings.siteVerification && settings.site ) {
-			window.gapi.client.load( 'siteVerification', 'v1' ).then( () => {
-				window.gapi.client.siteVerification.webResource
-					.getToken( {
-						verificationMethod: 'META',
-						site: {
-							identifier: settings.site.replace(
-								'sc-domain:',
-								''
-							),
-							type: 'SITE',
-						},
-					} )
-					.then( ( r ) => {
-						updateSetting( 'meta', r.result.token );
-						saveSettings();
-					} )
-					.catch( ( error ) => {
-						if ( 401 === error.status ) {
-							refreshToken();
-						}
-					} );
-			} );
+			window.gapi.client.siteVerification.webResource
+				.getToken( {
+					verificationMethod: 'META',
+					site: {
+						identifier: settings.site.replace( 'sc-domain:', '' ),
+						type: 'SITE',
+					},
+				} )
+				.then( ( r ) => {
+					updateSetting( 'meta', r.result.token );
+					saveSettings();
+				} )
+				.catch( ( error ) => {
+					if ( 401 === error.status ) {
+						refreshToken();
+					}
+				} );
 		}
 	};
 

@@ -25,7 +25,9 @@ export function GapiProvider( options ) {
 			.init( {
 				discoveryDocs,
 			} )
-			.then( () => setReady( true ) );
+			.then( () => {
+				setReady( true );
+			} );
 	};
 
 	const setToken = () => {
