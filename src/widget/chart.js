@@ -9,7 +9,7 @@ import { Spinner, Button, ButtonGroup } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { SettingsContext } from '../context/settings-context';
 import { dateI18n } from '@wordpress/date';
-import apiFetch from '@wordpress/api-fetch';
+import { useGapi } from '../context/gapi';
 
 const options = {
 	animation: {
@@ -56,7 +56,12 @@ export function MyChart( { url } ) {
 	const [ table, setTable ] = useState( false );
 	const [ data, setData ] = useState();
 	const [ metric, setMetric ] = useState( 'clicks' );
-	const _gapi = window.gapi;
+	const gapiScript = useGapi( { token: settings.token } );
+
+	const loadApi = () => {
+		window.gapi.client.setToken( settings.token );
+		getReport();
+	};
 
 	const query = {
 		siteUrl: settings.site,
@@ -74,8 +79,20 @@ export function MyChart( { url } ) {
 		dataState: 'all',
 	};
 
+	useEffect( () => {
+		if ( gapiScript.ready ) {
+			loadApi();
+		}
+	}, [ gapiScript.ready, settings.token ] );
+
+	useEffect( () => {
+		generateReport();
+	}, [ data, metric ] );
+
 	const generateReport = useCallback( () => {
-		if ( ! data ) return;
+		if ( ! data ) {
+			return;
+		}
 		const current = data.current;
 		const previous = data.previous;
 		const testTable = [];
@@ -114,24 +131,6 @@ export function MyChart( { url } ) {
 		setTable( testTable );
 	}, [ data, metric ] );
 
-	useEffect( () => {
-		if ( settings.token.access_token ) getReport();
-	}, [] );
-
-	useEffect( () => {
-		generateReport();
-	}, [ data, generateReport ] );
-
-	const refreshToken = () => {
-		apiFetch( {
-			path: '/searchconsole/v1/refresh',
-			method: 'POST',
-		} ).then( ( result ) => {
-			window.gapi.client.setToken( result );
-			getReport();
-		} );
-	};
-
 	const getFilters = () => {
 		if ( url ) {
 			return [
@@ -150,7 +149,7 @@ export function MyChart( { url } ) {
 	};
 
 	const getReport = () => {
-		const current = _gapi.client.newBatch();
+		const current = window.gapi.client.newBatch();
 
 		current.add(
 			window.gapi.client.webmasters.searchanalytics.query( {
@@ -181,20 +180,12 @@ export function MyChart( { url } ) {
 
 		current
 			.then( ( values ) => {
-				if ( 401 === values.result.current.status ) {
-					refreshToken();
-				}
-
 				setData( {
 					current: values.result.current.result,
 					previous: values.result.previous.result,
 				} );
 			} )
-			.catch( ( error ) => {
-				if ( 401 === error.status ) {
-					refreshToken();
-				}
-			} );
+			.catch( gapiScript.handleError );
 	};
 
 	const formatData = ( val ) => {

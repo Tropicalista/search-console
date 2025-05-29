@@ -12,9 +12,9 @@ import { SettingsContext } from '../context/settings-context';
 import '../store';
 
 const Widget = () => {
-	const { settings, ready } = useContext( SettingsContext );
+	const { settings } = useContext( SettingsContext );
 
-	if ( ! ready || ! settings ) {
+	if ( ! settings ) {
 		return (
 			<LoadingSpinner text={ __( 'Fetching data…', 'search-console' ) } />
 		);
