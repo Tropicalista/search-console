@@ -5,7 +5,7 @@
  * Plugin Name:    Search Console
  * Plugin URI:     https://www.francescopepe.com/
  * Description:    This plugin displays your Google Search Console Analytics data inside your WordPress.
- * Version:        3.1.1
+ * Version:        3.1.2
  * Author:         Tropicalista
  * Author URI:     https://www.francescopepe.com
  * License:        GPL-2.0+

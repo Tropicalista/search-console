@@ -73,7 +73,7 @@ export function GapiProvider( options ) {
 			( err.result.error.code === 403 &&
 				err.result.error.status === 'PERMISSION_DENIED' )
 		) {
-			refreshToken( err );
+			refreshToken();
 		} else {
 			createNotice( 'error', '⚠️ ' + err.result.error.message, {
 				type: 'snackbar',
@@ -87,6 +87,7 @@ export function GapiProvider( options ) {
 			ready,
 			scriptLoadedSuccessfully,
 			handleError,
+			refreshToken,
 		} ),
 		[ scriptLoadedSuccessfully, ready ]
 	);

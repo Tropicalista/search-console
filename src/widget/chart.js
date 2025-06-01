@@ -180,6 +180,9 @@ export function MyChart( { url } ) {
 
 		current
 			.then( ( values ) => {
+				if ( 401 === values.result.current.status ) {
+					gapiScript.handleError( values.result.current );
+				}
 				setData( {
 					current: values.result.current.result,
 					previous: values.result.previous.result,
