@@ -5,17 +5,17 @@ import {
 	Notice,
 	Button,
 	__experimentalVStack as VStack,
+	useNavigator,
 } from '@wordpress/components';
 import { useContext, createInterpolateElement } from '@wordpress/element';
-import LoadingSpinner from '../components/loading-spinner.js';
+import { LoadingSpinner } from '../components/loading-spinner.js';
 import { MyChart } from '../components/dashboard/chart/index.js';
 import { Table } from '../components/dashboard/table/index.js';
 import { Filters } from '../components/dashboard/table/filters.js';
 import { SettingsContext } from '../context/settings-context';
-import { useHistory } from '../router';
 
-const Dashboard = () => {
-	const history = useHistory();
+export const Dashboard = () => {
+	const navigator = useNavigator();
 	const { settings } = useContext( SettingsContext );
 
 	if ( ! settings ) {
@@ -30,7 +30,9 @@ const Dashboard = () => {
 				<Button
 					text={ __( 'settings page', 'search-console' ) }
 					onClick={ () =>
-						history.push( { page: 'search-console-settings' } )
+						navigator.goTo( '/settings', {
+							skipFocus: true,
+						} )
 					}
 					variant="link"
 				/>
@@ -101,5 +103,3 @@ const Dashboard = () => {
 		</div>
 	);
 };
-
-export default Dashboard;

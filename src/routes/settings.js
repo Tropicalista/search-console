@@ -4,15 +4,16 @@ import Credentials from '../components/settings/credentials';
 import Help from '../components/settings/help';
 import Options from '../components/settings/options';
 import SaveButton from '../components/settings/save-button';
-import LoadingSpinner from '../components/loading-spinner.js';
+import { LoadingSpinner } from '../components/loading-spinner.js';
 import { SettingsContext } from '../context/settings-context';
 import { useContext } from '@wordpress/element';
 import {
 	__experimentalVStack as VStack,
 	__experimentalGrid as Grid,
 } from '@wordpress/components';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
-const Settings = () => {
+export const Settings = () => {
 	const { settings } = useContext( SettingsContext );
 
 	if ( ! settings ) {
@@ -31,10 +32,14 @@ const Settings = () => {
 				className="popper-settings"
 			>
 				<VStack>
-					<GoogleOAuth />
-					<Options token={ settings.token } />
-					<Credentials />
-					<SaveButton />
+					<GoogleOAuthProvider
+						clientId={ settings?.credentials?.client_id }
+					>
+						<GoogleOAuth />
+						<Options />
+						<Credentials />
+						<SaveButton />
+					</GoogleOAuthProvider>
 				</VStack>
 				<VStack>
 					<Help />
@@ -43,5 +48,3 @@ const Settings = () => {
 		</div>
 	);
 };
-
-export default Settings;

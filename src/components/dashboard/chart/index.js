@@ -6,7 +6,7 @@ import { __ } from '@wordpress/i18n';
 import { SettingsContext } from '../../../context/settings-context';
 import { useGapi } from '../../../context/gapi';
 
-import LoadingSpinner from '../../loading-spinner.js';
+import { LoadingSpinner } from '../../loading-spinner.js';
 
 export function MyChart() {
 	const { settings, query } = useContext( SettingsContext );

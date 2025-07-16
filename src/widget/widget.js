@@ -7,9 +7,8 @@ import { Notice } from '@wordpress/components';
 import { addQueryArgs } from '@wordpress/url';
 
 import { MyChart } from './chart';
-import LoadingSpinner from '../components/loading-spinner.js';
+import { LoadingSpinner } from '../components/loading-spinner.js';
 import { SettingsContext } from '../context/settings-context';
-import '../store';
 
 const Widget = () => {
 	const { settings } = useContext( SettingsContext );

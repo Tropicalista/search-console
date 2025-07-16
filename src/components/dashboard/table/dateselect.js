@@ -4,6 +4,7 @@ import {
 	FlexItem,
 	DatePicker,
 	Dropdown,
+	__experimentalHStack as HStack,
 } from '@wordpress/components';
 import { dateI18n, format } from '@wordpress/date';
 import DateDropdown from './datedropdown';
@@ -15,13 +16,13 @@ export function DateSelect() {
 	const { query, updateQuery, settings } = useContext( SettingsContext );
 
 	return (
-		<Flex>
+		<HStack justify="flex-end">
 			{ settings.customDate && (
 				<Fragment>
-					<FlexItem>
+					<div>
 						<b>From:</b>
-					</FlexItem>
-					<FlexItem>
+					</div>
+					<div>
 						<Dropdown
 							popoverProps={ { placement: 'bottom-start' } }
 							renderToggle={ ( { isOpen, onToggle } ) => (
@@ -59,11 +60,11 @@ export function DateSelect() {
 								/>
 							) }
 						/>
-					</FlexItem>
-					<FlexItem>
+					</div>
+					<div>
 						<b>To:</b>
-					</FlexItem>
-					<FlexItem>
+					</div>
+					<div>
 						<Dropdown
 							popoverProps={ { placement: 'bottom-start' } }
 							renderToggle={ ( { isOpen, onToggle } ) => (
@@ -98,12 +99,12 @@ export function DateSelect() {
 								/>
 							) }
 						/>
-					</FlexItem>
+					</div>
 				</Fragment>
 			) }
-			<FlexItem>
+			<div>
 				<DateDropdown />
-			</FlexItem>
-		</Flex>
+			</div>
+		</HStack>
 	);
 }

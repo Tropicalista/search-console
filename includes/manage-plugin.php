@@ -92,7 +92,6 @@ function search_console_encrypt_option( $settings ) {
 	return $crypto->encrypt( maybe_serialize( $settings ) );
 }
 
-
 /**
  * Search Console meta tag
  */

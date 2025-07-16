@@ -4,6 +4,7 @@ import {
 	MenuItem,
 	MenuGroup,
 	Icon,
+	__experimentalHStack as HStack,
 } from '@wordpress/components';
 
 import { __ } from '@wordpress/i18n';
@@ -61,8 +62,8 @@ export function Filters() {
 
 	return (
 		<Fragment>
-			<div className="search-console-filters">
-				<div className={ 'search-console-filters-options' }>
+			<HStack>
+				<HStack justify="flex-start">
 					<Dropdown
 						popoverProps={ { placement: 'bottom-start' } }
 						renderToggle={ ( { isOpen, onToggle } ) => (
@@ -188,8 +189,8 @@ export function Filters() {
 									}
 									key={ i }
 								>
-									<div
-										className="dataviews-filter-summary__chip has-reset"
+									<Button
+										variant="secondary"
 										role="button"
 										tabIndex="0"
 										aria-pressed="false"
@@ -210,27 +211,24 @@ export function Filters() {
 											': ' +
 											getSign( f ) +
 											f.expression }
-										<button
-											className={
-												'dataviews-filter-summary__chip-remove has-values'
-											}
+										<Button
+											size="compact"
+											variant="link"
 											onClick={ ( e ) => {
 												e.stopPropagation();
 												remove( f );
 											} }
 										>
 											<Icon icon={ closeSmall } />
-										</button>
-									</div>
+										</Button>
+									</Button>
 								</div>
 							);
 						} );
 					} ) }
-				</div>
-				<div>
-					<DateSelect query={ query } />
-				</div>
-			</div>
+				</HStack>
+				<DateSelect query={ query } />
+			</HStack>
 			{ showModal && (
 				<MyModal
 					onRequestClose={ onRequestClose }

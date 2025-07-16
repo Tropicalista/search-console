@@ -19,11 +19,11 @@ const Options = ( { token } ) => {
 			</CardHeader>
 
 			<CardBody>
-				{ hasAccess && <SiteSelect /> }
+				<SiteSelect />
 
 				<PostTypeSelection />
 
-				{ hasAccess && <Verification /> }
+				<Verification />
 			</CardBody>
 		</Card>
 	);
